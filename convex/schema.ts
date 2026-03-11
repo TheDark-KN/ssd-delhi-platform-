@@ -228,6 +228,7 @@ export default defineSchema({
     // Personal Details
     fullName: v.string(),
     fatherName: v.optional(v.string()),
+    motherName: v.optional(v.string()),
     dateOfBirth: v.string(),
     gender: v.union(v.literal("Male"), v.literal("Female"), v.literal("Other"), v.literal("Prefer not to say")),
     mobileNumber: v.string(),
@@ -236,15 +237,20 @@ export default defineSchema({
     arrivingDate: v.optional(v.string()),
     aadhaarCardNumber: v.string(),
     aadhaarFileId: v.optional(v.id("_storage")),
-    
+    passportPhotoFileId: v.optional(v.id("_storage")),
+
     // Address & ID Proof
+    village: v.string(),
+    tehsil: v.string(),
+    district: v.string(),
+    state: v.string(),
     fullAddress: v.string(),
     pincode: v.string(),
     panCardNumber: v.optional(v.string()),
     panFileId: v.optional(v.id("_storage")),
     voterIdNumber: v.optional(v.string()),
     voterIdFileId: v.optional(v.id("_storage")),
-    
+
     // SSD & Event Info
     isSsdMember: v.boolean(),
     ssdMembershipId: v.optional(v.string()),
@@ -253,12 +259,18 @@ export default defineSchema({
     specialSkills: v.string(),
     dietaryPreferences: v.union(v.literal("Vegetarian"), v.literal("Non-veg"), v.literal("Jain"), v.literal("None")),
     accessibilityNeeds: v.optional(v.string()),
-    
+
     // Emergency & Consent
     emergencyContactName: v.string(),
     emergencyContactNumber: v.string(),
     consentGiven: v.boolean(),
-    
+
+    // SSD ID Generation (Govt Standard Format)
+    ssdId: v.optional(v.string()),
+    stateCode: v.string(),
+    registrationYear: v.number(),
+    sequenceNumber: v.optional(v.number()),
+
     // Metadata
     registeredAt: v.number(),
     status: v.union(v.literal("pending"), v.literal("confirmed"), v.literal("cancelled")),
@@ -266,5 +278,17 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_mobile", ["mobileNumber"])
     .index("by_status", ["status"])
-    .index("by_registered_at", ["registeredAt"]),
+    .index("by_registered_at", ["registeredAt"])
+    .index("by_ssd_id", ["ssdId"])
+    .index("by_state_year", ["stateCode", "registrationYear"]),
+
+  // SSD ID Sequence Tracker (for unique sequential IDs)
+  ssdIdSequences: defineTable({
+    stateCode: v.string(),
+    year: v.number(),
+    currentSequence: v.number(),
+    lastUpdatedAt: v.number(),
+  })
+    .index("by_state_year", ["stateCode", "year"])
+    .index("by_year", ["year"]),
 });

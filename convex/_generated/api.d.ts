@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as ambedkarJayanti from "../ambedkarJayanti.js";
 import type * as articles from "../articles.js";
 import type * as blogs from "../blogs.js";
 import type * as dashboard from "../dashboard.js";
@@ -26,6 +27,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  ambedkarJayanti: typeof ambedkarJayanti;
   articles: typeof articles;
   blogs: typeof blogs;
   dashboard: typeof dashboard;

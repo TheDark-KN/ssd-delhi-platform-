@@ -185,3 +185,39 @@
     border: 1px solid rgba(var(--foreground), 0.1);
   }
 }
+
+/* Print Styles for ID Cards */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .print\:show,
+  .print\:show * {
+    visibility: visible;
+  }
+  
+  .print\:show {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  .print\:hidden {
+    display: none !important;
+  }
+  
+  .print\:shadow-none {
+    box-shadow: none !important;
+  }
+  
+  .print\:border-2 {
+    border-width: 2px !important;
+  }
+  
+  @page {
+    margin: 1cm;
+    size: A4 landscape;
+  }
+}
