@@ -244,7 +244,25 @@ export default defineSchema({
     
     // SSD Details
     isSsdMember: v.boolean(),
-    rank: v.optional(v.string()),
+    rank: v.optional(v.union(
+      v.literal("Supreme Commander-in-Chief (सुप्रीम कमांडर इन चीफ / सर्वोच्च सेनापति)"),
+      v.literal("Commander-in-Chief (कमांडर इन चीफ)"),
+      v.literal("Deputy Commander-in-Chief (डिप्टी कमांडर इन चीफ)"),
+      v.literal("Assistant Commander-in-Chief (असिस्टेंट कमांडर इन चीफ)"),
+      v.literal("State Commander (स्टेट कमांडर)"),
+      v.literal("Deputy State Commander (डिप्टी स्टेट कमांडर)"),
+      v.literal("Assistant State Commander (असिस्टेंट स्टेट कमांडर)"),
+      v.literal("District Commander (डिस्ट्रिक्ट कमांडर)"),
+      v.literal("Deputy District Commander (डिप्टी डिस्ट्रिक्ट कमांडर)"),
+      v.literal("Assistant District Commander (असिस्टेंट डिस्ट्रिक्ट कमांडर)"),
+      v.literal("Area Commander (एरिया कमांडर)"),
+      v.literal("Deputy Area Commander (डिप्टी एरिया कमांडर)"),
+      v.literal("Assistant Area Commander (असिस्टेंट एरिया कमांडर)"),
+      v.literal("Sanghayan Commander (संघायन कमांडर)"),
+      v.literal("Deputy Sanghayan Commander (डिप्टी संघायन कमांडर)"),
+      v.literal("Assistant Sanghayan Commander (असिस्टेंट संघायन कमांडर)"),
+      v.literal("Sainik / Volunteer (सैनिक / सैनिक दल सदस्य)")
+    )),
     
     // Documents
     aadhaarCardNumber: v.string(),

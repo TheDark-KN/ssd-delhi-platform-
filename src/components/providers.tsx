@@ -46,8 +46,6 @@ if (convexUrl && convexUrl !== "https://dummy.convex.cloud") {
   try {
     convex = new ConvexReactClient(convexUrl, {
       skipConvexDeploymentUrlCheck: true,
-      logLevel: "error", // Only show errors, suppress connection logs
-      unsavedChangesWarning: false, // Disable unsaved changes warnings
     });
   } catch (error) {
     console.warn("Failed to initialize Convex client:", error);

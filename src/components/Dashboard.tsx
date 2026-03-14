@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
+import { api } from "@convex/_generated/api";
 
 // Note: recharts is used in this component but not installed.
 // Stub types to avoid compiler errors until recharts is installed.

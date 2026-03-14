@@ -82,6 +82,10 @@ export default function AmbedkarJayantiRegistration() {
       } else if (!/^\d{6}$/.test(formData.pincode)) {
         newErrors.pincode = "Enter valid 6-digit pincode";
       }
+      
+      if (formData.isSsdMember === "Yes" && !formData.rank) {
+        newErrors.rank = "Please select your rank";
+      }
     }
 
     if (step === 3) {
@@ -175,7 +179,7 @@ export default function AmbedkarJayantiRegistration() {
         state: formData.state,
         pincode: formData.pincode,
         isSsdMember: formData.isSsdMember === "Yes",
-        rank: formData.rank || undefined,
+        rank: (formData.rank as any) || undefined,
         aadhaarCardNumber: formData.aadhaarNumber,
         aadhaarFileId: aadhaarFileId as any,
         passportPhotoFileId: photoFileId as any,
@@ -270,20 +274,54 @@ export default function AmbedkarJayantiRegistration() {
     "Kerala", "West Bengal", "Bihar", "Jharkhand", "Odisha", "Other"
   ];
 
-  const ssdRanks = [
-    "Sainik (Soldier)",
-    "Up-Sainik (Senior Soldier)",
-    "Dav-Prahari (Guard)",
-    "Mah-Insaaf (Great Justice)",
-    "Senaapati (Commander)",
-    "Utthan-Sevak (Liberation Server)",
-    "Sangathan Mantri (Organizing Secretary)",
-    "Prabhari (In-Charge)",
-    "President",
-    "Vice President",
-    "Secretary",
-    "Joint Secretary",
-    "Treasurer",
+  const ssdRankGroups = [
+    {
+      label: "केंद्र — Central / National",
+      ranks: [
+        "Supreme Commander-in-Chief (सुप्रीम कमांडर इन चीफ / सर्वोच्च सेनापति)",
+        "Commander-in-Chief (कमांडर इन चीफ)",
+        "Deputy Commander-in-Chief (डिप्टी कमांडर इन चीफ)",
+        "Assistant Commander-in-Chief (असिस्टेंट कमांडर इन चीफ)",
+      ],
+    },
+    {
+      label: "प्रदेश — State / Provincial",
+      ranks: [
+        "State Commander (स्टेट कमांडर)",
+        "Deputy State Commander (डिप्टी स्टेट कमांडर)",
+        "Assistant State Commander (असिस्टेंट स्टेट कमांडर)",
+      ],
+    },
+    {
+      label: "जिला — District",
+      ranks: [
+        "District Commander (डिस्ट्रिक्ट कमांडर)",
+        "Deputy District Commander (डिप्टी डिस्ट्रिक्ट कमांडर)",
+        "Assistant District Commander (असिस्टेंट डिस्ट्रिक्ट कमांडर)",
+      ],
+    },
+    {
+      label: "क्षेत्र — Area / Tehsil",
+      ranks: [
+        "Area Commander (एरिया कमांडर)",
+        "Deputy Area Commander (डिप्टी एरिया कमांडर)",
+        "Assistant Area Commander (असिस्टेंट एरिया कमांडर)",
+      ],
+    },
+    {
+      label: "संघायन — Unit / Local",
+      ranks: [
+        "Sanghayan Commander (संघायन कमांडर)",
+        "Deputy Sanghayan Commander (डिप्टी संघायन कमांडर)",
+        "Assistant Sanghayan Commander (असिस्टेंट संघायन कमांडर)",
+      ],
+    },
+    {
+      label: "सैनिक — Basic Level",
+      ranks: [
+        "Sainik / Volunteer (सैनिक / सैनिक दल सदस्य)",
+      ],
+    },
   ];
 
   return (
@@ -568,19 +606,26 @@ export default function AmbedkarJayantiRegistration() {
               {formData.isSsdMember === "Yes" && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Rank in SSD
+                    Your Rank in SSD <span className="text-[#FF7F3E]">⚔️</span>
                   </label>
                   <select
                     value={formData.rank}
                     onChange={(e) => updateField("rank", e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003285] outline-none bg-white"
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none bg-white ${errors.rank ? 'border-red-500' : 'border-gray-300'}`}
                   >
-                    <option value="">Select your rank</option>
-                    {ssdRanks.map(rank => (
-                      <option key={rank} value={rank}>{rank}</option>
+                    <option value="">— Select your rank —</option>
+                    {ssdRankGroups.map(group => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.ranks.map(rank => (
+                          <option key={rank} value={rank}>{rank}</option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
-                  <p className="text-xs text-gray-500 mt-1">Select your current rank in SSD</p>
+                  {errors.rank && <p className="text-xs text-red-500 mt-1">{errors.rank}</p>}
+                  <p className="text-xs text-gray-500 mt-1">
+                    Select your current rank as per SSD hierarchical structure
+                  </p>
                 </div>
               )}
             </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAction, useMutation } from "convex/react";
-import { api } from "../../../../convex/_generated/api";
+import { api } from "@convex/_generated/api";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -39,7 +39,7 @@ const articleFormSchema = z.object({
   category: z.string().min(1, "Category is required"),
   tags: z.string().optional(),
   language: z.union([z.literal("en"), z.literal("hi")]),
-  featured: z.boolean().default(false),
+  featured: z.boolean(),
   sources: z.array(z.object({
     title: z.string(),
     url: z.string().url(),

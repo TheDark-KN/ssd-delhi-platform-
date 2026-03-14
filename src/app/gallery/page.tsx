@@ -22,7 +22,7 @@ export default function GalleryPage() {
     limit: 50,
   }) || [];
 
-  const categories = [...new Set(media.map((m: any) => m.category))];
+  const categories = [...new Set(media.map((m: any) => m.category))] as string[];
   const types = ["image", "video", "document"];
 
   const filteredMedia = media.filter((item: any) => {

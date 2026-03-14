@@ -41,12 +41,12 @@ const ideologyPoints = [
 ];
 
 const structureLevels = [
-  { level: "National", title: "Supreme Commander-in-Chief", description: "National leadership and strategic direction" },
-  { level: "Zonal/State", title: "Major-General / GOC", description: "State-level coordination and oversight" },
-  { level: "Division/District", title: "Divisional Officers", description: "District-level management" },
-  { level: "Battalion/City", title: "Battalion Commanders", description: "City-level operations (Delhi unit)" },
-  { level: "Company/Block", title: "Company Officers", description: "Block-level coordination" },
-  { level: "Platoon/Village", title: "Local Unit Leaders", description: "Grassroots organization" },
+  { level: "Central / National", title: "Supreme Commander-in-Chief", description: "National leadership — Cadre 1-4" },
+  { level: "State / Provincial", title: "State Commander", description: "State-level coordination — Cadre 5-7" },
+  { level: "District", title: "District Commander", description: "District-level management — Cadre 8-10" },
+  { level: "Area / Tehsil", title: "Area Commander", description: "Area-level coordination — Cadre 11-13" },
+  { level: "Unit / Sanghayan", title: "Sanghayan Commander", description: "Local unit operations — Cadre 14-16" },
+  { level: "Foundation", title: "Sainik (Volunteer)", description: "Grassroots base members" },
 ];
 
 export default function AboutPage() {
@@ -151,6 +151,15 @@ export default function AboutPage() {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-12">
+            <a
+              href="/rank-structure"
+              className="inline-flex items-center gap-2 bg-[#003285] hover:bg-[#002561] text-white font-bold px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg"
+            >
+              <Shield className="w-5 h-5 text-[#FFDA78]" />
+              View Full Rank Details →
+            </a>
           </div>
         </div>
       </section>

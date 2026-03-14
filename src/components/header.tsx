@@ -29,6 +29,7 @@ const mainNavItems = [
       { title: "Organization", href: "/about#organization" },
       { title: "Ideology", href: "/about#ideology" },
       { title: "Structure", href: "/about#structure" },
+      { title: "Rank Structure", href: "/rank-structure" },
       { title: "Dr. Ambedkar", href: "/about#ambedkar" },
     ],
   },

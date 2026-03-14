@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npx convex codegen && next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.37.5",
-    "@esbuild/linux-x64": "^0.27.4",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -28,7 +27,6 @@
     "convex": "^1.32.0",
     "date-fns": "^4.1.0",
     "lightningcss": "^1.32.0",
-    "lightningcss-linux-x64-gnu": "^1.32.0",
     "lucide-react": "^0.574.0",
     "next": "16.1.6",
     "next-intl": "^4.8.3",
