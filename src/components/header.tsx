@@ -16,7 +16,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@/components/providers";
+import { SignedIn, SignedOut, UserButton } from "@/components/providers";
 
 const mainNavItems = [
   {
@@ -280,17 +280,7 @@ function AuthButtons() {
   return (
     <>
       <SignedOut>
-        <SignInButton mode="modal">
-          <Button variant="default" size="sm" className="bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white font-bold px-6 rounded-full shadow-md hover:shadow-lg transition-all">
-            Sign In
-          </Button>
-        </SignInButton>
-        {/* Custom sign-in page link */}
-        <Link href="/sign-in">
-          <Button variant="outline" size="sm" className="hidden md:inline-flex border-[#003285] text-[#003285] hover:bg-[#003285] hover:text-white">
-            Sign In (Page)
-          </Button>
-        </Link>
+        {/* Sign-in buttons removed */}
       </SignedOut>
       <SignedIn>
         <UserButton
