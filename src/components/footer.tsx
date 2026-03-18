@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 
 const socialLinks = [
@@ -44,8 +45,8 @@ export function Footer() {
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white shadow-lg">
-                <span className="text-2xl">⚔️</span>
+              <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white shadow-lg overflow-hidden">
+                <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" />
               </div>
               <div>
                 <h3 className="font-bold text-xl tracking-tight text-white">SSD Delhi</h3>

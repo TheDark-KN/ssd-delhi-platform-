@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Globe, Shield } from "lucide-react";
@@ -94,8 +95,8 @@ export function Header() {
       <div className="container flex h-20 items-center justify-between">
         {/* Logo Section */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-[#003285] shadow-lg group-hover:shadow-[#003285]/40 group-hover:scale-105 transition-all duration-300">
-            <Shield className="h-7 w-7 text-[#FFDA78]" />
+          <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white shadow-lg group-hover:shadow-white/40 group-hover:scale-105 transition-all duration-300 overflow-hidden">
+            <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" priority />
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-xl tracking-tight text-[#003285]">

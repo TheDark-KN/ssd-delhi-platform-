@@ -25,7 +25,7 @@ export default function AmbedkarJayantiRegistration() {
     gender: "",
     mobileNumber: "",
     email: "",
-    
+
     // Address
     address: "",
     village: "",
@@ -33,11 +33,11 @@ export default function AmbedkarJayantiRegistration() {
     district: "",
     state: "",
     pincode: "",
-    
+
     // SSD Details
     isSsdMember: "No",
     rank: "",
-    
+
     // Documents
     aadhaarNumber: "",
     aadhaarFile: null as File | null,
@@ -82,7 +82,7 @@ export default function AmbedkarJayantiRegistration() {
       } else if (!/^\d{6}$/.test(formData.pincode)) {
         newErrors.pincode = "Enter valid 6-digit pincode";
       }
-      
+
       if (formData.isSsdMember === "Yes" && !formData.rank) {
         newErrors.rank = "Please select your rank";
       }
@@ -113,10 +113,24 @@ export default function AmbedkarJayantiRegistration() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleFileChange = (field: string, file: File | null, maxSize: number, accept: string) => {
+  const handleFileChange = (
+    field: string,
+    file: File | null,
+    rules: { minSize: number; maxSize: number; types: string[]; typeMsg: string; sizeMsg: string }
+  ) => {
     if (file) {
-      if (file.size > maxSize) {
-        setErrors(prev => ({ ...prev, [field]: `File must be under ${maxSize / 1024}KB` }));
+      const fileType = file.type.toLowerCase();
+      const fileExt = file.name.split('.').pop()?.toLowerCase() || '';
+      const isValidType = rules.types.some(t => fileType.includes(t) || fileExt === t);
+
+      if (!isValidType) {
+        setFormData(prev => ({ ...prev, [field]: null }));
+        setErrors(prev => ({ ...prev, [field]: rules.typeMsg }));
+        return;
+      }
+      if (file.size < rules.minSize || file.size > rules.maxSize) {
+        setFormData(prev => ({ ...prev, [field]: null }));
+        setErrors(prev => ({ ...prev, [field]: rules.sizeMsg }));
         return;
       }
     }
@@ -145,9 +159,9 @@ export default function AmbedkarJayantiRegistration() {
 
   const handleSubmit = async () => {
     if (!validateStep(3)) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
       // Upload files
       let photoFileId: string | undefined;
@@ -189,7 +203,7 @@ export default function AmbedkarJayantiRegistration() {
       // Store SSD ID
       localStorage.setItem('ssdId', result.ssdId);
       localStorage.setItem('registrantName', formData.fullName);
-      
+
       setSubmitted(true);
     } catch (error) {
       console.error("Registration error:", error);
@@ -231,12 +245,12 @@ export default function AmbedkarJayantiRegistration() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Registration Confirmed!</h1>
           <p className="text-gray-600 mb-6">Jai Bhim! Jai Samta!</p>
-          
+
           <div className="bg-gradient-to-r from-[#FFDA78] to-[#FFE09A] rounded-2xl p-6 mb-6 border-4 border-[#FF7F3E]">
             <p className="text-sm font-bold text-[#003285] uppercase tracking-widest mb-2">Your SSD Member ID</p>
             <p className="text-3xl font-black text-[#003285]">{ssdId}</p>
           </div>
-          
+
           <div className="bg-blue-50 rounded-xl p-4 mb-6 text-left">
             <p className="text-sm font-semibold text-[#003285] mb-2">Registered Details:</p>
             <p className="text-sm text-gray-700"><strong>Name:</strong> {formData.fullName}</p>
@@ -246,11 +260,11 @@ export default function AmbedkarJayantiRegistration() {
             <p className="text-sm text-gray-700"><strong>State:</strong> {formData.state}</p>
             {formData.rank && <p className="text-sm text-gray-700"><strong>Rank:</strong> {formData.rank}</p>}
           </div>
-          
+
           <p className="text-gray-600 text-sm mb-6">
             We&apos;ll send event details to <strong>{formData.email}</strong> soon.
           </p>
-          
+
           <button
             onClick={() => window.location.reload()}
             className="w-full bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white font-bold py-3 rounded-full transition-colors"
@@ -346,11 +360,10 @@ export default function AmbedkarJayantiRegistration() {
           <div className="flex items-center gap-2">
             {steps.map((step, idx) => (
               <div key={step.num} className="flex items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
-                  currentStep >= step.num 
-                    ? "bg-[#FF7F3E] text-white" 
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${currentStep >= step.num
+                    ? "bg-[#FF7F3E] text-white"
                     : "bg-white/20 text-white/60"
-                }`}>
+                  }`}>
                   {currentStep > step.num ? "✓" : step.icon}
                 </div>
                 {idx < steps.length - 1 && (
@@ -668,14 +681,20 @@ export default function AmbedkarJayantiRegistration() {
                     <div className="text-gray-500">
                       <Upload className="w-8 h-8 mx-auto mb-2" />
                       <p className="font-medium">Click to upload photo</p>
-                      <p className="text-xs">JPG, PNG (max 500KB)</p>
+                      <p className="text-xs">JPG, JPEG, PNG (max 700KB)</p>
                     </div>
                   )}
                   <input
                     ref={photoInputRef}
                     type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileChange("photoFile", e.target.files?.[0] || null, 500 * 1024, "image/*")}
+                    accept=".jpg,.jpeg,.png"
+                    onChange={(e) => handleFileChange("photoFile", e.target.files?.[0] || null, {
+                      minSize: 0,
+                      maxSize: 700 * 1024,
+                      types: ['jpeg', 'jpg', 'png'],
+                      typeMsg: 'Only JPG, JPEG, or PNG formats are allowed.',
+                      sizeMsg: 'File size must be less than 700KB.'
+                    })}
                     className="hidden"
                   />
                 </div>
@@ -700,17 +719,24 @@ export default function AmbedkarJayantiRegistration() {
                     <div className="text-gray-500">
                       <Upload className="w-8 h-8 mx-auto mb-2" />
                       <p className="font-medium">Click to upload Aadhaar card</p>
-                      <p className="text-xs">PDF, JPG, PNG (max 1MB)</p>
+                      <p className="text-xs">PDF Only (max 1.5MB)</p>
                     </div>
                   )}
                   <input
                     ref={aadhaarInputRef}
                     type="file"
-                    accept=".pdf,image/*"
-                    onChange={(e) => handleFileChange("aadhaarFile", e.target.files?.[0] || null, 1024 * 1024, ".pdf,image/*")}
+                    accept=".pdf"
+                    onChange={(e) => handleFileChange("aadhaarFile", e.target.files?.[0] || null, {
+                      minSize: 0,
+                      maxSize: 1.5 * 1024 * 1024,
+                      types: ['pdf'],
+                      typeMsg: 'Only PDF format is allowed.',
+                      sizeMsg: 'File size must be less than 1.5MB.'
+                    })}
                     className="hidden"
                   />
                 </div>
+                {errors.aadhaarFile && <p className="text-xs text-red-500 mt-1">{errors.aadhaarFile}</p>}
               </div>
 
               <div className="bg-blue-50 rounded-xl p-4">
@@ -734,7 +760,7 @@ export default function AmbedkarJayantiRegistration() {
             ) : (
               <div />
             )}
-            
+
             {currentStep < 3 ? (
               <button
                 type="button"
