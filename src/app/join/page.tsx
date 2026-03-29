@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -11,9 +11,10 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
   Shield, BookOpen, Users, CheckCircle,
-  MapPin, Phone, Mail, Loader2, PartyPopper, ArrowRight,
+  MapPin, Phone, Mail, Loader2, PartyPopper, ArrowRight, Save,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useFormPersistence } from "@/hooks/useFormPersistence";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -38,18 +39,23 @@ const PATHS = [
   { id: "legal", label: "Legal & Atrocity Response", icon: CheckCircle },
 ];
 
+const JOIN_FORM_ID = "join-membership";
+
 export default function JoinPage() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedPath, setSelectedPath] = useState("");
+  const [draftRestored, setDraftRestored] = useState(false);
 
   const submitApplication = useMutation(api.users.submitMembershipApplication);
+  const { save, load, clear, lastSaved } = useFormPersistence(JOIN_FORM_ID);
 
   const {
     register,
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -60,6 +66,26 @@ export default function JoinPage() {
       agreement: false,
     },
   });
+
+  const watchedValues = watch();
+
+  useEffect(() => {
+    const restoreDraft = async () => {
+      const draft = await load();
+      if (draft) {
+        reset(draft as FormData);
+        setDraftRestored(true);
+        setTimeout(() => setDraftRestored(false), 5000);
+      }
+    };
+    restoreDraft();
+  }, [load, reset]);
+
+  useEffect(() => {
+    if (Object.keys(watchedValues).length > 0) {
+      save(watchedValues as Record<string, unknown>);
+    }
+  }, [watchedValues, save]);
 
   async function onSubmit(values: FormData) {
     setIsSubmitting(true);
@@ -76,6 +102,7 @@ export default function JoinPage() {
         reason: values.reason,
         volunteeringPath: values.volunteeringPath || undefined,
       });
+      await clear();
       setSubmitted(true);
     } catch (err) {
       console.error(err);
@@ -218,6 +245,25 @@ export default function JoinPage() {
           <div className="lg:col-span-3">
             <div className="bg-white rounded-[48px] p-8 md:p-12 shadow-2xl overflow-hidden relative group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF7F3E]/5 rounded-bl-[100px] pointer-events-none" />
+              
+              {draftRestored && (
+                <div className="mb-4 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
+                  <Save className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <p className="text-green-700 text-sm font-medium">
+                    Your previous progress has been restored!
+                  </p>
+                </div>
+              )}
+
+              {lastSaved && !draftRestored && (
+                <div className="mb-4 bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center gap-2 justify-center">
+                  <Save className="w-4 h-4 text-slate-400" />
+                  <p className="text-slate-500 text-xs">
+                    Auto-saved at {lastSaved.toLocaleTimeString()}
+                  </p>
+                </div>
+              )}
+
               <h2 className="text-2xl font-black text-[#003285] mb-8">Membership Application</h2>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -17,9 +17,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, Save } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { useFormPersistence } from "@/hooks/useFormPersistence";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -29,8 +30,13 @@ const contactFormSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
+const CONTACT_FORM_ID = "contact-form";
+
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  const { save, load, clear, lastSaved } = useFormPersistence(CONTACT_FORM_ID);
 
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
@@ -43,14 +49,34 @@ export default function ContactPage() {
     },
   });
 
+  const watchedValues = form.watch();
+
+  useEffect(() => {
+    const restoreDraft = async () => {
+      const draft = await load();
+      if (draft) {
+        form.reset(draft as z.infer<typeof contactFormSchema>);
+        setDraftRestored(true);
+        setTimeout(() => setDraftRestored(false), 5000);
+      }
+    };
+    restoreDraft();
+  }, [load, form]);
+
+  useEffect(() => {
+    if (Object.keys(watchedValues).length > 0) {
+      save(watchedValues as Record<string, unknown>);
+    }
+  }, [watchedValues, save]);
+
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     setIsSubmitting(true);
     try {
-      // TODO: Submit to backend
       console.log(values);
       toast.success("Message sent!", {
         description: "We'll get back to you soon.",
       });
+      await clear();
       form.reset();
     } catch (error) {
       toast.error("Failed to send message");
@@ -89,10 +115,29 @@ export default function ContactPage() {
           <div className="grid gap-8 lg:grid-cols-2">
             {/* Contact Form */}
             <Card className="border-none shadow-2xl shadow-slate-100/60 rounded-[40px] overflow-hidden bg-white p-8 md:p-12">
-              <div className="mb-10">
+              <div className="mb-6">
                 <h2 className="text-3xl font-black text-[#003285] mb-2">Send us a Message</h2>
                 <p className="text-slate-500 font-medium">Fill out the form below and we'll get back to you as soon as possible.</p>
               </div>
+
+              {draftRestored && (
+                <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
+                  <Save className="w-5 h-5 text-green-600 flex-shrink-0" />
+                  <p className="text-green-700 text-sm font-medium">
+                    Your previous message has been restored!
+                  </p>
+                </div>
+              )}
+
+              {lastSaved && !draftRestored && (
+                <div className="mb-4 bg-slate-50 border border-slate-200 rounded-xl p-2 flex items-center gap-2 justify-center">
+                  <Save className="w-4 h-4 text-slate-400" />
+                  <p className="text-slate-500 text-xs">
+                    Auto-saved at {lastSaved.toLocaleTimeString()}
+                  </p>
+                </div>
+              )}
+
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid gap-6 md:grid-cols-2">

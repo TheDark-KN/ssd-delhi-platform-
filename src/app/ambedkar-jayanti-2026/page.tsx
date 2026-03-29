@@ -1,20 +1,58 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { Shield, Calendar, MapPin, CheckCircle, Loader2, Upload, FileText, Image as ImageIcon } from "lucide-react";
+import { Shield, Calendar, MapPin, CheckCircle, Loader2, Upload, FileText, Image as ImageIcon, Save, X, Info } from "lucide-react";
+import { useFormPersistence } from "@/hooks/useFormPersistence";
+
+const AMBEDKAR_FORM_ID = "ambedkar-jayanti-2026";
+const PHOTO_MAX_SIZE = 1 * 1024 * 1024;
+const AADHAAR_MAX_SIZE = 3 * 1024 * 1024;
 
 export default function AmbedkarJayantiRegistration() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [draftRestored, setDraftRestored] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
+  const [instructionsAccepted, setInstructionsAccepted] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
   const aadhaarInputRef = useRef<HTMLInputElement>(null);
 
   const registerMutation = useMutation(api.ambedkarJayanti.registerForAmbedkarJayanti);
   const generateUploadUrl = useMutation(api.storage.generateUploadUrl);
+
+  const { save, load, clear, lastSaved } = useFormPersistence(AMBEDKAR_FORM_ID);
+
+  useEffect(() => {
+    const restoreDraft = async () => {
+      const draft = await load();
+      if (draft) {
+        const { _step, ...formValues } = draft as Record<string, unknown>;
+        if (_step !== undefined) {
+          setCurrentStep(Number(_step));
+        }
+        setFormData(prev => ({ ...prev, ...formValues } as typeof prev));
+        setDraftRestored(true);
+        setTimeout(() => setDraftRestored(false), 5000);
+      }
+    };
+    restoreDraft();
+  }, [load]);
+
+  useEffect(() => {
+    if (currentStep === 3 && !sessionStorage.getItem("aadhaarInstructionsSeen")) {
+      setShowInstructions(true);
+    }
+  }, [currentStep]);
+
+  const dismissInstructions = () => {
+    sessionStorage.setItem("aadhaarInstructionsSeen", "true");
+    setShowInstructions(false);
+    setInstructionsAccepted(true);
+  };
 
   const [formData, setFormData] = useState({
     // Personal Details
@@ -44,8 +82,12 @@ export default function AmbedkarJayantiRegistration() {
     photoFile: null as File | null,
   });
 
-  const updateField = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const updateField = (field: string, value: unknown) => {
+    setFormData(prev => {
+      const updated = { ...prev, [field]: value };
+      save(updated, currentStep);
+      return updated;
+    });
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: "" }));
     }
@@ -95,6 +137,9 @@ export default function AmbedkarJayantiRegistration() {
         newErrors.aadhaarNumber = "Enter valid 12-digit Aadhaar";
       }
       if (!formData.photoFile) newErrors.photoFile = "Passport photo is required";
+      if (!instructionsAccepted) {
+        newErrors.instructions = "Please read and accept the Aadhaar card instructions";
+      }
     }
 
     setErrors(newErrors);
@@ -113,7 +158,7 @@ export default function AmbedkarJayantiRegistration() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleFileChange = (
+  const handleFileChange = async (
     field: string,
     file: File | null,
     rules: { minSize: number; maxSize: number; types: string[]; typeMsg: string; sizeMsg: string }
@@ -135,6 +180,19 @@ export default function AmbedkarJayantiRegistration() {
       }
     }
     updateField(field, file);
+    if (file) {
+      await (await import("@/lib/db")).db.fileBlobs.put({
+        id: `${AMBEDKAR_FORM_ID}-${field}`,
+        formId: AMBEDKAR_FORM_ID,
+        fieldName: field,
+        fileName: file.name,
+        fileType: file.type,
+        blob: file,
+        lastSaved: Date.now(),
+      });
+    } else {
+      await (await import("@/lib/db")).db.fileBlobs.delete(`${AMBEDKAR_FORM_ID}-${field}`);
+    }
   };
 
   const uploadFile = async (file: File): Promise<string | undefined> => {
@@ -199,6 +257,9 @@ export default function AmbedkarJayantiRegistration() {
         passportPhotoFileId: photoFileId as any,
         stateCode: stateCode,
       });
+
+      // Clear draft from IndexedDB
+      await clear();
 
       // Store SSD ID
       localStorage.setItem('ssdId', result.ssdId);
@@ -373,6 +434,25 @@ export default function AmbedkarJayantiRegistration() {
             ))}
           </div>
         </div>
+
+        {/* Draft Status Banner */}
+        {draftRestored && (
+          <div className="mb-4 bg-green-500/20 border border-green-500/40 rounded-xl p-3 flex items-center gap-3">
+            <Save className="w-5 h-5 text-green-400 flex-shrink-0" />
+            <p className="text-green-300 text-sm font-medium">
+              Your previous progress has been restored!
+            </p>
+          </div>
+        )}
+
+        {lastSaved && !draftRestored && (
+          <div className="mb-4 bg-blue-500/10 border border-blue-500/20 rounded-xl p-2 flex items-center gap-2 justify-center">
+            <Save className="w-4 h-4 text-blue-300" />
+            <p className="text-blue-300 text-xs">
+              Auto-saved at {lastSaved.toLocaleTimeString()}
+            </p>
+          </div>
+        )}
 
         {/* Form Card */}
         <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-8">
@@ -665,9 +745,19 @@ export default function AmbedkarJayantiRegistration() {
 
               {/* Passport Photo */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Passport Size Photo <span className="text-red-500">*</span>
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Passport Size Photo <span className="text-red-500">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowInstructions(true)}
+                    className="text-xs text-[#003285] hover:text-[#FF7F3E] flex items-center gap-1 transition-colors"
+                  >
+                    <Info className="w-4 h-4" />
+                    View Instructions
+                  </button>
+                </div>
                 <div
                   onClick={() => photoInputRef.current?.click()}
                   className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#FF7F3E] transition-colors"
@@ -681,7 +771,7 @@ export default function AmbedkarJayantiRegistration() {
                     <div className="text-gray-500">
                       <Upload className="w-8 h-8 mx-auto mb-2" />
                       <p className="font-medium">Click to upload photo</p>
-                      <p className="text-xs">JPG, JPEG, PNG (max 700KB)</p>
+                      <p className="text-xs">JPG, JPEG, PNG (max 1MB)</p>
                     </div>
                   )}
                   <input
@@ -690,10 +780,10 @@ export default function AmbedkarJayantiRegistration() {
                     accept=".jpg,.jpeg,.png"
                     onChange={(e) => handleFileChange("photoFile", e.target.files?.[0] || null, {
                       minSize: 0,
-                      maxSize: 700 * 1024,
+                      maxSize: PHOTO_MAX_SIZE,
                       types: ['jpeg', 'jpg', 'png'],
                       typeMsg: 'Only JPG, JPEG, or PNG formats are allowed.',
-                      sizeMsg: 'File size must be less than 700KB.'
+                      sizeMsg: `File size must be less than ${PHOTO_MAX_SIZE / (1024 * 1024)}MB.`
                     })}
                     className="hidden"
                   />
@@ -703,9 +793,19 @@ export default function AmbedkarJayantiRegistration() {
 
               {/* Aadhaar File (Optional) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Aadhaar Card (Optional)
-                </label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm font-medium text-gray-700">
+                    Aadhaar Card (Optional)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowInstructions(true)}
+                    className="text-xs text-[#003285] hover:text-[#FF7F3E] flex items-center gap-1 transition-colors"
+                  >
+                    <Info className="w-4 h-4" />
+                    View Instructions
+                  </button>
+                </div>
                 <div
                   onClick={() => aadhaarInputRef.current?.click()}
                   className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#FF7F3E] transition-colors"
@@ -719,7 +819,7 @@ export default function AmbedkarJayantiRegistration() {
                     <div className="text-gray-500">
                       <Upload className="w-8 h-8 mx-auto mb-2" />
                       <p className="font-medium">Click to upload Aadhaar card</p>
-                      <p className="text-xs">PDF Only (max 1.5MB)</p>
+                      <p className="text-xs">PDF Only (max 3MB)</p>
                     </div>
                   )}
                   <input
@@ -728,10 +828,10 @@ export default function AmbedkarJayantiRegistration() {
                     accept=".pdf"
                     onChange={(e) => handleFileChange("aadhaarFile", e.target.files?.[0] || null, {
                       minSize: 0,
-                      maxSize: 1.5 * 1024 * 1024,
+                      maxSize: AADHAAR_MAX_SIZE,
                       types: ['pdf'],
                       typeMsg: 'Only PDF format is allowed.',
-                      sizeMsg: 'File size must be less than 1.5MB.'
+                      sizeMsg: `File size must be less than ${AADHAAR_MAX_SIZE / (1024 * 1024)}MB.`
                     })}
                     className="hidden"
                   />
@@ -803,6 +903,140 @@ export default function AmbedkarJayantiRegistration() {
           </p>
         </div>
       </div>
+
+      {/* Aadhaar Instructions Modal */}
+      {showInstructions && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => {}} />
+          <div className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="bg-gradient-to-r from-[#003285] to-[#002561] p-6 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Info className="w-6 h-6 text-[#FFDA78]" />
+                <h2 className="text-xl font-bold text-white">Aadhaar Card Photo Instructions</h2>
+              </div>
+              <button
+                onClick={dismissInstructions}
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="p-6 overflow-y-auto flex-1 space-y-6">
+              <p className="text-gray-600 text-sm">
+                Please read the following instructions carefully before uploading your Aadhaar card photo:
+              </p>
+
+              <div className="space-y-3">
+                <h3 className="font-bold text-gray-900">Photo Requirements:</h3>
+                <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
+                  <li>Photo must be clear and clearly readable</li>
+                  <li>All 4 corners of the Aadhaar card must be visible</li>
+                  <li>Good lighting with no shadows on the card</li>
+                  <li>No glare or reflection on the card surface</li>
+                  <li>Card should not be expired or damaged</li>
+                  <li>Ensure the Aadhaar number is clearly visible</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="font-bold text-gray-900 mb-4">Example Photos:</h3>
+                <div className="space-y-4">
+                  <div className="border-2 border-green-300 rounded-xl p-4 bg-green-50">
+                    <p className="text-green-700 font-semibold text-sm mb-3 flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5" /> Correct Format
+                    </p>
+                    <img
+                      src="/adharcard_demo.jpg"
+                      alt="Correct Aadhaar card format"
+                      className="w-full max-w-md mx-auto rounded-lg shadow"
+                    />
+                    <p className="text-green-600 text-xs mt-3 text-center">
+                      Clear, well-lit, all corners visible
+                    </p>
+                  </div>
+
+                  <div className="border-2 border-red-300 rounded-xl p-4 bg-red-50">
+                    <p className="text-red-700 font-semibold text-sm mb-3 flex items-center gap-2">
+                      <X className="w-5 h-5" /> Wrong Formats
+                    </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="text-center">
+                        <img
+                          src="/wrong_adhar_card_1.jpg"
+                          alt="Wrong format 1"
+                          className="w-full rounded-lg shadow"
+                        />
+                        <p className="text-red-600 text-xs mt-2">Blurry/Dark</p>
+                      </div>
+                      <div className="text-center">
+                        <img
+                          src="/wrong_adhar_card_2.jpg"
+                          alt="Wrong format 2"
+                          className="w-full rounded-lg shadow"
+                        />
+                        <p className="text-red-600 text-xs mt-2">Cropped/Incomplete</p>
+                      </div>
+                      <div className="text-center">
+                        <img
+                          src="/wrong_adhar_card_3.jpg"
+                          alt="Wrong format 3"
+                          className="w-full rounded-lg shadow"
+                        />
+                        <p className="text-red-600 text-xs mt-2">Too Bright</p>
+                      </div>
+                      <div className="text-center">
+                        <img
+                          src="/wrong_adhar_card_4.jpg"
+                          alt="Wrong format 4"
+                          className="w-full rounded-lg shadow"
+                        />
+                        <p className="text-red-600 text-xs mt-2">Damaged/Expired</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {errors.instructions && (
+                <p className="text-red-500 text-sm font-medium text-center">{errors.instructions}</p>
+              )}
+
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                <p className="text-yellow-800 text-sm">
+                  <strong>Important:</strong> Your Aadhaar card is used only for identity verification.
+                  All data is stored securely and handled according to privacy guidelines.
+                </p>
+              </div>
+            </div>
+
+            <div className="p-6 border-t bg-gray-50">
+              <label className="flex items-center gap-3 cursor-pointer mb-4">
+                <input
+                  type="checkbox"
+                  checked={instructionsAccepted}
+                  onChange={(e) => setInstructionsAccepted(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-300 text-[#003285] focus:ring-[#003285]"
+                />
+                <span className="text-gray-700 text-sm">
+                  I have read and understood the Aadhaar card photo instructions
+                </span>
+              </label>
+              <button
+                onClick={dismissInstructions}
+                disabled={!instructionsAccepted}
+                className={`w-full py-3 rounded-full font-bold text-white transition-colors ${
+                  instructionsAccepted
+                    ? "bg-[#FF7F3E] hover:bg-[#ff6a1a]"
+                    : "bg-gray-400 cursor-not-allowed"
+                }`}
+              >
+                Continue to Upload
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

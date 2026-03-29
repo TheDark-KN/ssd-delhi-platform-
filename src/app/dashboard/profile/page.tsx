@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { useForm } from "react-hook-form";
@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-import { User, Save } from "lucide-react";
+import { User, Save, SaveIcon } from "lucide-react";
+import { useFormPersistence } from "@/hooks/useFormPersistence";
 
 const profileFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -31,10 +32,15 @@ const profileFormSchema = z.object({
   preferredLanguage: z.union([z.literal("en"), z.literal("hi")]),
 });
 
+const PROFILE_FORM_ID = "dashboard-profile";
+
 export default function ProfilePage() {
   const user = useQuery(api.users?.getCurrentUser as any);
   const updateUser = useMutation(api.users?.updateUser as any);
   const [isSaving, setIsSaving] = useState(false);
+  const [draftRestored, setDraftRestored] = useState(false);
+
+  const { save, load, clear, lastSaved } = useFormPersistence(PROFILE_FORM_ID);
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -49,20 +55,27 @@ export default function ProfilePage() {
     },
   });
 
-  // Update form values when user data loads
-  useState(() => {
+  const watchedValues = form.watch();
+
+  useEffect(() => {
+    const restoreDraft = async () => {
+      const draft = await load();
+      if (draft) {
+        form.reset(draft as z.infer<typeof profileFormSchema>);
+        setDraftRestored(true);
+        setTimeout(() => setDraftRestored(false), 5000);
+      }
+    };
     if (user) {
-      form.reset({
-        name: user.name || "",
-        phone: user.phone || "",
-        bio: user.bio || "",
-        address: user.address || "",
-        city: user.city || "",
-        state: user.state || "",
-        preferredLanguage: user.preferredLanguage || "en",
-      });
+      restoreDraft();
     }
-  });
+  }, [load, form, user]);
+
+  useEffect(() => {
+    if (user && Object.keys(watchedValues).length > 0) {
+      save(watchedValues as Record<string, unknown>);
+    }
+  }, [watchedValues, save, user]);
 
   async function onSubmit(values: z.infer<typeof profileFormSchema>) {
     if (!user) return;
@@ -73,6 +86,7 @@ export default function ProfilePage() {
         userId: user._id,
         ...values,
       });
+      await clear();
       toast.success("Profile updated successfully!");
     } catch (error) {
       toast.error("Failed to update profile");
@@ -123,6 +137,24 @@ export default function ProfilePage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
+                {draftRestored && (
+                  <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
+                    <SaveIcon className="w-5 h-5 text-green-600 flex-shrink-0" />
+                    <p className="text-green-700 text-sm font-medium">
+                      Your previous changes have been restored!
+                    </p>
+                  </div>
+                )}
+
+                {lastSaved && !draftRestored && (
+                  <div className="mb-4 bg-muted/50 border rounded-xl p-2 flex items-center gap-2 justify-center">
+                    <Save className="w-4 h-4 text-muted-foreground" />
+                    <p className="text-muted-foreground text-xs">
+                      Auto-saved at {lastSaved.toLocaleTimeString()}
+                    </p>
+                  </div>
+                )}
+
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid gap-4 md:grid-cols-2">
