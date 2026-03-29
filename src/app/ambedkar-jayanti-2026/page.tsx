@@ -46,12 +46,19 @@ export default function AmbedkarJayantiRegistration() {
     if (currentStep === 3 && !sessionStorage.getItem("aadhaarInstructionsSeen")) {
       setShowInstructions(true);
     }
+    if (currentStep === 3) {
+      setInstructionsAccepted(sessionStorage.getItem("aadhaarInstructionsSeen") === "true");
+    }
   }, [currentStep]);
 
   const dismissInstructions = () => {
     sessionStorage.setItem("aadhaarInstructionsSeen", "true");
     setShowInstructions(false);
     setInstructionsAccepted(true);
+  };
+
+  const openInstructions = () => {
+    setShowInstructions(true);
   };
 
   const [formData, setFormData] = useState({
@@ -727,6 +734,33 @@ export default function AmbedkarJayantiRegistration() {
           {/* Step 3: Documents */}
           {currentStep === 3 && (
             <div className="space-y-6">
+              {/* Important Notice Banner */}
+              <div className="bg-[#003285]/5 border-2 border-[#003285]/20 rounded-xl p-4">
+                <div className="flex items-start gap-3">
+                  <Info className="w-6 h-6 text-[#003285] flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-[#003285] font-bold text-sm mb-2">
+                      Please read the document upload instructions before proceeding
+                    </p>
+                    {!instructionsAccepted && (
+                      <button
+                        type="button"
+                        onClick={openInstructions}
+                        className="w-full sm:w-auto bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white font-bold py-2 px-6 rounded-full text-sm transition-colors"
+                      >
+                        Read Instructions First
+                      </button>
+                    )}
+                    {instructionsAccepted && (
+                      <p className="text-green-600 text-sm font-medium flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4" />
+                        Instructions acknowledged
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Aadhaar Number <span className="text-red-500">*</span>
