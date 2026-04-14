@@ -17,6 +17,25 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "NGO",
+            "name": "Samata Sainik Dal",
+            "alternateName": ["Samta Sainik Dal", "Saink dal", "SSD Delhi", "Smata Sainik Dal", "samta"],
+            "url": "https://ssddelhi.org",
+            "logo": "https://ssddelhi.org/logo.png",
+            "foundingDate": "1924",
+            "founder": {
+              "@type": "Person",
+              "name": "Dr. B.R. Ambedkar"
+            },
+            "description": "Official website of Samata Sainik Dal (SSD) Delhi - Soldiers for Equality. Founded by Dr. B.R. Ambedkar in 1924. Building a casteless society based on Liberty, Equality, and Fraternity."
+          })
+        }}
+      />
       {/* Hero Section */}
       <section className="relative pt-24 pb-32 md:pt-32 md:pb-48 bg-[#003285] overflow-hidden">
         {/* Background Effects */}

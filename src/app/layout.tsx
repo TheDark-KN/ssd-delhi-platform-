@@ -16,17 +16,33 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Samta Sainik Dal Delhi | समता सैनिक दल दिल्ली",
-  description: "Official website of Samta Sainik Dal Delhi - Soldiers for Equality. Founded by Dr. B.R. Ambedkar in 1924. Building a casteless society based on Liberty, Equality, and Fraternity.",
-  keywords: ["Samta Sainik Dal", "SSD Delhi", "Dr. Ambedkar", "Social Justice", "Equality", "Dalit Rights", "Buddhism"],
+  description: "Official website of Samta Sainik Dal (SSD) Delhi - Soldiers for Equality. Founded by Dr. B.R. Ambedkar in 1924. Building a casteless society based on Liberty, Equality, and Fraternity.",
+  keywords: [
+    "Samta Sainik Dal", 
+    "smata sainik dal",
+    "Samata Sainik Dal",
+    "Saink dal", 
+    "sainik dal",
+    "samta", 
+    "SSD Delhi", 
+    "Dr. Ambedkar", 
+    "Social Justice", 
+    "Equality", 
+    "Dalit Rights", 
+    "Buddhism"
+  ],
   authors: [{ name: "Samta Sainik Dal Delhi" }],
   openGraph: {
     title: "Samta Sainik Dal Delhi | समता सैनिक दल दिल्ली",
-    description: "Soldiers for Equality - Building a Casteless Society",
+    description: "Official website of Samta Sainik Dal - Soldiers for Equality. Building a Casteless Society.",
     url: "https://ssddelhi.org",
     siteName: "SSD Delhi",
     locale: "en_IN",
     type: "website",
   },
+  alternates: {
+    canonical: "https://ssddelhi.org",
+  }
 };
 
 export default function RootLayout({

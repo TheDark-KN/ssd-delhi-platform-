@@ -4,7 +4,8 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "About SSD | Samta Sainik Dal Delhi",
-  description: "Learn about Samta Sainik Dal Delhi - founded by Dr. B.R. Ambedkar in 1924. Understanding our ideology, mission, and organizational structure.",
+  description: "Learn about Samta Sainik Dal Delhi (SSD) - founded by Dr. B.R. Ambedkar in 1924. Understanding our ideology, mission, and organizational structure.",
+  keywords: ["About Samta Sainik Dal", "SSD Ideology", "Dr. B.R. Ambedkar", "Casteless Society", "Samata Sainik Dal", "smata sainik dal", "samta", "Saink dal", "SSD Delhi"]
 };
 
 const ideologyPoints = [

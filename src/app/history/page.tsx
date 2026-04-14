@@ -1,8 +1,15 @@
+import { Metadata } from "next";
 import { Suspense } from "react";
 import { HistoryClient } from "./history-client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+export const metadata: Metadata = {
+  title: "100 Years of Struggle | History of SSD",
+  description: "Explore the 100-year history of Samta Sainik Dal (SSD) from 1924 to present. Discover our milestones in the fight for social justice and equality.",
+  keywords: ["Samta Sainik Dal History", "SSD Timeline", "Dr. Ambedkar Movement", "Dalit History", "smata sainik dal", "Saink dal", "samta", "Samata Sainik Dal"]
+};
 
 // Server Component with SSR for better SEO and initial load
 export default function HistoryPage() {
