@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Users, BookOpen, ArrowRight, Clock, TrendingUp, Shield } from "lucide-react";
+import { MaterialIcon } from "@/components/ui/material-icon";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -80,7 +81,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8">
             <div className="flex flex-col items-center text-center space-y-4 group">
               <div className="h-16 w-16 flex items-center justify-center rounded-2xl bg-[#003285]/5 text-[#FF7F3E] group-hover:bg-[#FF7F3E] group-hover:text-white transition-all duration-300">
-                <Clock className="h-8 w-8" />
+                <MaterialIcon icon="history" variant="rounded" className="text-3xl" />
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">100+</div>
@@ -89,7 +90,7 @@ export default function HomePage() {
             </div>
             <div className="flex flex-col items-center text-center space-y-4 group">
               <div className="h-16 w-16 flex items-center justify-center rounded-2xl bg-[#2A629A]/5 text-[#2A629A] group-hover:bg-[#2A629A] group-hover:text-white transition-all duration-300">
-                <Users className="h-8 w-8" />
+                <MaterialIcon icon="groups" variant="rounded" className="text-3xl" />
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">10K+</div>
@@ -98,7 +99,7 @@ export default function HomePage() {
             </div>
             <div className="flex flex-col items-center text-center space-y-4 group">
               <div className="h-16 w-16 flex items-center justify-center rounded-2xl bg-[#FFDA78]/10 text-[#FFDA78] group-hover:bg-[#FFDA78] group-hover:text-[#003285] transition-all duration-300">
-                <BookOpen className="h-8 w-8" />
+                <MaterialIcon icon="menu_book" variant="rounded" className="text-3xl" />
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">500+</div>
@@ -107,7 +108,7 @@ export default function HomePage() {
             </div>
             <div className="flex flex-col items-center text-center space-y-4 group">
               <div className="h-16 w-16 flex items-center justify-center rounded-2xl bg-[#FF7F3E]/5 text-[#FF7F3E] group-hover:bg-[#FF7F3E] group-hover:text-white transition-all duration-300">
-                <TrendingUp className="h-8 w-8" />
+                <MaterialIcon icon="public" variant="rounded" className="text-3xl" />
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">Pan India</div>

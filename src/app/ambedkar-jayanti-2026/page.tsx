@@ -946,7 +946,7 @@ export default function AmbedkarJayantiRegistration() {
             <div className="bg-gradient-to-r from-[#003285] to-[#002561] p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Info className="w-6 h-6 text-[#FFDA78]" />
-                <h2 className="text-xl font-bold text-white">Aadhaar Card Photo Instructions</h2>
+                <h2 className="text-xl font-bold text-white">Document Upload Instructions</h2>
               </div>
               <button
                 onClick={dismissInstructions}
@@ -958,18 +958,43 @@ export default function AmbedkarJayantiRegistration() {
 
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               <p className="text-gray-600 text-sm">
-                Please read the following instructions carefully before uploading your Aadhaar card photo:
+                Please follow these guidelines to ensure your registration is approved quickly:
               </p>
 
-              <div className="space-y-3">
-                <h3 className="font-bold text-gray-900">Photo Requirements:</h3>
+              {/* Passport Photo Requirements */}
+              <div className="space-y-4">
+                <h3 className="font-bold text-gray-900 flex items-center gap-2 border-b pb-1">
+                  <ImageIcon className="w-5 h-5 text-[#003285]" />
+                  Passport Photo Requirements:
+                </h3>
+                <div className="border-2 border-green-300 rounded-2xl p-4 bg-green-50">
+                  <p className="text-green-700 font-bold text-sm mb-3 flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" /> Correct Passport Format
+                  </p>
+                  <img
+                    src="/currect_passpor_dwar.jpg"
+                    alt="Correct Passport Format"
+                    className="w-32 h-40 object-cover mx-auto rounded-lg shadow-md border-2 border-white"
+                  />
+                  <ul className="grid grid-cols-2 gap-2 text-green-700 text-xs mt-4">
+                    <li className="flex items-center gap-1">✓ Plain background</li>
+                    <li className="flex items-center gap-1">✓ Looking at camera</li>
+                    <li className="flex items-center gap-1">✓ No hats/sunglasses</li>
+                    <li className="flex items-center gap-1">✓ Clear face</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Aadhaar Photo Requirements */}
+              <div className="space-y-4">
+                <h3 className="font-bold text-gray-900 flex items-center gap-2 border-b pb-1">
+                  <FileText className="w-5 h-5 text-[#003285]" />
+                  Aadhaar Card Requirements:
+                </h3>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
-                  <li>Photo must be clear and clearly readable</li>
-                  <li>All 4 corners of the Aadhaar card must be visible</li>
-                  <li>Good lighting with no shadows on the card</li>
-                  <li>No glare or reflection on the card surface</li>
-                  <li>Card should not be expired or damaged</li>
-                  <li>Ensure the Aadhaar number is clearly visible</li>
+                  <li>All 4 corners of the card must be visible</li>
+                  <li>Good lighting with no shadows or glare</li>
+                  <li>The Aadhaar number must be clearly readable</li>
                 </ul>
               </div>
 
@@ -1053,7 +1078,7 @@ export default function AmbedkarJayantiRegistration() {
                   className="w-5 h-5 rounded border-gray-300 text-[#003285] focus:ring-[#003285]"
                 />
                 <span className="text-gray-700 text-sm">
-                  I have read and understood the Aadhaar card photo instructions
+                  I have read and understood the photo and document instructions
                 </span>
               </label>
               <button

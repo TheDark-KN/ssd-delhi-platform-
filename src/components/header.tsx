@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Globe, Shield } from "lucide-react";
+import { MaterialIcon } from "@/components/ui/material-icon";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -167,9 +168,9 @@ export function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleLanguage}
-            className="hidden md:flex hover:bg-primary/10 hover:text-primary"
+            className="hidden md:flex hover:bg-primary/10 hover:text-primary items-center justify-center p-0"
           >
-            <Globe className="h-5 w-5" />
+            <MaterialIcon icon="language" variant="rounded" className="text-[22px]" />
             <span className="sr-only">Toggle language</span>
           </Button>
 

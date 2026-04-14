@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { MaterialIcon } from "@/components/ui/material-icon";
 
 const socialLinks = [
   { name: "Facebook", href: "#", icon: Facebook },
@@ -114,8 +115,8 @@ export function Footer() {
             <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">Contact Us</h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
-                <div className="mt-1 h-8 w-8 flex items-center justify-center rounded-lg bg-blue-900/50">
-                  <MapPin className="h-4 w-4 text-[#FFDA78]" />
+                <div className="mt-1 h-8 w-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-900/50">
+                  <MaterialIcon icon="location_on" variant="rounded" className="text-[20px] text-[#FFDA78]" />
                 </div>
                 <span className="text-blue-100/80 leading-relaxed">
                   Samta Sainik Dal Delhi<br />
@@ -123,16 +124,16 @@ export function Footer() {
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-blue-900/50">
-                  <Mail className="h-4 w-4 text-[#FFDA78]" />
+                <div className="h-8 w-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-900/50">
+                  <MaterialIcon icon="mail" variant="rounded" className="text-[20px] text-[#FFDA78]" />
                 </div>
                 <a href="mailto:info@ssddelhi.org" className="text-blue-100/80 hover:text-white transition-colors">
                   info@ssddelhi.org
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-blue-900/50">
-                  <Phone className="h-4 w-4 text-[#FFDA78]" />
+                <div className="h-8 w-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-900/50">
+                  <MaterialIcon icon="call" variant="rounded" className="text-[20px] text-[#FFDA78]" />
                 </div>
                 <a href="tel:+911112345678" className="text-blue-100/80 hover:text-white transition-colors">
                   +91 11 1234 5678
