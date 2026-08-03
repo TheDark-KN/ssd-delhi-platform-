@@ -15,7 +15,7 @@ export function HistoryClient() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [visibleItems, setVisibleItems] = useState<number>(5);
   const [isLoaded, setIsLoaded] = useState(false);
-  
+
   const timelineEvents = useQuery(api.timeline?.list as any, {
     era: selectedEra || undefined,
   }) || [];
@@ -23,8 +23,8 @@ export function HistoryClient() {
   const eras = useQuery(api.timeline?.getEras as any) || [];
 
   // Get unique years for filtering
-  const years = timelineEvents 
-    ? ([...new Set(timelineEvents.map((e: any) => e.year))] as number[]).sort((a, b) => a - b) 
+  const years = timelineEvents
+    ? ([...new Set(timelineEvents.map((e: any) => e.year))] as number[]).sort((a, b) => a - b)
     : [];
 
   // Lazy load animation on scroll
@@ -33,7 +33,7 @@ export function HistoryClient() {
 
   useEffect(() => {
     setIsLoaded(true);
-    
+
     // Intersection Observer for lazy loading timeline items
     observerRef.current = new IntersectionObserver(
       (entries) => {
@@ -79,8 +79,8 @@ export function HistoryClient() {
                 onClick={() => setSelectedEra(null)}
                 className={cn(
                   "rounded-full px-4 md:px-5 font-bold uppercase tracking-tight text-xs md:text-sm transition-all",
-                  !selectedEra 
-                    ? "bg-[#003285] hover:bg-[#002561] shadow-md" 
+                  !selectedEra
+                    ? "bg-[#4F46E5] hover:bg-[#4338CA] shadow-md"
                     : "border-slate-200 text-slate-600 hover:bg-slate-100"
                 )}
               >
@@ -94,8 +94,8 @@ export function HistoryClient() {
                   onClick={() => setSelectedEra(era)}
                   className={cn(
                     "rounded-full px-4 md:px-5 font-bold uppercase tracking-tight text-xs md:text-sm transition-all",
-                    selectedEra === era 
-                      ? "bg-[#003285] hover:bg-[#002561] shadow-md" 
+                    selectedEra === era
+                      ? "bg-[#4F46E5] hover:bg-[#4338CA] shadow-md"
                       : "border-slate-200 text-slate-600 hover:bg-slate-100"
                   )}
                 >
@@ -173,7 +173,7 @@ export function HistoryClient() {
                       {/* Year Badge - Mobile (left side) */}
                       <div className="flex sm:hidden items-center gap-3 mb-2 pl-4">
                         <div className="flex-shrink-0 w-14 text-center">
-                          <div className="text-2xl font-bold text-[#003285]">{event.year}</div>
+                          <div className="text-2xl font-bold text-[#4F46E5]">{event.year}</div>
                         </div>
                       </div>
 
@@ -192,15 +192,15 @@ export function HistoryClient() {
                               "flex items-center gap-3 md:gap-4 mb-4 flex-wrap",
                               index % 2 === 0 ? "sm:flex-row-reverse" : "sm:flex-row"
                             )}>
-                              <Badge className="bg-[#FF7F3E]/10 text-[#FF7F3E] border-[#FF7F3E]/20 font-black uppercase tracking-tighter text-[9px] md:text-[10px] px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                              <Badge className="bg-[#F59E0B]/10 text-[#F59E0B] border-[#F59E0B]/20 font-black uppercase tracking-tighter text-[9px] md:text-[10px] px-2 md:px-3 py-0.5 md:py-1 rounded-full">
                                 {event.era}
                               </Badge>
                               {/* Year - Desktop (in card header) */}
-                              <div className="text-2xl md:text-3xl font-black text-[#003285]">
+                              <div className="text-2xl md:text-3xl font-black text-[#4F46E5]">
                                 {event.year}
                               </div>
                             </div>
-                            <CardTitle className="text-xl md:text-2xl lg:text-3xl font-black text-[#003285] dark:text-white leading-tight mb-3 md:mb-4">
+                            <CardTitle className="text-xl md:text-2xl lg:text-3xl font-black text-[#4F46E5] dark:text-white leading-tight mb-3 md:mb-4">
                               {event.title}
                             </CardTitle>
                           </CardHeader>
@@ -211,15 +211,15 @@ export function HistoryClient() {
 
                             {event.significance && (
                               <div className={cn(
-                                "p-4 md:p-6 bg-slate-50 dark:bg-slate-800/50 rounded-[20px] md:rounded-[24px] lg:rounded-[32px] border-l-4 border-[#FF7F3E]",
+                                "p-4 md:p-6 bg-slate-50 dark:bg-slate-800/50 rounded-[20px] md:rounded-[24px] lg:rounded-[32px] border-l-4 border-[#F59E0B]",
                                 index % 2 === 0 ? "sm:text-right" : "sm:text-left"
                               )}>
                                 <div className={cn(
                                   "flex items-center gap-2 mb-3 flex-wrap",
                                   index % 2 === 0 ? "sm:flex-row-reverse" : "sm:flex-row"
                                 )}>
-                                  <BookOpen className="h-3 w-3 md:h-4 md:w-4 text-[#FF7F3E] flex-shrink-0" />
-                                  <span className="font-black text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-[#2A629A] dark:text-[#FFDA78]">
+                                  <BookOpen className="h-3 w-3 md:h-4 md:w-4 text-[#F59E0B] flex-shrink-0" />
+                                  <span className="font-black text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-[#64748B] dark:text-[#F59E0B]">
                                     Significance
                                   </span>
                                 </div>
@@ -234,7 +234,7 @@ export function HistoryClient() {
 
                       {/* Timeline Dot - Center aligned */}
                       <div className="absolute left-8 sm:left-1/2 transform sm:-translate-x-1/2 flex items-center justify-center top-6 md:top-8">
-                        <div className="w-4 h-4 md:w-5 md:h-5 bg-[#FF7F3E] rounded-full border-4 border-white dark:border-slate-950 shadow-lg shadow-[#FF7F3E]/40" />
+                        <div className="w-4 h-4 md:w-5 md:h-5 bg-[#F59E0B] rounded-full border-4 border-white dark:border-slate-950 shadow-lg shadow-[#F59E0B]/40" />
                       </div>
 
                       {/* Spacer for alternating layout */}
@@ -248,7 +248,7 @@ export function HistoryClient() {
                 <div className="text-center mt-12 md:mt-16">
                   <Button
                     onClick={loadMore}
-                    className="bg-[#003285] hover:bg-[#002561] text-white font-bold px-8 md:px-12 py-6 md:py-7 rounded-full text-sm md:text-base shadow-lg hover:shadow-xl transition-all"
+                    className="bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold px-8 md:px-12 py-6 md:py-7 rounded-full text-sm md:text-base shadow-lg hover:shadow-xl transition-all"
                   >
                     Load More Events
                   </Button>
@@ -263,7 +263,7 @@ export function HistoryClient() {
       <section className="py-12 md:py-16 bg-muted/40 dark:bg-slate-900/40">
         <div className="container px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center space-y-4">
-            <h2 className="text-xl md:text-2xl font-bold text-[#003285] dark:text-white">Historical Note</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-[#4F46E5] dark:text-white">Historical Note</h2>
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
               The roots of Samta Sainik Dal trace back to the Mahad movement. While some sources record
               September 24, 1924, as the formation date during a Mahad conference, others highlight March 1927

@@ -72,10 +72,10 @@ export default function SignInPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-[#003285] shadow-lg mb-4">
-            <Shield className="h-8 w-8 text-[#FFDA78]" />
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-[#4F46E5] shadow-lg mb-4">
+            <Shield className="h-8 w-8 text-[#F59E0B]" />
           </div>
-          <h1 className="text-3xl font-bold text-[#003285]">
+          <h1 className="text-3xl font-bold text-[#4F46E5]">
             Welcome Back
           </h1>
           <p className="text-muted-foreground mt-2">
@@ -145,7 +145,7 @@ export default function SignInPage() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-[#003285] hover:bg-[#00286c] text-white font-semibold"
+                    className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-semibold"
                     disabled={isLoading}
                   >
                     {isLoading ? "Signing in..." : "Sign In"}
@@ -215,7 +215,7 @@ export default function SignInPage() {
                 Don&apos;t have an account?{" "}
                 <a
                   href="/join"
-                  className="text-[#003285] font-semibold hover:underline"
+                  className="text-[#4F46E5] font-semibold hover:underline"
                 >
                   Join SSD Delhi
                 </a>
@@ -226,24 +226,24 @@ export default function SignInPage() {
 
         {/* Benefits */}
         <div className="mt-8 space-y-3">
-          <h3 className="text-sm font-semibold text-center text-[#003285]">
+          <h3 className="text-sm font-semibold text-center text-[#4F46E5]">
             Member Benefits
           </h3>
           <ul className="space-y-2 text-sm text-muted-foreground">
             <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#003285]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5]" />
               Access exclusive content and resources
             </li>
             <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#003285]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5]" />
               Manage your membership card
             </li>
             <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#003285]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5]" />
               Participate in events and activities
             </li>
             <li className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#003285]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-[#4F46E5]" />
               Connect with fellow members
             </li>
           </ul>

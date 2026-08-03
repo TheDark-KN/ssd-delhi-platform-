@@ -32,9 +32,9 @@ const SSD_HIERARCHY: LevelGroup[] = [
     level: "Central / National",
     levelHi: "केंद्र (Central/National)",
     icon: <Star className="w-6 h-6" />,
-    color: "#003285",
-    colorTo: "#001a3d",
-    accentColor: "#FFDA78",
+    color: "#4F46E5",
+    colorTo: "#4338CA",
+    accentColor: "#F59E0B",
     ranks: [
       {
         cadreNo: 1,
@@ -74,9 +74,9 @@ const SSD_HIERARCHY: LevelGroup[] = [
     level: "State / Provincial",
     levelHi: "प्रदेश (State/Provincial)",
     icon: <Award className="w-6 h-6" />,
-    color: "#2A629A",
-    colorTo: "#1a3f6b",
-    accentColor: "#FF7F3E",
+    color: "#64748B",
+    colorTo: "#4338CA",
+    accentColor: "#F59E0B",
     ranks: [
       {
         cadreNo: 5,
@@ -108,9 +108,9 @@ const SSD_HIERARCHY: LevelGroup[] = [
     level: "District",
     levelHi: "जिला (District)",
     icon: <Shield className="w-6 h-6" />,
-    color: "#FF7F3E",
-    colorTo: "#cc5a1e",
-    accentColor: "#FFDA78",
+    color: "#F59E0B",
+    colorTo: "#D97706",
+    accentColor: "#F59E0B",
     ranks: [
       {
         cadreNo: 8,
@@ -142,9 +142,9 @@ const SSD_HIERARCHY: LevelGroup[] = [
     level: "Area / Tehsil",
     levelHi: "क्षेत्र (Area/Tehsil)",
     icon: <Zap className="w-6 h-6" />,
-    color: "#FFDA78",
-    colorTo: "#e6c35e",
-    accentColor: "#003285",
+    color: "#F59E0B",
+    colorTo: "#D97706",
+    accentColor: "#4F46E5",
     ranks: [
       {
         cadreNo: 11,
@@ -176,9 +176,9 @@ const SSD_HIERARCHY: LevelGroup[] = [
     level: "Unit / Sanghayan",
     levelHi: "संघायन (Unit/Local)",
     icon: <Users className="w-6 h-6" />,
-    color: "#2A629A",
-    colorTo: "#003285",
-    accentColor: "#FFDA78",
+    color: "#64748B",
+    colorTo: "#4F46E5",
+    accentColor: "#F59E0B",
     ranks: [
       {
         cadreNo: 14,
@@ -347,7 +347,7 @@ function LevelCard({ group, index, isOpen, toggle }: { group: LevelGroup; index:
                   style={{
                     background: `${group.color}08`,
                     borderColor: `${group.color}12`,
-                    color: group.color === "#FFDA78" ? "#003285" : group.color,
+                    color: group.color === "#F59E0B" ? "#4F46E5" : group.color,
                   }}
                 >
                   {rank.notes}
@@ -364,20 +364,20 @@ function LevelCard({ group, index, isOpen, toggle }: { group: LevelGroup; index:
 /* ────────────── Sainik (Basic Level) Card ────────────── */
 function SainikCard() {
   return (
-    <div className="relative rounded-[28px] overflow-hidden border-2 border-dashed border-[#003285]/30 bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="relative rounded-[28px] overflow-hidden border-2 border-dashed border-[#4F46E5]/30 bg-gradient-to-br from-slate-50 to-muted">
       <div className="p-6 md:p-8 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-        <div className="flex-shrink-0 w-20 h-20 rounded-3xl bg-gradient-to-br from-[#003285] to-[#2A629A] flex items-center justify-center shadow-lg">
-          <Shield className="w-10 h-10 text-[#FFDA78]" />
+        <div className="flex-shrink-0 w-20 h-20 rounded-3xl bg-gradient-to-br from-[#4F46E5] to-[#64748B] flex items-center justify-center shadow-lg">
+          <Shield className="w-10 h-10 text-[#F59E0B]" />
         </div>
         <div className="flex-1">
-          <p className="text-xs uppercase tracking-[0.3em] text-[#FF7F3E] font-black mb-1">Foundation Level</p>
-          <h3 className="text-2xl md:text-3xl font-black text-[#003285] mb-1">सैनिक / सैनिक दल सदस्य — Sainik (Volunteer)</h3>
+          <p className="text-xs uppercase tracking-[0.3em] text-[#F59E0B] font-black mb-1">Foundation Level</p>
+          <h3 className="text-2xl md:text-3xl font-black text-[#4F46E5] mb-1">सैनिक / सैनिक दल सदस्य — Sainik (Volunteer)</h3>
           <p className="text-slate-500 font-medium text-sm">
             आधारभूत सदस्य, सामान्य यूनिफॉर्म खाकी शर्ट-पैंट • Uniform: खाकी / नीला शर्ट, खाकी पैंट
           </p>
         </div>
         <div className="hidden md:flex flex-col items-end gap-2">
-          <span className="bg-[#FFDA78] text-[#003285] font-black text-xs px-4 py-2 rounded-full">Base Rank</span>
+          <span className="bg-[#F59E0B] text-[#4F46E5] font-black text-xs px-4 py-2 rounded-full">Base Rank</span>
         </div>
       </div>
     </div>
@@ -397,30 +397,30 @@ export default function RankStructurePage() {
   return (
     <div className="flex flex-col">
       {/* ── Hero Section ── */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-[#4F46E5] overflow-hidden">
         {/* Decorative blurs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-15%] left-[-10%] w-[45%] h-[45%] bg-[#FF7F3E]/15 blur-[130px] rounded-full" />
-          <div className="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-[#FFDA78]/10 blur-[120px] rounded-full" />
+          <div className="absolute top-[-15%] left-[-10%] w-[45%] h-[45%] bg-[#F59E0B]/15 blur-[130px] rounded-full" />
+          <div className="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-[#F59E0B]/10 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="bg-[#FF7F3E] text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
+              <span className="bg-[#F59E0B] text-white px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest">
                 Official Hierarchy
               </span>
-              <span className="bg-white/10 text-[#FFDA78] border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm">
+              <span className="bg-white/10 text-[#F59E0B] border border-white/20 px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-sm">
                 Est. 1927 by Dr. B.R. Ambedkar
               </span>
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
-              SSD <span className="text-[#FFDA78]">Rank Structure</span>
+              SSD <span className="text-[#F59E0B]">Rank Structure</span>
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100/90 font-bold tracking-widest uppercase">
+            <p className="text-xl md:text-2xl text-white/90 font-bold tracking-widest uppercase">
               समता सैनिक दल — पदानुक्रमित संरचना
             </p>
-            <p className="text-lg text-blue-100/70 leading-relaxed font-medium max-w-3xl">
+            <p className="text-lg text-white/70 leading-relaxed font-medium max-w-3xl">
               Samata Sainik Dal follows a quasi-military hierarchical command structure inspired by the Indian Army,
               with Commander-based ranks spanning from the National level down to local volunteers (Sainiks).
             </p>
@@ -433,8 +433,8 @@ export default function RankStructurePage() {
         <div className="container px-4 md:px-6">
           {/* Section header */}
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-black text-[#003285] mb-4">
-              Organizational <span className="text-[#FF7F3E]">Hierarchy</span>
+            <h2 className="text-4xl md:text-5xl font-black text-[#4F46E5] mb-4">
+              Organizational <span className="text-[#F59E0B]">Hierarchy</span>
             </h2>
             <p className="text-slate-500 text-lg font-medium leading-relaxed">
               Click on each level to expand and view all ranks, uniform details, and responsibilities.
@@ -466,8 +466,8 @@ export default function RankStructurePage() {
       <section className="py-16 md:py-24 bg-slate-50">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-[#003285] mb-4">
-              Unit <span className="text-[#2A629A]">Formation</span>
+            <h2 className="text-4xl md:text-5xl font-black text-[#4F46E5] mb-4">
+              Unit <span className="text-[#64748B]">Formation</span>
             </h2>
             <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto">
               The original SSD constitution defines unit sizes modeled after the Indian military formation system.
@@ -485,9 +485,9 @@ export default function RankStructurePage() {
                 className="relative p-8 bg-white rounded-[32px] shadow-xl shadow-slate-200/50 text-center hover:-translate-y-2 transition-all duration-300 group border border-slate-100"
               >
                 <div className="text-4xl mb-4">{item.icon}</div>
-                <div className="text-5xl font-black text-[#003285] mb-1">{item.count}</div>
+                <div className="text-5xl font-black text-[#4F46E5] mb-1">{item.count}</div>
                 <div className="text-sm text-slate-500 font-bold uppercase tracking-widest mb-2">{item.label}</div>
-                <div className="text-base font-bold text-[#FF7F3E]">{item.unit}</div>
+                <div className="text-base font-bold text-[#F59E0B]">{item.unit}</div>
               </div>
             ))}
           </div>
@@ -495,17 +495,17 @@ export default function RankStructurePage() {
       </section>
 
       {/* ── Uniform Info ── */}
-      <section className="py-16 md:py-24 bg-[#003285] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-[#4F46E5] relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#FFDA78]/10 blur-[120px] rounded-full" />
+          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#F59E0B]/10 blur-[120px] rounded-full" />
         </div>
         <div className="container px-4 md:px-6 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
             <div className="space-y-6">
               <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-                Uniform &amp; <span className="text-[#FFDA78]">Dress Code</span>
+                Uniform &amp; <span className="text-[#F59E0B]">Dress Code</span>
               </h2>
-              <p className="text-blue-100/80 text-lg font-medium leading-relaxed">
+              <p className="text-white/80 text-lg font-medium leading-relaxed">
                 The SSD uniform is primarily <strong className="text-white">Khaki (खाकी)</strong> for both shirt and pant,
                 reflecting the paramilitary discipline of the organization. Higher ranks may feature dark blue accents.
               </p>
@@ -516,8 +516,8 @@ export default function RankStructurePage() {
                   "SSD flag: Dark Blue (primary color of the flag)",
                   "Belt, badges, and rank insignia for officers",
                 ].map((point) => (
-                  <li key={point} className="flex items-start gap-3 text-blue-100/90 font-medium">
-                    <div className="w-5 h-5 flex-shrink-0 rounded-full bg-[#FF7F3E] flex items-center justify-center mt-0.5">
+                  <li key={point} className="flex items-start gap-3 text-white/90 font-medium">
+                    <div className="w-5 h-5 flex-shrink-0 rounded-full bg-[#F59E0B] flex items-center justify-center mt-0.5">
                       <Shield className="w-3 h-3 text-white" />
                     </div>
                     <span>{point}</span>
@@ -527,17 +527,17 @@ export default function RankStructurePage() {
             </div>
             <div className="flex justify-center">
               <div className="relative group">
-                <div className="absolute -inset-4 bg-gradient-to-tr from-[#FF7F3E] to-[#FFDA78] rounded-[50px] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
+                <div className="absolute -inset-4 bg-gradient-to-tr from-[#F59E0B] to-[#F59E0B] rounded-[50px] blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
                 <div className="relative w-full max-w-xs bg-white rounded-[40px] p-10 shadow-2xl text-center">
                   <div className="text-7xl mb-6">👔</div>
-                  <h3 className="text-2xl font-black text-[#003285] mb-2">खाकी Uniform</h3>
-                  <p className="text-xs text-[#2A629A] font-bold tracking-[0.25em] uppercase mb-6">Since 1927</p>
-                  <div className="h-px w-12 bg-[#FF7F3E] mx-auto mb-6" />
+                  <h3 className="text-2xl font-black text-[#4F46E5] mb-2">खाकी Uniform</h3>
+                  <p className="text-xs text-[#64748B] font-bold tracking-[0.25em] uppercase mb-6">Since 1927</p>
+                  <div className="h-px w-12 bg-[#F59E0B] mx-auto mb-6" />
                   <div className="flex justify-center gap-3">
                     <div className="w-10 h-10 rounded-lg" style={{ background: "#c8a96e" }} title="Khaki" />
-                    <div className="w-10 h-10 rounded-lg" style={{ background: "#003285" }} title="Deep Blue" />
-                    <div className="w-10 h-10 rounded-lg" style={{ background: "#FFDA78" }} title="Gold" />
-                    <div className="w-10 h-10 rounded-lg" style={{ background: "#FF7F3E" }} title="Orange" />
+                    <div className="w-10 h-10 rounded-lg" style={{ background: "#4F46E5" }} title="Deep Blue" />
+                    <div className="w-10 h-10 rounded-lg" style={{ background: "#F59E0B" }} title="Gold" />
+                    <div className="w-10 h-10 rounded-lg" style={{ background: "#F59E0B" }} title="Orange" />
                   </div>
                 </div>
               </div>
@@ -549,30 +549,30 @@ export default function RankStructurePage() {
       {/* ── Important Notes ── */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container px-4 md:px-6 max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black text-[#003285] mb-8 text-center">
-            Important <span className="text-[#FF7F3E]">Notes</span>
+          <h2 className="text-4xl md:text-5xl font-black text-[#4F46E5] mb-8 text-center">
+            Important <span className="text-[#F59E0B]">Notes</span>
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {[
               {
                 title: "Historical Foundation",
                 text: "SSD was established by Dr. B.R. Ambedkar in 1927 as a volunteer force to protect Dalit/oppressed communities and promote social equality, justice and fraternity.",
-                color: "#003285",
+                color: "#4F46E5",
               },
               {
                 title: "Army-Inspired Structure",
                 text: "The rank system mirrors the Indian Army's hierarchy but serves a social purpose — organizing disciplined volunteers for non-violent resistance and community service.",
-                color: "#2A629A",
+                color: "#64748B",
               },
               {
                 title: "Core Purpose",
                 text: 'Annihilation of caste-based inequality • Establishing liberty, equality, and fraternity • Service to workers, laborers, Dalits, and the oppressed.',
-                color: "#FF7F3E",
+                color: "#F59E0B",
               },
               {
                 title: "Evolving Organization",
                 text: "The basic hierarchy remains constant, but specific wings or state units may have additional positions. Check official SSD websites for the latest updates.",
-                color: "#FFDA78",
+                color: "#F59E0B",
               },
             ].map((note) => (
               <div
@@ -580,7 +580,7 @@ export default function RankStructurePage() {
                 className="p-8 rounded-[28px] border-l-8 bg-slate-50 hover:shadow-lg transition-all duration-300"
                 style={{ borderColor: note.color }}
               >
-                <h4 className="text-lg font-black mb-2" style={{ color: note.color === "#FFDA78" ? "#003285" : note.color }}>
+                <h4 className="text-lg font-black mb-2" style={{ color: note.color === "#F59E0B" ? "#4F46E5" : note.color }}>
                   {note.title}
                 </h4>
                 <p className="text-slate-600 font-medium text-sm leading-relaxed">{note.text}</p>
@@ -588,7 +588,7 @@ export default function RankStructurePage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <p className="text-[#003285] font-black text-2xl">
+            <p className="text-[#4F46E5] font-black text-2xl">
               जय भीम! जय समता! 🙏
             </p>
             <p className="text-slate-400 text-sm mt-2 font-medium">

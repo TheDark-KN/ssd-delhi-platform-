@@ -156,8 +156,8 @@ const TabButton: React.FC<TabButtonProps> = ({ active, onClick, children }) => (
   <button
     onClick={onClick}
     className={`px-6 py-3 font-medium text-sm rounded-lg transition-all duration-200 ${active
-      ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
-      : "text-gray-600 hover:text-indigo-600 hover:bg-indigo-50"
+      ? "bg-primary/10 text-white shadow-lg shadow-primary/10"
+      : "text-gray-600 hover:text-primary hover:bg-primary/10"
       }`}
   >
     {children}
@@ -194,12 +194,12 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, viewMode }) => {
         )}
         <div className="flex-1 p-6">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2.5 py-0.5 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium">
+            <span className="px-2.5 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium">
               {blog.category}
             </span>
             <span className="text-xs text-gray-500 uppercase">{blog.language}</span>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-indigo-600 transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-primary transition-colors">
             <a href={`/blogs/${blog.slug}`}>{blog.title}</a>
           </h3>
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -236,13 +236,13 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, viewMode }) => {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3">
-            <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-indigo-700 rounded-full text-xs font-medium">
+            <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-xs font-medium">
               {blog.category}
             </span>
           </div>
         </div>
       ) : (
-        <div className="h-48 bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+        <div className="h-48 bg-gradient-to-br from-primary/100 to-primary flex items-center justify-center">
           <DocumentIcon />
         </div>
       )}
@@ -255,7 +255,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, viewMode }) => {
             {blog.viewCount}
           </span>
         </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
           <a href={`/blogs/${blog.slug}`}>{blog.title}</a>
         </h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -270,7 +270,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, viewMode }) => {
                 className="w-8 h-8 rounded-full object-cover"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold text-sm">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
                 {blog.authorName.charAt(0)}
               </div>
             )}
@@ -313,17 +313,17 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, viewMode }) => {
         )}
         <div className="flex-1 p-6">
           <div className="flex items-center gap-2 mb-2">
-            <span className="px-2.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">
+            <span className="px-2.5 py-0.5 bg-success/10 text-success rounded-full text-xs font-medium">
               {article.category}
             </span>
             {article.featured && (
-              <span className="px-2.5 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
+              <span className="px-2.5 py-0.5 bg-accent/10 text-accent-foreground rounded-full text-xs font-medium">
                 Featured
               </span>
             )}
             <span className="text-xs text-gray-500 uppercase">{article.language}</span>
           </div>
-          <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-indigo-600 transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-primary transition-colors">
             <a href={`/articles/${article.slug}`}>{article.title}</a>
           </h3>
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -358,18 +358,18 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, viewMode }) => {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           <div className="absolute top-3 left-3 flex gap-2">
-            <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-emerald-700 rounded-full text-xs font-medium">
+            <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-success rounded-full text-xs font-medium">
               {article.category}
             </span>
             {article.featured && (
-              <span className="px-2.5 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
+              <span className="px-2.5 py-1 bg-accent/10 text-white rounded-full text-xs font-medium">
                 ★ Featured
               </span>
             )}
           </div>
         </div>
       ) : (
-        <div className="h-48 bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white">
+        <div className="h-48 bg-gradient-to-br from-success to-teal-600 flex items-center justify-center text-white">
           <DocumentIcon />
         </div>
       )}
@@ -382,7 +382,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, viewMode }) => {
             {article.viewCount}
           </span>
         </div>
-        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">
+        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
           <a href={`/articles/${article.slug}`}>{article.title}</a>
         </h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{article.excerpt}</p>
@@ -395,7 +395,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article, viewMode }) => {
                 className="w-8 h-8 rounded-full object-cover"
               />
             ) : (
-              <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-semibold text-sm">
+              <div className="w-8 h-8 rounded-full bg-success/10 flex items-center justify-center text-success font-semibold text-sm">
                 {article.authorName.charAt(0)}
               </div>
             )}
@@ -437,11 +437,11 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
   const getTypeColor = () => {
     switch (media.type) {
       case "image":
-        return "from-purple-500 to-pink-500";
+        return "from-primary to-pink-500";
       case "video":
-        return "from-red-500 to-orange-500";
+        return "from-error to-accent/10";
       case "document":
-        return "from-blue-500 to-cyan-500";
+        return "from-muted0 to-accent";
     }
   };
 
@@ -456,11 +456,11 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
             <span className="px-2 py-0.5 bg-gray-100 text-gray-700 rounded text-xs font-medium uppercase">
               {media.type}
             </span>
-            <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 rounded text-xs font-medium">
+            <span className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium">
               {media.category}
             </span>
             {media.featured && (
-              <span className="px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-xs font-medium">
+              <span className="px-2 py-0.5 bg-accent/10 text-accent-foreground rounded text-xs font-medium">
                 Featured
               </span>
             )}
@@ -475,7 +475,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
             href={media.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+            className="p-3 text-primary hover:bg-primary/10 rounded-lg transition-colors"
           >
             <DownloadIcon />
           </a>
@@ -508,7 +508,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
             {media.type}
           </span>
           {media.featured && (
-            <span className="px-2.5 py-1 bg-amber-500 text-white rounded-full text-xs font-medium">
+            <span className="px-2.5 py-1 bg-accent/10 text-white rounded-full text-xs font-medium">
               ★
             </span>
           )}
@@ -519,7 +519,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
               href={media.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-4 bg-white/90 backdrop-blur-sm rounded-full text-indigo-600 hover:bg-white transition-colors shadow-lg"
+              className="p-4 bg-white/90 backdrop-blur-sm rounded-full text-primary hover:bg-white transition-colors shadow-lg"
             >
               <DownloadIcon />
             </a>
@@ -527,7 +527,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
         )}
       </div>
       <div className="p-4">
-        <span className="px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded text-xs font-medium">
+        <span className="px-2 py-0.5 bg-primary/10 text-primary rounded text-xs font-medium">
           {media.category}
         </span>
         <h3 className="font-semibold text-gray-900 mt-2 line-clamp-1">{media.title}</h3>
@@ -539,7 +539,7 @@ const MediaCard: React.FC<MediaCardProps> = ({ media, viewMode }) => {
               href={media.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
+              className="text-sm text-primary hover:text-primary font-medium"
             >
               View →
             </a>
@@ -574,7 +574,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
           key={page}
           onClick={() => onPageChange(page)}
           className={`w-10 h-10 rounded-lg font-medium transition-colors ${currentPage === page
-            ? "bg-indigo-600 text-white"
+            ? "bg-primary/10 text-white"
             : "border border-gray-200 hover:bg-gray-50"
             }`}
         >
@@ -678,7 +678,7 @@ export default function ContentDisplay() {
               <button
                 onClick={() => setViewMode("grid")}
                 className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
-                  ? "bg-indigo-100 text-indigo-600"
+                  ? "bg-primary/10 text-primary"
                   : "text-gray-400 hover:text-gray-600"
                   }`}
               >
@@ -687,7 +687,7 @@ export default function ContentDisplay() {
               <button
                 onClick={() => setViewMode("list")}
                 className={`p-2 rounded-lg transition-colors ${viewMode === "list"
-                  ? "bg-indigo-100 text-indigo-600"
+                  ? "bg-primary/10 text-primary"
                   : "text-gray-400 hover:text-gray-600"
                   }`}
               >
@@ -723,7 +723,7 @@ export default function ContentDisplay() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/100 focus:border-transparent"
                 />
                 <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                   <SearchIcon />
@@ -737,7 +737,7 @@ export default function ContentDisplay() {
               <select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                className="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/100 focus:border-transparent"
               >
                 <option value="all">All Categories</option>
                 {categories?.map((cat: { name: string; count: number }) => (
@@ -753,7 +753,7 @@ export default function ContentDisplay() {
               <select
                 value={selectedLanguage}
                 onChange={(e) => setSelectedLanguage(e.target.value)}
-                className="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/100 focus:border-transparent"
               >
                 <option value="all">All Languages</option>
                 <option value="en">English</option>
@@ -765,7 +765,7 @@ export default function ContentDisplay() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/100 focus:border-transparent"
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
@@ -845,7 +845,7 @@ export default function ContentDisplay() {
           </>
         ) : (
           <div className="flex items-center justify-center py-16">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary/10"></div>
           </div>
         )}
       </main>

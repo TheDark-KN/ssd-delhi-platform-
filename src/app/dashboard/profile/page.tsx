@@ -138,9 +138,9 @@ export default function ProfilePage() {
               </CardHeader>
               <CardContent>
                 {draftRestored && (
-                  <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
-                    <SaveIcon className="w-5 h-5 text-green-600 flex-shrink-0" />
-                    <p className="text-green-700 text-sm font-medium">
+                  <div className="mb-6 bg-success/10 border border-success/30 rounded-xl p-3 flex items-center gap-3">
+                    <SaveIcon className="w-5 h-5 text-success flex-shrink-0" />
+                    <p className="text-success text-sm font-medium">
                       Your previous changes have been restored!
                     </p>
                   </div>

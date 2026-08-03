@@ -33,8 +33,8 @@ export default function SSOCallbackPage() {
   return (
     <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center">
       <div className="text-center">
-        <Loader2 className="h-12 w-12 animate-spin mx-auto text-[#003285] mb-4" />
-        <h2 className="text-xl font-semibold text-[#003285]">
+        <Loader2 className="h-12 w-12 animate-spin mx-auto text-[#4F46E5] mb-4" />
+        <h2 className="text-xl font-semibold text-[#4F46E5]">
           Completing sign in...
         </h2>
         <p className="text-muted-foreground mt-2">

@@ -50,10 +50,10 @@ export default function SignUpPage() {
       <div className="w-full max-w-md">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-[#003285] shadow-lg mb-4">
-            <Shield className="h-8 w-8 text-[#FFDA78]" />
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-[#4F46E5] shadow-lg mb-4">
+            <Shield className="h-8 w-8 text-[#F59E0B]" />
           </div>
-          <h1 className="text-3xl font-bold text-[#003285]">
+          <h1 className="text-3xl font-bold text-[#4F46E5]">
             Create Account
           </h1>
           <p className="text-muted-foreground mt-2">
@@ -116,7 +116,7 @@ export default function SignUpPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-[#003285] hover:bg-[#00286c] text-white font-semibold"
+                className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Sign Up"}
@@ -128,7 +128,7 @@ export default function SignUpPage() {
                 Already have an account?{" "}
                 <a
                   href="/sign-in"
-                  className="text-[#003285] font-semibold hover:underline"
+                  className="text-[#4F46E5] font-semibold hover:underline"
                 >
                   Sign In
                 </a>

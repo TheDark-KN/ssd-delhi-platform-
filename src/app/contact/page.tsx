@@ -88,21 +88,21 @@ export default function ContactPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-[#4F46E5] overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#F59E0B]/20 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
-            <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
+            <Badge variant="outline" className="border-[#F59E0B] text-[#F59E0B] bg-[#F59E0B]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               📞 Get in Touch
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
-              Connect with <span className="text-[#FFDA78]">SSD Delhi</span>
+              Connect with <span className="text-[#F59E0B]">SSD Delhi</span>
             </h1>
-            <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="text-xl text-white/90 font-medium leading-relaxed max-w-2xl">
               Have questions? We&apos;re here to help and answer any questions you might have about the movement, membership, or our programs.
             </p>
           </div>
@@ -116,14 +116,14 @@ export default function ContactPage() {
             {/* Contact Form */}
             <Card className="border-none shadow-2xl shadow-slate-100/60 rounded-[40px] overflow-hidden bg-white p-8 md:p-12">
               <div className="mb-6">
-                <h2 className="text-3xl font-black text-[#003285] mb-2">Send us a Message</h2>
+                <h2 className="text-3xl font-black text-[#4F46E5] mb-2">Send us a Message</h2>
                 <p className="text-slate-500 font-medium">Fill out the form below and we'll get back to you as soon as possible.</p>
               </div>
 
               {draftRestored && (
-                <div className="mb-6 bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
-                  <Save className="w-5 h-5 text-green-600 flex-shrink-0" />
-                  <p className="text-green-700 text-sm font-medium">
+                <div className="mb-6 bg-success/10 border border-success/30 rounded-xl p-3 flex items-center gap-3">
+                  <Save className="w-5 h-5 text-success flex-shrink-0" />
+                  <p className="text-success text-sm font-medium">
                     Your previous message has been restored!
                   </p>
                 </div>
@@ -146,9 +146,9 @@ export default function ContactPage() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs font-black text-[#2A629A] uppercase tracking-widest">Name</FormLabel>
+                          <FormLabel className="text-xs font-black text-[#64748B] uppercase tracking-widest">Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Your name" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#FF7F3E]" />
+                            <Input placeholder="Your name" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#F59E0B]" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -159,9 +159,9 @@ export default function ContactPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-xs font-black text-[#2A629A] uppercase tracking-widest">Email</FormLabel>
+                          <FormLabel className="text-xs font-black text-[#64748B] uppercase tracking-widest">Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="your@email.com" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#FF7F3E]" />
+                            <Input placeholder="your@email.com" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#F59E0B]" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -173,9 +173,9 @@ export default function ContactPage() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-black text-[#2A629A] uppercase tracking-widest">Phone (Optional)</FormLabel>
+                        <FormLabel className="text-xs font-black text-[#64748B] uppercase tracking-widest">Phone (Optional)</FormLabel>
                         <FormControl>
-                          <Input placeholder="+91 98765 43210" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#FF7F3E]" />
+                          <Input placeholder="+91 98765 43210" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#F59E0B]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -186,9 +186,9 @@ export default function ContactPage() {
                     name="subject"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-black text-[#2A629A] uppercase tracking-widest">Subject</FormLabel>
+                        <FormLabel className="text-xs font-black text-[#64748B] uppercase tracking-widest">Subject</FormLabel>
                         <FormControl>
-                          <Input placeholder="What is this regarding?" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#FF7F3E]" />
+                          <Input placeholder="What is this regarding?" {...field} className="rounded-2xl border-slate-100 bg-slate-50 py-6 focus:ring-[#F59E0B]" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -199,10 +199,10 @@ export default function ContactPage() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-xs font-black text-[#2A629A] uppercase tracking-widest">Message</FormLabel>
+                        <FormLabel className="text-xs font-black text-[#64748B] uppercase tracking-widest">Message</FormLabel>
                         <FormControl>
                           <textarea
-                            className="w-full min-h-[150px] px-5 py-4 border-2 border-slate-50 rounded-2xl bg-slate-50 focus:outline-none focus:border-[#FF7F3E]/30 focus:bg-white transition-all font-medium text-slate-700 placeholder:text-slate-400"
+                            className="w-full min-h-[150px] px-5 py-4 border-2 border-slate-50 rounded-2xl bg-slate-50 focus:outline-none focus:border-[#F59E0B]/30 focus:bg-white transition-all font-medium text-slate-700 placeholder:text-slate-400"
                             placeholder="Your message..."
                             {...field}
                           />
@@ -211,7 +211,7 @@ export default function ContactPage() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full py-7 bg-[#FF7F3E] hover:bg-[#ff6a1a] rounded-2xl text-white font-black uppercase tracking-widest shadow-xl shadow-[#FF7F3E]/20" disabled={isSubmitting}>
+                  <Button type="submit" className="w-full py-7 bg-[#F59E0B] hover:bg-[#D97706] rounded-2xl text-white font-black uppercase tracking-widest shadow-xl shadow-[#F59E0B]/20" disabled={isSubmitting}>
                     <Send className="h-5 w-5 mr-3" />
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>

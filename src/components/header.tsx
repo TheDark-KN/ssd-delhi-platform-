@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Globe, Shield } from "lucide-react";
+import { MaterialIcon } from "@/components/ui/material-icon";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -99,10 +100,10 @@ export function Header() {
             <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" priority />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-xl tracking-tight text-[#003285]">
+            <span className="font-bold text-xl tracking-tight text-[#4F46E5]">
               SSD Delhi
             </span>
-            <span className="text-[10px] text-[#2A629A] font-bold tracking-[0.2em] uppercase">
+            <span className="text-[10px] text-[#64748B] font-bold tracking-[0.2em] uppercase">
               समता सैनिक दल
             </span>
           </div>
@@ -146,8 +147,8 @@ export function Header() {
                     href={item.href}
                     className={cn(
                       navigationMenuTriggerStyle(),
-                      "font-semibold text-xs uppercase tracking-widest text-[#2A629A] hover:text-[#003285] transition-colors",
-                      pathname === item.href && "text-[#003285] font-bold"
+                      "font-semibold text-xs uppercase tracking-widest text-[#64748B] hover:text-[#4F46E5] transition-colors",
+                      pathname === item.href && "text-[#4F46E5] font-bold"
                     )}
                   >
                     <Link href={item.href}>
@@ -167,9 +168,9 @@ export function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleLanguage}
-            className="hidden md:flex hover:bg-primary/10 hover:text-primary"
+            className="hidden md:flex hover:bg-primary/10 hover:text-primary items-center justify-center p-0"
           >
-            <Globe className="h-5 w-5" />
+            <MaterialIcon icon="language" variant="rounded" className="text-[22px]" />
             <span className="sr-only">Toggle language</span>
           </Button>
 
@@ -200,7 +201,7 @@ export function Header() {
         <div className="hidden lg:block ml-4">
           <Link
             href={highlightedNavItem.href}
-            className="bg-[#FF7F3E]/10 text-[#FF7F3E] font-bold border-2 border-[#FF7F3E] rounded-full px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#FF7F3E]/20 transition-all duration-300 flex items-center gap-2"
+            className="bg-[#F59E0B]/10 text-[#F59E0B] font-bold border-2 border-[#F59E0B] rounded-full px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#F59E0B]/20 transition-all duration-300 flex items-center gap-2"
           >
             <span>🎉</span>
             <span>{highlightedNavItem.title}</span>
@@ -245,7 +246,7 @@ export function Header() {
             <div className="pt-2">
               <Link
                 href={highlightedNavItem.href}
-                className="block px-3 py-2 font-bold text-[#FF7F3E] bg-[#FF7F3E]/10 rounded-md transition-colors"
+                className="block px-3 py-2 font-bold text-[#F59E0B] bg-[#F59E0B]/10 rounded-md transition-colors"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 🎉 {highlightedNavItem.title}
