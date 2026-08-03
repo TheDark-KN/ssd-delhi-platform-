@@ -2,7 +2,7 @@ import { MaterialIcon } from "@/components/ui/material-icon";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const commonIcons = [
-  "home", "settings", "favorite", "search", "person", 
+  "home", "settings", "favorite", "search", "person",
   "mail", "notifications", "menu", "close", "check",
   "add", "remove", "edit", "delete", "share",
   "cloud", "camera", "image", "music_note", "videocam",
@@ -15,7 +15,7 @@ export default function IconsDemoPage() {
       <div className="mb-12 text-center">
         <h1 className="text-4xl font-bold text-brand-deep mb-4">Material Symbols</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          We've integrated Google Material Symbols (Outlined, Rounded, and Sharp) into the platform. 
+          We've integrated Google Material Symbols (Outlined, Rounded, and Sharp) into the platform.
           Use the <code>MaterialIcon</code> component for a clean and modern look.
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function IconsDemoPage() {
           <CardContent>
             <div className="flex flex-wrap gap-8 items-center justify-center">
               <div className="flex flex-col items-center gap-2">
-                <MaterialIcon icon="favorite" fill className="text-red-500 text-5xl" />
+                <MaterialIcon icon="favorite" fill className="text-error text-5xl" />
                 <span className="text-xs font-medium">Filled</span>
               </div>
               <div className="flex flex-col items-center gap-2">
@@ -102,7 +102,7 @@ export default function IconsDemoPage() {
                 <span className="text-xs font-medium">Large Optical Size</span>
               </div>
               <div className="flex flex-col items-center gap-2">
-                <MaterialIcon icon="local_fire_department" grade={200} fill className="text-orange-500 text-5xl" />
+                <MaterialIcon icon="local_fire_department" grade={200} fill className="text-accent-foreground text-5xl" />
                 <span className="text-xs font-medium">High Grade</span>
               </div>
             </div>

@@ -38,21 +38,21 @@ export default function BlogPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-[#4F46E5] overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#F59E0B]/20 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
-            <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
+            <Badge variant="outline" className="border-[#F59E0B] text-[#F59E0B] bg-[#F59E0B]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               📝 Community Blog
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
-              Voices of the <span className="text-[#FFDA78]">Movement</span>
+              Voices of the <span className="text-[#F59E0B]">Movement</span>
             </h1>
-            <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="text-xl text-white/90 font-medium leading-relaxed max-w-2xl">
               Stories, reflections, and updates from the SSD community. Read personal experiences, event reflections, and community stories.
             </p>
           </div>
@@ -64,12 +64,12 @@ export default function BlogPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             <div className="relative flex-1 w-full lg:max-w-md group">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#003285] transition-colors" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#4F46E5] transition-colors" />
               <Input
                 placeholder="Search stories..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 py-6 rounded-2xl border-slate-200 focus:ring-[#003285] focus:border-[#003285] transition-all"
+                className="pl-12 py-6 rounded-2xl border-slate-200 focus:ring-[#4F46E5] focus:border-[#4F46E5] transition-all"
               />
             </div>
             <div className="flex flex-wrap gap-2">
@@ -77,7 +77,7 @@ export default function BlogPage() {
                 variant={!selectedCategory ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(null)}
-                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedCategory ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedCategory ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
               >
                 All Stories
               </Button>
@@ -87,7 +87,7 @@ export default function BlogPage() {
                   variant={selectedCategory === category ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedCategory === category ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedCategory === category ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
                 >
                   {category}
                 </Button>
@@ -125,7 +125,7 @@ export default function BlogPage() {
               {filteredBlogs.map((blog: any) => (
                 <Link key={blog._id} href={`/blog/${blog.slug}`} className="group">
                   <Card className="h-full border-none shadow-xl shadow-slate-100/60 rounded-[40px] overflow-hidden group-hover:-translate-y-2 transition-all duration-300">
-                    <div className="aspect-[4/3] bg-gradient-to-br from-[#003285] to-[#2A629A] relative overflow-hidden">
+                    <div className="aspect-[4/3] bg-gradient-to-br from-[#4F46E5] to-[#64748B] relative overflow-hidden">
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
                       <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/10 font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
                         {blog.category}
@@ -135,7 +135,7 @@ export default function BlogPage() {
                       </Badge>
                     </div>
                     <CardHeader className="p-10">
-                      <CardTitle className="text-2xl font-black text-[#003285] group-hover:text-[#FF7F3E] transition-colors leading-tight mb-4 line-clamp-2">
+                      <CardTitle className="text-2xl font-black text-[#4F46E5] group-hover:text-[#F59E0B] transition-colors leading-tight mb-4 line-clamp-2">
                         {blog.title}
                       </CardTitle>
                       <CardDescription className="text-slate-500 line-clamp-3 text-base font-medium leading-relaxed mb-8">
@@ -143,11 +143,11 @@ export default function BlogPage() {
                       </CardDescription>
                       <div className="flex items-center justify-between text-xs font-black text-slate-400 border-t border-slate-50 pt-6">
                         <div className="flex items-center gap-2">
-                          <User className="h-4 w-4 text-[#2A629A]" />
+                          <User className="h-4 w-4 text-[#64748B]" />
                           SSD COMMUNITY AUTHOR
                         </div>
                         <div className="flex items-center gap-2">
-                          <Eye className="h-4 w-4 text-[#2A629A]" />
+                          <Eye className="h-4 w-4 text-[#64748B]" />
                           {blog.viewCount.toLocaleString()}
                         </div>
                       </div>

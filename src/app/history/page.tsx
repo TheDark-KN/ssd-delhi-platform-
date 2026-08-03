@@ -16,24 +16,24 @@ export default function HistoryPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section - Server Rendered */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-[#4F46E5] overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#F59E0B]/20 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
-            <Badge 
-              variant="outline" 
-              className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full"
+            <Badge
+              variant="outline"
+              className="border-[#F59E0B] text-[#F59E0B] bg-[#F59E0B]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full"
             >
               📜 Historical Archive
             </Badge>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-tight">
-              A Century of <span className="text-[#FFDA78]">Struggle</span>
+              A Century of <span className="text-[#F59E0B]">Struggle</span>
             </h1>
-            <p className="text-lg sm:text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="text-lg sm:text-xl text-white/90 font-medium leading-relaxed max-w-2xl">
               SSD Delhi: Soldiers for Equality since 1924. Building a casteless society through discipline, education, and non-violent resistance.
             </p>
           </div>

@@ -47,21 +47,21 @@ export default function GalleryPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-[#4F46E5] overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#F59E0B]/20 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
-            <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
+            <Badge variant="outline" className="border-[#F59E0B] text-[#F59E0B] bg-[#F59E0B]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               📸 Media Gallery
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
-              A Century in <span className="text-[#FFDA78]">Pictures</span>
+              A Century in <span className="text-[#F59E0B]">Pictures</span>
             </h1>
-            <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="text-xl text-white/90 font-medium leading-relaxed max-w-2xl">
               Photos, videos, and documents from SSD Delhi activities. Explore our legacy and the movement&apos;s journey.
             </p>
           </div>
@@ -73,12 +73,12 @@ export default function GalleryPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             <div className="relative flex-1 w-full lg:max-w-md group">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#003285] transition-colors" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#4F46E5] transition-colors" />
               <Input
                 placeholder="Search gallery..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 py-6 rounded-2xl border-slate-200 focus:ring-[#003285] focus:border-[#003285] transition-all"
+                className="pl-12 py-6 rounded-2xl border-slate-200 focus:ring-[#4F46E5] focus:border-[#4F46E5] transition-all"
               />
             </div>
             <div className="flex flex-wrap gap-2">
@@ -86,7 +86,7 @@ export default function GalleryPage() {
                 variant={!selectedType ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedType(null)}
-                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedType ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedType ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
               >
                 All Media
               </Button>
@@ -96,7 +96,7 @@ export default function GalleryPage() {
                   variant={selectedType === type ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedType(type)}
-                  className={cn("rounded-full px-5 capitalize font-bold tracking-tight", selectedType === type ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                  className={cn("rounded-full px-5 capitalize font-bold tracking-tight", selectedType === type ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
                 >
                   {type}
                 </Button>
@@ -107,7 +107,7 @@ export default function GalleryPage() {
                   variant={selectedCategory === category ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className={cn("rounded-full px-5 font-bold tracking-tight", selectedCategory === category ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                  className={cn("rounded-full px-5 font-bold tracking-tight", selectedCategory === category ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
                 >
                   {category}
                 </Button>
@@ -147,12 +147,12 @@ export default function GalleryPage() {
                   <Card key={item._id} className="border-none shadow-xl shadow-slate-100/60 rounded-[40px] overflow-hidden group hover:-translate-y-2 transition-all duration-300">
                     <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden group">
                       {item.type === "image" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#003285] to-[#2A629A]">
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#4F46E5] to-[#64748B]">
                           <Image className="h-16 w-16 text-white/20" />
                         </div>
                       )}
                       {item.type === "video" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#003285] to-[#2A629A]">
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#4F46E5] to-[#64748B]">
                           <div className="h-20 w-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
                             <Video className="h-10 w-10 text-white" />
                           </div>
@@ -160,7 +160,7 @@ export default function GalleryPage() {
                       )}
                       {item.type === "document" && (
                         <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
-                          <FileText className="h-16 w-16 text-[#003285]/20" />
+                          <FileText className="h-16 w-16 text-[#4F46E5]/20" />
                         </div>
                       )}
                       <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/10 font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
@@ -170,14 +170,14 @@ export default function GalleryPage() {
                     </div>
                     <CardContent className="p-10">
                       <div className="flex items-center justify-between mb-4">
-                        <Badge className="bg-[#2A629A]/10 text-[#2A629A] border-none font-black uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
+                        <Badge className="bg-[#64748B]/10 text-[#64748B] border-none font-black uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
                           {item.category}
                         </Badge>
                         {item.year && (
                           <span className="text-xs font-black text-slate-400">{item.year}</span>
                         )}
                       </div>
-                      <CardTitle className="text-2xl font-black text-[#003285] mb-4 group-hover:text-[#FF7F3E] transition-colors">{item.title}</CardTitle>
+                      <CardTitle className="text-2xl font-black text-[#4F46E5] mb-4 group-hover:text-[#F59E0B] transition-colors">{item.title}</CardTitle>
                       {item.description && (
                         <CardDescription className="text-slate-500 font-medium line-clamp-2 text-base leading-relaxed mb-6">
                           {item.description}

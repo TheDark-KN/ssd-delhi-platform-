@@ -94,12 +94,12 @@ const MetricCard: React.FC<MetricCardProps> = ({ title, value, icon, trend, tren
         <p className="text-sm font-medium text-gray-500">{title}</p>
         <p className="text-2xl font-bold text-gray-900 mt-1">{value}</p>
         {trend && (
-          <p className={`text-sm mt-2 ${trendUp ? "text-green-600" : "text-red-600"}`}>
+          <p className={`text-sm mt-2 ${trendUp ? "text-success" : "text-error"}`}>
             {trendUp ? "↑" : "↓"} {trend}
           </p>
         )}
       </div>
-      <div className="p-3 bg-indigo-50 rounded-lg text-indigo-600">{icon}</div>
+      <div className="p-3 bg-primary/10 rounded-lg text-primary">{icon}</div>
     </div>
   </div>
 );
@@ -112,8 +112,8 @@ interface StatusBadgeProps {
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => (
   <span
     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status === "completed"
-      ? "bg-green-100 text-green-800"
-      : "bg-yellow-100 text-yellow-800"
+      ? "bg-success/10 text-success"
+      : "bg-accent/10 text-accent-foreground"
       }`}
   >
     {status === "completed" ? "✓" : "○"} {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -169,7 +169,7 @@ export default function Dashboard() {
         {/* Logo */}
         <div className="h-16 flex items-center justify-between px-4 border-b border-gray-200">
           {!sidebarCollapsed && (
-            <span className="text-xl font-bold text-indigo-600">SSD Delhi</span>
+            <span className="text-xl font-bold text-primary">SSD Delhi</span>
           )}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -186,7 +186,7 @@ export default function Dashboard() {
               key={item.name}
               href={`/${item.name.toLowerCase()}`}
               className={`flex items-center px-4 py-3 mx-2 my-1 rounded-lg transition-colors ${item.active
-                ? "bg-indigo-50 text-indigo-600"
+                ? "bg-primary/10 text-primary"
                 : "text-gray-600 hover:bg-gray-100"
                 }`}
             >
@@ -201,7 +201,7 @@ export default function Dashboard() {
         {/* User Profile */}
         <div className="p-4 border-t border-gray-200">
           <div className={`flex items-center ${sidebarCollapsed ? "justify-center" : ""}`}>
-            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-semibold">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
               A
             </div>
             {!sidebarCollapsed && (
@@ -371,7 +371,7 @@ export default function Dashboard() {
                   {activityData?.activities.map((activity) => (
                     <tr
                       key={activity.id}
-                      className="hover:bg-indigo-50 transition-colors duration-150"
+                      className="hover:bg-primary/10 transition-colors duration-150"
                     >
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="text-sm font-medium text-gray-900">
@@ -428,7 +428,7 @@ export default function Dashboard() {
                         key={page}
                         onClick={() => setCurrentPage(page)}
                         className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${currentPage === page
-                          ? "bg-indigo-600 text-white"
+                          ? "bg-primary/10 text-white"
                           : "text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
                           }`}
                       >

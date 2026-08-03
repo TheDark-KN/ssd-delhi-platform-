@@ -66,8 +66,8 @@ export default function AdminArticlesPage() {
   const getStatusColor = (status: string) => {
     const colors: Record<string, string> = {
       draft: "bg-gray-100 text-gray-800",
-      published: "bg-green-100 text-green-800",
-      archived: "bg-yellow-100 text-yellow-800",
+      published: "bg-success/10 text-success",
+      archived: "bg-accent/10 text-accent-foreground",
     };
     return colors[status] || "bg-gray-100 text-gray-800";
   };

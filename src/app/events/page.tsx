@@ -48,21 +48,21 @@ export default function EventsPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-[#4F46E5] overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#F59E0B]/20 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
-            <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
+            <Badge variant="outline" className="border-[#F59E0B] text-[#F59E0B] bg-[#F59E0B]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               📅 Events & Programs
             </Badge>
             <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
-              Action for <span className="text-[#FFDA78]">Equality</span>
+              Action for <span className="text-[#F59E0B]">Equality</span>
             </h1>
-            <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="text-xl text-white/90 font-medium leading-relaxed max-w-2xl">
               Participate in SSD Delhi&apos;s events and activities. Join meetings, training sessions, and community service programs.
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function EventsPage() {
                 variant={!selectedStatus ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedStatus(null)}
-                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedStatus ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedStatus ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
               >
                 All Events
               </Button>
@@ -88,7 +88,7 @@ export default function EventsPage() {
                   variant={selectedStatus === status ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedStatus(status)}
-                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedStatus === status ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedStatus === status ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
                 >
                   {status}
                 </Button>
@@ -99,7 +99,7 @@ export default function EventsPage() {
                   variant={selectedCategory === category ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedCategory === category ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedCategory === category ? "bg-[#4F46E5] hover:bg-[#4338CA]" : "border-slate-200 text-slate-600")}
                 >
                   {category}
                 </Button>
@@ -137,9 +137,9 @@ export default function EventsPage() {
               {events.map((event: any) => (
                 <Link key={event._id} href={`/events/${event.slug}`} className="group">
                   <Card className="h-full border-none shadow-xl shadow-slate-100/60 rounded-[40px] overflow-hidden group-hover:-translate-y-2 transition-all duration-300">
-                    <div className="aspect-video bg-gradient-to-br from-[#003285] to-[#2A629A] relative overflow-hidden">
+                    <div className="aspect-video bg-gradient-to-br from-[#4F46E5] to-[#64748B] relative overflow-hidden">
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
-                      <Badge className="absolute top-6 left-6 bg-[#FF7F3E] text-white border-none font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
+                      <Badge className="absolute top-6 left-6 bg-[#F59E0B] text-white border-none font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
                         {event.status}
                       </Badge>
                       <Badge className="absolute top-6 right-6 bg-white/20 backdrop-blur-md text-white border-white/10 font-bold text-[10px] px-3 py-1 rounded-full">
@@ -147,25 +147,25 @@ export default function EventsPage() {
                       </Badge>
                     </div>
                     <CardHeader className="p-8">
-                      <CardTitle className="text-2xl font-black text-[#003285] group-hover:text-[#FF7F3E] transition-colors leading-tight mb-6 line-clamp-2">
+                      <CardTitle className="text-2xl font-black text-[#4F46E5] group-hover:text-[#F59E0B] transition-colors leading-tight mb-6 line-clamp-2">
                         {event.title}
                       </CardTitle>
                       <div className="space-y-3 text-sm font-bold text-slate-500">
                         <div className="flex items-center gap-3">
-                          <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-[#2A629A]">
+                          <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-[#64748B]">
                             <Calendar className="h-4 w-4" />
                           </div>
                           {formatDateRange(event.startDate, event.endDate)}
                         </div>
                         <div className="flex items-center gap-3">
-                          <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-[#2A629A]">
+                          <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-[#64748B]">
                             <MapPin className="h-4 w-4" />
                           </div>
                           <span className="line-clamp-1">{event.venue}, {event.city}</span>
                         </div>
                         {event.maxAttendees && (
                           <div className="flex items-center gap-3">
-                            <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-[#2A629A]">
+                            <div className="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-[#64748B]">
                               <Users className="h-4 w-4" />
                             </div>
                             Max {event.maxAttendees} attendees
@@ -175,7 +175,7 @@ export default function EventsPage() {
                     </CardHeader>
                     {event.registrationDeadline && (
                       <CardContent className="px-8 pb-8 pt-0">
-                        <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#FFDA78]/10 text-[#FF7F3E] text-xs font-black uppercase tracking-widest">
+                        <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#F59E0B]/10 text-[#F59E0B] text-xs font-black uppercase tracking-widest">
                           <Clock className="h-4 w-4" />
                           Deadline: {format(event.registrationDeadline, "MMM dd")}
                         </div>

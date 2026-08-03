@@ -306,21 +306,21 @@ export default function AmbedkarJayantiRegistration() {
   if (submitted) {
     const ssdId = localStorage.getItem('ssdId') || 'SSD-DL-2026-000001';
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#003285] via-[#002561] to-[#001a3d] py-8 px-4 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#4F46E5] via-[#4338CA] to-[#4338CA] py-8 px-4 flex items-center justify-center">
         <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-12 h-12 text-green-600" />
+          <div className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle className="w-12 h-12 text-success" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Registration Confirmed!</h1>
           <p className="text-gray-600 mb-6">Jai Bhim! Jai Samta!</p>
 
-          <div className="bg-gradient-to-r from-[#FFDA78] to-[#FFE09A] rounded-2xl p-6 mb-6 border-4 border-[#FF7F3E]">
-            <p className="text-sm font-bold text-[#003285] uppercase tracking-widest mb-2">Your SSD Member ID</p>
-            <p className="text-3xl font-black text-[#003285]">{ssdId}</p>
+          <div className="bg-gradient-to-r from-[#F59E0B] to-[#FFE09A] rounded-2xl p-6 mb-6 border-4 border-[#F59E0B]">
+            <p className="text-sm font-bold text-[#4F46E5] uppercase tracking-widest mb-2">Your SSD Member ID</p>
+            <p className="text-3xl font-black text-[#4F46E5]">{ssdId}</p>
           </div>
 
-          <div className="bg-blue-50 rounded-xl p-4 mb-6 text-left">
-            <p className="text-sm font-semibold text-[#003285] mb-2">Registered Details:</p>
+          <div className="bg-muted rounded-xl p-4 mb-6 text-left">
+            <p className="text-sm font-semibold text-[#4F46E5] mb-2">Registered Details:</p>
             <p className="text-sm text-gray-700"><strong>Name:</strong> {formData.fullName}</p>
             <p className="text-sm text-gray-700"><strong>Father:</strong> {formData.fatherName}</p>
             <p className="text-sm text-gray-700"><strong>Mother:</strong> {formData.motherName}</p>
@@ -335,7 +335,7 @@ export default function AmbedkarJayantiRegistration() {
 
           <button
             onClick={() => window.location.reload()}
-            className="w-full bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white font-bold py-3 rounded-full transition-colors"
+            className="w-full bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold py-3 rounded-full transition-colors"
           >
             Register Another
           </button>
@@ -407,20 +407,20 @@ export default function AmbedkarJayantiRegistration() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#003285] via-[#002561] to-[#001a3d] py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#4F46E5] via-[#4338CA] to-[#4338CA] py-8 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
-            <Shield className="w-10 h-10 text-[#FFDA78]" />
-            <span className="bg-[#FF7F3E] text-white px-4 py-2 rounded-full text-sm font-bold">
+            <Shield className="w-10 h-10 text-[#F59E0B]" />
+            <span className="bg-[#F59E0B] text-white px-4 py-2 rounded-full text-sm font-bold">
               14 April 2026 • Delhi
             </span>
           </div>
           <h1 className="text-3xl md:text-4xl font-black text-white mb-3">
             Ambedkar Jayanti 2026
           </h1>
-          <p className="text-blue-200 text-sm">Registration Form</p>
+          <p className="text-white/80 text-sm">Registration Form</p>
         </div>
 
         {/* Progress Steps */}
@@ -429,13 +429,13 @@ export default function AmbedkarJayantiRegistration() {
             {steps.map((step, idx) => (
               <div key={step.num} className="flex items-center">
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${currentStep >= step.num
-                    ? "bg-[#FF7F3E] text-white"
+                    ? "bg-[#F59E0B] text-white"
                     : "bg-white/20 text-white/60"
                   }`}>
                   {currentStep > step.num ? "✓" : step.icon}
                 </div>
                 {idx < steps.length - 1 && (
-                  <div className={`w-8 md:w-12 h-1 ${currentStep > step.num + 1 ? "bg-[#FF7F3E]" : "bg-white/20"}`} />
+                  <div className={`w-8 md:w-12 h-1 ${currentStep > step.num + 1 ? "bg-[#F59E0B]" : "bg-white/20"}`} />
                 )}
               </div>
             ))}
@@ -444,18 +444,18 @@ export default function AmbedkarJayantiRegistration() {
 
         {/* Draft Status Banner */}
         {draftRestored && (
-          <div className="mb-4 bg-green-500/20 border border-green-500/40 rounded-xl p-3 flex items-center gap-3">
-            <Save className="w-5 h-5 text-green-400 flex-shrink-0" />
-            <p className="text-green-300 text-sm font-medium">
+          <div className="mb-4 bg-success/20 border border-success/40 rounded-xl p-3 flex items-center gap-3">
+            <Save className="w-5 h-5 text-success flex-shrink-0" />
+            <p className="text-success text-sm font-medium">
               Your previous progress has been restored!
             </p>
           </div>
         )}
 
         {lastSaved && !draftRestored && (
-          <div className="mb-4 bg-blue-500/10 border border-blue-500/20 rounded-xl p-2 flex items-center gap-2 justify-center">
-            <Save className="w-4 h-4 text-blue-300" />
-            <p className="text-blue-300 text-xs">
+          <div className="mb-4 bg-muted0/10 border border-primary/20 rounded-xl p-2 flex items-center gap-2 justify-center">
+            <Save className="w-4 h-4 text-white/70" />
+            <p className="text-white/70 text-xs">
               Auto-saved at {lastSaved.toLocaleTimeString()}
             </p>
           </div>
@@ -473,107 +473,107 @@ export default function AmbedkarJayantiRegistration() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name <span className="text-red-500">*</span>
+                    Full Name <span className="text-error">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.fullName}
                     onChange={(e) => updateField("fullName", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] focus:border-transparent outline-none ${errors.fullName ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none ${errors.fullName ? 'border-error/30' : 'border-gray-300'}`}
                     placeholder="Enter full name"
                   />
-                  {errors.fullName && <p className="text-xs text-red-500 mt-1">{errors.fullName}</p>}
+                  {errors.fullName && <p className="text-xs text-error mt-1">{errors.fullName}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Father&apos;s Name <span className="text-red-500">*</span>
+                    Father&apos;s Name <span className="text-error">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.fatherName}
                     onChange={(e) => updateField("fatherName", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.fatherName ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.fatherName ? 'border-error/30' : 'border-gray-300'}`}
                     placeholder="Father's name"
                   />
-                  {errors.fatherName && <p className="text-xs text-red-500 mt-1">{errors.fatherName}</p>}
+                  {errors.fatherName && <p className="text-xs text-error mt-1">{errors.fatherName}</p>}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Mother&apos;s Name <span className="text-red-500">*</span>
+                  Mother&apos;s Name <span className="text-error">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.motherName}
                   onChange={(e) => updateField("motherName", e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.motherName ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.motherName ? 'border-error/30' : 'border-gray-300'}`}
                   placeholder="Mother's name"
                 />
-                {errors.motherName && <p className="text-xs text-red-500 mt-1">{errors.motherName}</p>}
+                {errors.motherName && <p className="text-xs text-error mt-1">{errors.motherName}</p>}
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Date of Birth <span className="text-red-500">*</span>
+                    Date of Birth <span className="text-error">*</span>
                   </label>
                   <input
                     type="date"
                     value={formData.dateOfBirth}
                     onChange={(e) => updateField("dateOfBirth", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.dateOfBirth ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.dateOfBirth ? 'border-error/30' : 'border-gray-300'}`}
                   />
-                  {errors.dateOfBirth && <p className="text-xs text-red-500 mt-1">{errors.dateOfBirth}</p>}
+                  {errors.dateOfBirth && <p className="text-xs text-error mt-1">{errors.dateOfBirth}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Gender <span className="text-red-500">*</span>
+                    Gender <span className="text-error">*</span>
                   </label>
                   <select
                     value={formData.gender}
                     onChange={(e) => updateField("gender", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none bg-white ${errors.gender ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none bg-white ${errors.gender ? 'border-error/30' : 'border-gray-300'}`}
                   >
                     <option value="">Select</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
-                  {errors.gender && <p className="text-xs text-red-500 mt-1">{errors.gender}</p>}
+                  {errors.gender && <p className="text-xs text-error mt-1">{errors.gender}</p>}
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Mobile Number <span className="text-red-500">*</span>
+                    Mobile Number <span className="text-error">*</span>
                   </label>
                   <input
                     type="tel"
                     value={formData.mobileNumber}
                     onChange={(e) => updateField("mobileNumber", e.target.value.replace(/\D/g, '').slice(0, 10))}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.mobileNumber ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.mobileNumber ? 'border-error/30' : 'border-gray-300'}`}
                     placeholder="10-digit mobile"
                     maxLength={10}
                   />
-                  {errors.mobileNumber && <p className="text-xs text-red-500 mt-1">{errors.mobileNumber}</p>}
+                  {errors.mobileNumber && <p className="text-xs text-error mt-1">{errors.mobileNumber}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email <span className="text-red-500">*</span>
+                    Email <span className="text-error">*</span>
                   </label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => updateField("email", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.email ? 'border-error/30' : 'border-gray-300'}`}
                     placeholder="your@email.com"
                   />
-                  {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
+                  {errors.email && <p className="text-xs text-error mt-1">{errors.email}</p>}
                 </div>
               </div>
             </div>
@@ -584,31 +584,31 @@ export default function AmbedkarJayantiRegistration() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  House/Street Address <span className="text-red-500">*</span>
+                  House/Street Address <span className="text-error">*</span>
                 </label>
                 <textarea
                   value={formData.address}
                   onChange={(e) => updateField("address", e.target.value)}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none resize-none ${errors.address ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none resize-none ${errors.address ? 'border-error/30' : 'border-gray-300'}`}
                   placeholder="House no., Street, Locality"
                   rows={3}
                 />
-                {errors.address && <p className="text-xs text-red-500 mt-1">{errors.address}</p>}
+                {errors.address && <p className="text-xs text-error mt-1">{errors.address}</p>}
               </div>
 
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Village/Locality <span className="text-red-500">*</span>
+                    Village/Locality <span className="text-error">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.village}
                     onChange={(e) => updateField("village", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.village ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.village ? 'border-error/30' : 'border-gray-300'}`}
                     placeholder="Village or locality"
                   />
-                  {errors.village && <p className="text-xs text-red-500 mt-1">{errors.village}</p>}
+                  {errors.village && <p className="text-xs text-error mt-1">{errors.village}</p>}
                 </div>
 
                 <div>
@@ -619,7 +619,7 @@ export default function AmbedkarJayantiRegistration() {
                     type="text"
                     value={formData.tehsil}
                     onChange={(e) => updateField("tehsil", e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#003285] outline-none"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none"
                     placeholder="Tehsil name"
                   />
                 </div>
@@ -628,49 +628,49 @@ export default function AmbedkarJayantiRegistration() {
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    District <span className="text-red-500">*</span>
+                    District <span className="text-error">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.district}
                     onChange={(e) => updateField("district", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.district ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.district ? 'border-error/30' : 'border-gray-300'}`}
                     placeholder="District name"
                   />
-                  {errors.district && <p className="text-xs text-red-500 mt-1">{errors.district}</p>}
+                  {errors.district && <p className="text-xs text-error mt-1">{errors.district}</p>}
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    State <span className="text-red-500">*</span>
+                    State <span className="text-error">*</span>
                   </label>
                   <select
                     value={formData.state}
                     onChange={(e) => updateField("state", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none bg-white ${errors.state ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none bg-white ${errors.state ? 'border-error/30' : 'border-gray-300'}`}
                   >
                     <option value="">Select state</option>
                     {indianStates.map(state => (
                       <option key={state} value={state}>{state}</option>
                     ))}
                   </select>
-                  {errors.state && <p className="text-xs text-red-500 mt-1">{errors.state}</p>}
+                  {errors.state && <p className="text-xs text-error mt-1">{errors.state}</p>}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Pincode <span className="text-red-500">*</span>
+                  Pincode <span className="text-error">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.pincode}
                   onChange={(e) => updateField("pincode", e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.pincode ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.pincode ? 'border-error/30' : 'border-gray-300'}`}
                   placeholder="6-digit pincode"
                   maxLength={6}
                 />
-                {errors.pincode && <p className="text-xs text-red-500 mt-1">{errors.pincode}</p>}
+                {errors.pincode && <p className="text-xs text-error mt-1">{errors.pincode}</p>}
               </div>
 
               <div className="bg-gray-50 rounded-xl p-4">
@@ -685,7 +685,7 @@ export default function AmbedkarJayantiRegistration() {
                       value="Yes"
                       checked={formData.isSsdMember === "Yes"}
                       onChange={(e) => updateField("isSsdMember", e.target.value)}
-                      className="w-4 h-4 text-[#FF7F3E]"
+                      className="w-4 h-4 text-[#F59E0B]"
                     />
                     <span className="text-sm text-gray-700">Yes, I&apos;m a member</span>
                   </label>
@@ -696,7 +696,7 @@ export default function AmbedkarJayantiRegistration() {
                       value="No"
                       checked={formData.isSsdMember === "No"}
                       onChange={(e) => updateField("isSsdMember", e.target.value)}
-                      className="w-4 h-4 text-[#FF7F3E]"
+                      className="w-4 h-4 text-[#F59E0B]"
                     />
                     <span className="text-sm text-gray-700">No</span>
                   </label>
@@ -706,12 +706,12 @@ export default function AmbedkarJayantiRegistration() {
               {formData.isSsdMember === "Yes" && (
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Rank in SSD <span className="text-[#FF7F3E]">⚔️</span>
+                    Your Rank in SSD <span className="text-[#F59E0B]">⚔️</span>
                   </label>
                   <select
                     value={formData.rank}
                     onChange={(e) => updateField("rank", e.target.value)}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none bg-white ${errors.rank ? 'border-red-500' : 'border-gray-300'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none bg-white ${errors.rank ? 'border-error/30' : 'border-gray-300'}`}
                   >
                     <option value="">— Select your rank —</option>
                     {ssdRankGroups.map(group => (
@@ -722,7 +722,7 @@ export default function AmbedkarJayantiRegistration() {
                       </optgroup>
                     ))}
                   </select>
-                  {errors.rank && <p className="text-xs text-red-500 mt-1">{errors.rank}</p>}
+                  {errors.rank && <p className="text-xs text-error mt-1">{errors.rank}</p>}
                   <p className="text-xs text-gray-500 mt-1">
                     Select your current rank as per SSD hierarchical structure
                   </p>
@@ -735,24 +735,24 @@ export default function AmbedkarJayantiRegistration() {
           {currentStep === 3 && (
             <div className="space-y-6">
               {/* Important Notice Banner */}
-              <div className="bg-[#003285]/5 border-2 border-[#003285]/20 rounded-xl p-4">
+              <div className="bg-[#4F46E5]/5 border-2 border-[#4F46E5]/20 rounded-xl p-4">
                 <div className="flex items-start gap-3">
-                  <Info className="w-6 h-6 text-[#003285] flex-shrink-0 mt-0.5" />
+                  <Info className="w-6 h-6 text-[#4F46E5] flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <p className="text-[#003285] font-bold text-sm mb-2">
+                    <p className="text-[#4F46E5] font-bold text-sm mb-2">
                       Please read the document upload instructions before proceeding
                     </p>
                     {!instructionsAccepted && (
                       <button
                         type="button"
                         onClick={openInstructions}
-                        className="w-full sm:w-auto bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white font-bold py-2 px-6 rounded-full text-sm transition-colors"
+                        className="w-full sm:w-auto bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold py-2 px-6 rounded-full text-sm transition-colors"
                       >
                         Read Instructions First
                       </button>
                     )}
                     {instructionsAccepted && (
-                      <p className="text-green-600 text-sm font-medium flex items-center gap-2">
+                      <p className="text-success text-sm font-medium flex items-center gap-2">
                         <CheckCircle className="w-4 h-4" />
                         Instructions acknowledged
                       </p>
@@ -763,17 +763,17 @@ export default function AmbedkarJayantiRegistration() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Aadhaar Number <span className="text-red-500">*</span>
+                  Aadhaar Number <span className="text-error">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.aadhaarNumber}
                   onChange={(e) => updateField("aadhaarNumber", e.target.value.replace(/\D/g, '').slice(0, 12))}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#003285] outline-none ${errors.aadhaarNumber ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#4F46E5] outline-none ${errors.aadhaarNumber ? 'border-error/30' : 'border-gray-300'}`}
                   placeholder="12-digit Aadhaar number"
                   maxLength={12}
                 />
-                {errors.aadhaarNumber && <p className="text-xs text-red-500 mt-1">{errors.aadhaarNumber}</p>}
+                {errors.aadhaarNumber && <p className="text-xs text-error mt-1">{errors.aadhaarNumber}</p>}
                 <p className="text-xs text-gray-500 mt-1">Used only for ID verification</p>
               </div>
 
@@ -781,12 +781,12 @@ export default function AmbedkarJayantiRegistration() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-sm font-medium text-gray-700">
-                    Passport Size Photo <span className="text-red-500">*</span>
+                    Passport Size Photo <span className="text-error">*</span>
                   </label>
                   <button
                     type="button"
                     onClick={() => setShowInstructions(true)}
-                    className="text-xs text-[#003285] hover:text-[#FF7F3E] flex items-center gap-1 transition-colors"
+                    className="text-xs text-[#4F46E5] hover:text-[#F59E0B] flex items-center gap-1 transition-colors"
                   >
                     <Info className="w-4 h-4" />
                     View Instructions
@@ -794,10 +794,10 @@ export default function AmbedkarJayantiRegistration() {
                 </div>
                 <div
                   onClick={() => photoInputRef.current?.click()}
-                  className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#FF7F3E] transition-colors"
+                  className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#F59E0B] transition-colors"
                 >
                   {formData.photoFile ? (
-                    <div className="flex items-center justify-center gap-2 text-green-600">
+                    <div className="flex items-center justify-center gap-2 text-success">
                       <ImageIcon className="w-6 h-6" />
                       <span className="font-medium">{formData.photoFile.name}</span>
                     </div>
@@ -822,7 +822,7 @@ export default function AmbedkarJayantiRegistration() {
                     className="hidden"
                   />
                 </div>
-                {errors.photoFile && <p className="text-xs text-red-500 mt-1">{errors.photoFile}</p>}
+                {errors.photoFile && <p className="text-xs text-error mt-1">{errors.photoFile}</p>}
               </div>
 
               {/* Aadhaar File (Optional) */}
@@ -834,7 +834,7 @@ export default function AmbedkarJayantiRegistration() {
                   <button
                     type="button"
                     onClick={() => setShowInstructions(true)}
-                    className="text-xs text-[#003285] hover:text-[#FF7F3E] flex items-center gap-1 transition-colors"
+                    className="text-xs text-[#4F46E5] hover:text-[#F59E0B] flex items-center gap-1 transition-colors"
                   >
                     <Info className="w-4 h-4" />
                     View Instructions
@@ -842,10 +842,10 @@ export default function AmbedkarJayantiRegistration() {
                 </div>
                 <div
                   onClick={() => aadhaarInputRef.current?.click()}
-                  className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#FF7F3E] transition-colors"
+                  className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#F59E0B] transition-colors"
                 >
                   {formData.aadhaarFile ? (
-                    <div className="flex items-center justify-center gap-2 text-green-600">
+                    <div className="flex items-center justify-center gap-2 text-success">
                       <FileText className="w-6 h-6" />
                       <span className="font-medium">{formData.aadhaarFile.name}</span>
                     </div>
@@ -870,10 +870,10 @@ export default function AmbedkarJayantiRegistration() {
                     className="hidden"
                   />
                 </div>
-                {errors.aadhaarFile && <p className="text-xs text-red-500 mt-1">{errors.aadhaarFile}</p>}
+                {errors.aadhaarFile && <p className="text-xs text-error mt-1">{errors.aadhaarFile}</p>}
               </div>
 
-              <div className="bg-blue-50 rounded-xl p-4">
+              <div className="bg-muted rounded-xl p-4">
                 <p className="text-sm text-gray-700">
                   <strong>Declaration:</strong> I hereby declare that all the information provided above is true and correct to the best of my knowledge.
                 </p>
@@ -899,7 +899,7 @@ export default function AmbedkarJayantiRegistration() {
               <button
                 type="button"
                 onClick={handleNext}
-                className="px-8 py-3 bg-[#003285] text-white font-bold rounded-full hover:bg-[#002561] transition-colors"
+                className="px-8 py-3 bg-[#4F46E5] text-white font-bold rounded-full hover:bg-[#4338CA] transition-colors"
               >
                 Next →
               </button>
@@ -908,7 +908,7 @@ export default function AmbedkarJayantiRegistration() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="px-8 py-3 bg-[#FF7F3E] hover:bg-[#ff6a1a] disabled:bg-gray-400 text-white font-bold rounded-full transition-colors flex items-center gap-2"
+                className="px-8 py-3 bg-[#F59E0B] hover:bg-[#D97706] disabled:bg-gray-400 text-white font-bold rounded-full transition-colors flex items-center gap-2"
               >
                 {isSubmitting && <Loader2 className="w-5 h-5 animate-spin" />}
                 {isSubmitting ? 'Submitting to Convex...' : 'Submit Registration'}
@@ -918,7 +918,7 @@ export default function AmbedkarJayantiRegistration() {
         </div>
 
         {/* Footer Info */}
-        <div className="mt-8 text-center text-blue-200/80 text-sm">
+        <div className="mt-8 text-center text-white/80 text-sm">
           <div className="flex items-center justify-center gap-4 flex-wrap mb-2">
             <span className="flex items-center gap-2">
               <Calendar className="w-4 h-4" /> 14 April 2026
@@ -932,7 +932,7 @@ export default function AmbedkarJayantiRegistration() {
               <Shield className="w-4 h-4" /> SSD Est. 1927
             </span>
           </div>
-          <p className="text-xs text-blue-300/60">
+          <p className="text-xs text-white/70">
             Your data is secure • Stored in Convex backend
           </p>
         </div>
@@ -943,9 +943,9 @@ export default function AmbedkarJayantiRegistration() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => {}} />
           <div className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="bg-gradient-to-r from-[#003285] to-[#002561] p-6 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-[#4F46E5] to-[#4338CA] p-6 flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Info className="w-6 h-6 text-[#FFDA78]" />
+                <Info className="w-6 h-6 text-[#F59E0B]" />
                 <h2 className="text-xl font-bold text-white">Document Upload Instructions</h2>
               </div>
               <button
@@ -964,11 +964,11 @@ export default function AmbedkarJayantiRegistration() {
               {/* Passport Photo Requirements */}
               <div className="space-y-4">
                 <h3 className="font-bold text-gray-900 flex items-center gap-2 border-b pb-1">
-                  <ImageIcon className="w-5 h-5 text-[#003285]" />
+                  <ImageIcon className="w-5 h-5 text-[#4F46E5]" />
                   Passport Photo Requirements:
                 </h3>
-                <div className="border-2 border-green-300 rounded-2xl p-4 bg-green-50">
-                  <p className="text-green-700 font-bold text-sm mb-3 flex items-center gap-2">
+                <div className="border-2 border-success/30 rounded-2xl p-4 bg-success/10">
+                  <p className="text-success font-bold text-sm mb-3 flex items-center gap-2">
                     <CheckCircle className="w-5 h-5" /> Correct Passport Format
                   </p>
                   <img
@@ -976,7 +976,7 @@ export default function AmbedkarJayantiRegistration() {
                     alt="Correct Passport Format"
                     className="w-32 h-40 object-cover mx-auto rounded-lg shadow-md border-2 border-white"
                   />
-                  <ul className="grid grid-cols-2 gap-2 text-green-700 text-xs mt-4">
+                  <ul className="grid grid-cols-2 gap-2 text-success text-xs mt-4">
                     <li className="flex items-center gap-1">✓ Plain background</li>
                     <li className="flex items-center gap-1">✓ Looking at camera</li>
                     <li className="flex items-center gap-1">✓ No hats/sunglasses</li>
@@ -988,7 +988,7 @@ export default function AmbedkarJayantiRegistration() {
               {/* Aadhaar Photo Requirements */}
               <div className="space-y-4">
                 <h3 className="font-bold text-gray-900 flex items-center gap-2 border-b pb-1">
-                  <FileText className="w-5 h-5 text-[#003285]" />
+                  <FileText className="w-5 h-5 text-[#4F46E5]" />
                   Aadhaar Card Requirements:
                 </h3>
                 <ul className="list-disc list-inside text-sm text-gray-700 space-y-1">
@@ -1001,8 +1001,8 @@ export default function AmbedkarJayantiRegistration() {
               <div>
                 <h3 className="font-bold text-gray-900 mb-4">Example Photos:</h3>
                 <div className="space-y-4">
-                  <div className="border-2 border-green-300 rounded-xl p-4 bg-green-50">
-                    <p className="text-green-700 font-semibold text-sm mb-3 flex items-center gap-2">
+                  <div className="border-2 border-success/30 rounded-xl p-4 bg-success/10">
+                    <p className="text-success font-semibold text-sm mb-3 flex items-center gap-2">
                       <CheckCircle className="w-5 h-5" /> Correct Format
                     </p>
                     <img
@@ -1010,13 +1010,13 @@ export default function AmbedkarJayantiRegistration() {
                       alt="Correct Aadhaar card format"
                       className="w-full max-w-md mx-auto rounded-lg shadow"
                     />
-                    <p className="text-green-600 text-xs mt-3 text-center">
+                    <p className="text-success text-xs mt-3 text-center">
                       Clear, well-lit, all corners visible
                     </p>
                   </div>
 
-                  <div className="border-2 border-red-300 rounded-xl p-4 bg-red-50">
-                    <p className="text-red-700 font-semibold text-sm mb-3 flex items-center gap-2">
+                  <div className="border-2 border-error/30 rounded-xl p-4 bg-error/10">
+                    <p className="text-error font-semibold text-sm mb-3 flex items-center gap-2">
                       <X className="w-5 h-5" /> Wrong Formats
                     </p>
                     <div className="grid grid-cols-2 gap-3">
@@ -1026,7 +1026,7 @@ export default function AmbedkarJayantiRegistration() {
                           alt="Wrong format 1"
                           className="w-full rounded-lg shadow"
                         />
-                        <p className="text-red-600 text-xs mt-2">Blurry/Dark</p>
+                        <p className="text-error text-xs mt-2">Blurry/Dark</p>
                       </div>
                       <div className="text-center">
                         <img
@@ -1034,7 +1034,7 @@ export default function AmbedkarJayantiRegistration() {
                           alt="Wrong format 2"
                           className="w-full rounded-lg shadow"
                         />
-                        <p className="text-red-600 text-xs mt-2">Cropped/Incomplete</p>
+                        <p className="text-error text-xs mt-2">Cropped/Incomplete</p>
                       </div>
                       <div className="text-center">
                         <img
@@ -1042,7 +1042,7 @@ export default function AmbedkarJayantiRegistration() {
                           alt="Wrong format 3"
                           className="w-full rounded-lg shadow"
                         />
-                        <p className="text-red-600 text-xs mt-2">Too Bright</p>
+                        <p className="text-error text-xs mt-2">Too Bright</p>
                       </div>
                       <div className="text-center">
                         <img
@@ -1050,7 +1050,7 @@ export default function AmbedkarJayantiRegistration() {
                           alt="Wrong format 4"
                           className="w-full rounded-lg shadow"
                         />
-                        <p className="text-red-600 text-xs mt-2">Damaged/Expired</p>
+                        <p className="text-error text-xs mt-2">Damaged/Expired</p>
                       </div>
                     </div>
                   </div>
@@ -1058,11 +1058,11 @@ export default function AmbedkarJayantiRegistration() {
               </div>
 
               {errors.instructions && (
-                <p className="text-red-500 text-sm font-medium text-center">{errors.instructions}</p>
+                <p className="text-error text-sm font-medium text-center">{errors.instructions}</p>
               )}
 
-              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                <p className="text-yellow-800 text-sm">
+              <div className="bg-accent/10 border border-accent/10 rounded-xl p-4">
+                <p className="text-accent-foreground text-sm">
                   <strong>Important:</strong> Your Aadhaar card is used only for identity verification.
                   All data is stored securely and handled according to privacy guidelines.
                 </p>
@@ -1075,7 +1075,7 @@ export default function AmbedkarJayantiRegistration() {
                   type="checkbox"
                   checked={instructionsAccepted}
                   onChange={(e) => setInstructionsAccepted(e.target.checked)}
-                  className="w-5 h-5 rounded border-gray-300 text-[#003285] focus:ring-[#003285]"
+                  className="w-5 h-5 rounded border-gray-300 text-[#4F46E5] focus:ring-[#4F46E5]"
                 />
                 <span className="text-gray-700 text-sm">
                   I have read and understood the photo and document instructions
@@ -1086,7 +1086,7 @@ export default function AmbedkarJayantiRegistration() {
                 disabled={!instructionsAccepted}
                 className={`w-full py-3 rounded-full font-bold text-white transition-colors ${
                   instructionsAccepted
-                    ? "bg-[#FF7F3E] hover:bg-[#ff6a1a]"
+                    ? "bg-[#F59E0B] hover:bg-[#D97706]"
                     : "bg-gray-400 cursor-not-allowed"
                 }`}
               >
