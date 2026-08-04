@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { Search, MapPin, UserRound, X } from "lucide-react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
+import { nationalOfficersEn } from "@/data/national-officers-en";
 
 function initials(name: string) {
   return name.replace(/^मा०\s*/, "").split(/\s+/).slice(0, 2).map((part) => part[0]).join("");
@@ -14,11 +15,24 @@ export function NationalOfficerDirectory() {
   const [search, setSearch] = useState("");
   const [state, setState] = useState("All States");
 
-  const officers = useQuery(api.nationalOfficers.list);
+  const convexOfficers = useQuery(api.nationalOfficers.list);
 
-  const states = useMemo(() => ["All States", ...Array.from(new Set((officers || []).map((officer) => officer.stateEn || officer.state)))], [officers]);
+  // Use Convex data if available, otherwise fall back to static data
+  const officers = convexOfficers ?? nationalOfficersEn.map((o, i) => ({
+    _id: `static-${i}`,
+    _creationTime: Date.now(),
+    name: o.name,
+    nameEn: o.name,
+    designation: o.designation,
+    designationEn: o.designation,
+    state: o.state,
+    stateEn: o.state,
+    displayOrder: o.displayOrder,
+    isActive: true,
+  }));
+
+  const states = useMemo(() => ["All States", ...Array.from(new Set(officers.map((officer) => officer.stateEn || officer.state)))], [officers]);
   const filteredOfficers = useMemo(() => {
-    if (!officers) return [];
     const term = search.trim().toLocaleLowerCase("en-US");
     return officers.filter((officer) => {
       const name = officer.nameEn || officer.name;
@@ -29,15 +43,7 @@ export function NationalOfficerDirectory() {
     });
   }, [search, state, officers]);
 
-  if (officers === undefined) {
-    return (
-      <section className="relative -mt-10 rounded-t-[40px] bg-white px-4 py-12 md:-mt-16 md:rounded-t-[72px] md:px-6 md:py-20">
-        <div className="container">
-          <div className="rounded-3xl bg-slate-50 py-20 text-center text-slate-500">Loading officers...</div>
-        </div>
-      </section>
-    );
-  }
+  const isLoading = convexOfficers === undefined;
 
   return (
     <section className="relative -mt-10 rounded-t-[40px] bg-white px-4 py-12 md:-mt-16 md:rounded-t-[72px] md:px-6 md:py-20">
@@ -65,7 +71,9 @@ export function NationalOfficerDirectory() {
           </select>
         </div>
 
-        {filteredOfficers.length ? (
+        {isLoading ? (
+          <div className="rounded-3xl bg-slate-50 py-20 text-center text-slate-500">Loading officers…</div>
+        ) : filteredOfficers.length ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredOfficers.map((officer) => (
               <article key={officer._id} className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#2A629A]/40 hover:shadow-xl">
@@ -86,7 +94,9 @@ export function NationalOfficerDirectory() {
               </article>
             ))}
           </div>
-        ) : <div className="rounded-3xl bg-slate-50 py-20 text-center text-slate-500">No officers found.</div>}
+        ) : (
+          <div className="rounded-3xl bg-slate-50 py-20 text-center text-slate-500">No officers found.</div>
+        )}
       </div>
     </section>
   );
