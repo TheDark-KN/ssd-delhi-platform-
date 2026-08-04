@@ -240,6 +240,7 @@ export default function JoinPage() {
                 <span>Dr. Ambedkar Bhawan, Rani Jhansi Road, Delhi during any SSD program.</span>
               </div>
             </div>
+          </div>
 
           {/* Main form */}
           <div className="lg:col-span-3">
