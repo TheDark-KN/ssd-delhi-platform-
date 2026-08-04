@@ -29,6 +29,7 @@ export function NationalOfficerDirectory() {
     stateEn: o.state,
     displayOrder: o.displayOrder,
     isActive: true,
+    photoStorageId: undefined,
   }));
 
   const states = useMemo(() => ["All States", ...Array.from(new Set(officers.map((officer) => officer.stateEn || officer.state)))], [officers]);
