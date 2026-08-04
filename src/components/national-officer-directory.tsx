@@ -2,11 +2,18 @@
 
 import Image from "next/image";
 import { useMemo, useState, useEffect } from "react";
-import { Search, MapPin, UserRound, X } from "lucide-react";
+import { Search, MapPin, X } from "lucide-react";
 import { nationalOfficersEn } from "@/data/national-officers-en";
 
 function initials(name: string) {
   return name.replace(/^मा०\s*/, "").split(/\s+/).slice(0, 2).map((part) => part[0]).join("");
+}
+
+// Generate dicebear avatar URL based on name
+function getAvatarUrl(name: string): string {
+  const seed = encodeURIComponent(name.trim().toLowerCase());
+  // Using "avataaars" style - clean, professional avatars
+  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=003285,2A629A,FF7F3E,FFDA78`;
 }
 
 type Officer = {
@@ -23,7 +30,6 @@ type Officer = {
   photoStorageId?: string;
 };
 
-// Transform static data to match the Officer type
 const staticOfficers: Officer[] = nationalOfficersEn.map((o, i) => ({
   _id: `static-${i}`,
   _creationTime: Date.now(),
@@ -44,40 +50,18 @@ export function NationalOfficerDirectory() {
   const [officers, setOfficers] = useState<Officer[]>(staticOfficers);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Try to fetch from Convex on mount
   useEffect(() => {
     let mounted = true;
-    
-    // Dynamic import to avoid SSR issues
-    import("convex/react").then(({ useQuery }) => {
-      import("../../convex/_generated/api").then(({ api }) => {
-        // We can't use useQuery here directly since it's a hook
-        // Instead, we'll fetch via the Convex HTTP API or just use static data
-        // For now, just use static data and mark as not loading
-        if (mounted) {
-          setOfficers(staticOfficers);
-          setIsLoading(false);
-        }
-      }).catch(() => {
-        if (mounted) {
-          setOfficers(staticOfficers);
-          setIsLoading(false);
-        }
-      });
-    }).catch(() => {
-      if (mounted) {
-        setOfficers(staticOfficers);
-        setIsLoading(false);
-      }
-    });
-
-    // Fallback timeout
     const timeout = setTimeout(() => {
       if (mounted && isLoading) {
         setOfficers(staticOfficers);
         setIsLoading(false);
       }
-    }, 2000);
+    }, 1000);
+
+    // Immediately use static data
+    setOfficers(staticOfficers);
+    setIsLoading(false);
 
     return () => {
       mounted = false;
@@ -132,8 +116,18 @@ export function NationalOfficerDirectory() {
                 <div className="h-1.5 bg-gradient-to-r from-[#003285] via-[#2A629A] to-[#FF7F3E]" />
                 <div className="p-5">
                   <div className="mb-5 flex justify-center">
-                    <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-[#003285] to-[#2A629A] text-3xl font-black text-[#FFDA78] shadow-lg ring-1 ring-slate-200">
-                      {officer.photoStorageId ? <Image src={`/api/storage/${officer.photoStorageId}`} alt={`${officer.nameEn || officer.name}'s photo`} fill className="object-cover" sizes="112px" /> : <><UserRound className="absolute h-10 w-10 text-white/20" /><span className="relative">{initials(officer.nameEn || officer.name)}</span></>}
+                    <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white shadow-lg ring-1 ring-slate-200">
+                      {officer.photoStorageId ? (
+                        <Image src={`/api/storage/${officer.photoStorageId}`} alt={`${officer.nameEn || officer.name}'s photo`} fill className="object-cover" sizes="112px" />
+                      ) : (
+                        <Image
+                          src={getAvatarUrl(officer.nameEn || officer.name)}
+                          alt={`${officer.nameEn || officer.name}'s avatar`}
+                          fill
+                          className="object-cover"
+                          sizes="112px"
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="text-center">
