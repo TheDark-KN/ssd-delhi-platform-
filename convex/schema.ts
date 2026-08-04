@@ -133,8 +133,11 @@ export default defineSchema({
   // Personal phone numbers are intentionally not collected or stored here.
   nationalOfficers: defineTable({
     name: v.string(),
+    nameEn: v.optional(v.string()),
     designation: v.string(),
+    designationEn: v.optional(v.string()),
     state: v.string(),
+    stateEn: v.optional(v.string()),
     photoStorageId: v.optional(v.id("_storage")),
     displayOrder: v.number(),
     isActive: v.boolean(),

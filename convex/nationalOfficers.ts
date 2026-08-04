@@ -19,6 +19,26 @@ const OFFICERS = [
   ["ललित कुमार सागर", "राष्ट्रीय सचिव", "दिल्ली"], ["प्रताप सिंह", "राष्ट्रीय सचिव", "उत्तर प्रदेश"], ["पन्नालाल बौद्ध", "राष्ट्रीय सचिव", "उत्तर प्रदेश"],
 ] as const;
 
+const designationMap: Record<string, string> = {
+  "राष्ट्रीय अध्यक्ष": "National President",
+  "राष्ट्रीय प्रधान महासचिव": "National General Secretary",
+  "राष्ट्रीय कोषाध्यक्ष": "National Treasurer",
+  "राष्ट्रीय उपाध्यक्ष": "National Vice President",
+  "राष्ट्रीय महासचिव": "National Secretary",
+  "राष्ट्रीय सचिव": "National Joint Secretary",
+};
+
+const stateMap: Record<string, string> = {
+  "उत्तर प्रदेश": "Uttar Pradesh",
+  "दिल्ली": "Delhi",
+  "राजस्थान": "Rajasthan",
+  "हिमाचल प्रदेश": "Himachal Pradesh",
+  "म.प्र./छ.ग.": "Madhya Pradesh/Chhattisgarh",
+  "मध्य प्रदेश": "Madhya Pradesh",
+  "गुजरात": "Gujarat",
+  "बिहार": "Bihar",
+};
+
 export const list = query({
   args: {},
   handler: async (ctx) => ctx.db.query("nationalOfficers").withIndex("by_order").order("asc").filter((q) => q.eq(q.field("isActive"), true)).collect(),
@@ -31,8 +51,41 @@ export const seed = mutation({
     const existing = await ctx.db.query("nationalOfficers").collect();
     if (existing.length) return { inserted: 0, message: "National officer directory already seeded" };
     for (const [index, [name, designation, state]] of OFFICERS.entries()) {
-      await ctx.db.insert("nationalOfficers", { name, designation, state, displayOrder: index + 1, isActive: true });
+      await ctx.db.insert("nationalOfficers", {
+        name,
+        nameEn: name,
+        designation,
+        designationEn: designationMap[designation] || designation,
+        state,
+        stateEn: stateMap[state] || state,
+        displayOrder: index + 1,
+        isActive: true,
+      });
     }
     return { inserted: OFFICERS.length, message: "National officer directory seeded" };
+  },
+});
+
+/** Clear and re-seed the national officer directory. */
+export const reseed = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const existing = await ctx.db.query("nationalOfficers").collect();
+    for (const officer of existing) {
+      await ctx.db.delete(officer._id);
+    }
+    for (const [index, [name, designation, state]] of OFFICERS.entries()) {
+      await ctx.db.insert("nationalOfficers", {
+        name,
+        nameEn: name,
+        designation,
+        designationEn: designationMap[designation] || designation,
+        state,
+        stateEn: stateMap[state] || state,
+        displayOrder: index + 1,
+        isActive: true,
+      });
+    }
+    return { inserted: OFFICERS.length, message: "National officer directory re-seeded" };
   },
 });
