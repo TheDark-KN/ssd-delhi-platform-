@@ -3,6 +3,16 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Enable React Strict Mode for better development experience
   reactStrictMode: true,
+
+  // Disable Turbopack for WSL compatibility
+  experimental: {
+    // Optimize server components
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog'],
+    turbo: {
+      // Disable Turbopack
+      resolveAlias: {},
+    },
+  },
   
   // Image optimization configuration
   images: {

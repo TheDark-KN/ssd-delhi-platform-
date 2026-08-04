@@ -22,9 +22,9 @@ export default function AdminDashboardPage() {
   const users = useQuery(api.users?.listUsers as any, { limit: 100 });
   const articles = useQuery(api.articles?.list as any, { status: "published", limit: 100 });
   const events = useQuery(api.events?.list as any, { limit: 100 });
-  const pendingMembers = useQuery(api.users?.listUsers as any, { 
+  const pendingMembers = useQuery(api.users?.listUsers as any, {
     membershipStatus: "pending",
-    limit: 50 
+    limit: 50
   });
 
   const stats = {

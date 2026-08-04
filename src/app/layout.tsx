@@ -18,17 +18,17 @@ export const metadata: Metadata = {
   title: "Samta Sainik Dal Delhi | समता सैनिक दल दिल्ली",
   description: "Official website of Samta Sainik Dal (SSD) Delhi - Soldiers for Equality. Founded by Dr. B.R. Ambedkar in 1924. Building a casteless society based on Liberty, Equality, and Fraternity.",
   keywords: [
-    "Samta Sainik Dal", 
+    "Samta Sainik Dal",
     "smata sainik dal",
     "Samata Sainik Dal",
-    "Saink dal", 
+    "Saink dal",
     "sainik dal",
-    "samta", 
-    "SSD Delhi", 
-    "Dr. Ambedkar", 
-    "Social Justice", 
-    "Equality", 
-    "Dalit Rights", 
+    "samta",
+    "SSD Delhi",
+    "Dr. Ambedkar",
+    "Social Justice",
+    "Equality",
+    "Dalit Rights",
     "Buddhism"
   ],
   authors: [{ name: "Samta Sainik Dal Delhi" }],
@@ -42,7 +42,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://ssddelhi.org",
-  }
+  },
+  verification: {
+    google: "AesnubtW6FKbgQ793shP-X2QFO3pSzYniqaURTLtEAs",
+  },
 };
 
 export default function RootLayout({

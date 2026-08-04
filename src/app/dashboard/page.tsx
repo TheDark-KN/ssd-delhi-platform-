@@ -11,8 +11,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
   const user = useQuery(api.users?.getCurrentUser as any);
-  const myEvents = useQuery(api.events?.getUserRegistrations as any, { 
-    userId: user?._id 
+  const myEvents = useQuery(api.events?.getUserRegistrations as any, {
+    userId: user?._id
   });
 
   if (!user) {

@@ -23,7 +23,7 @@ export function MaterialIcon({
   ...props
 }: MaterialIconProps) {
   const variantClass = `material-symbols-${variant}`;
-  
+
   return (
     <span
       className={cn(variantClass, className)}

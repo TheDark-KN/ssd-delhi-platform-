@@ -17,13 +17,13 @@ import { CheckCircle, XCircle, User, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
 
 export default function AdminMembersPage() {
-  const pendingMembers = useQuery(api.users?.listUsers as any, { 
+  const pendingMembers = useQuery(api.users?.listUsers as any, {
     membershipStatus: "pending",
-    limit: 100 
+    limit: 100
   });
-  const approvedMembers = useQuery(api.users?.listUsers as any, { 
+  const approvedMembers = useQuery(api.users?.listUsers as any, {
     membershipStatus: "approved",
-    limit: 50 
+    limit: 50
   });
   const updateMembershipStatus = useMutation(api.users?.updateMembershipStatus as any);
 

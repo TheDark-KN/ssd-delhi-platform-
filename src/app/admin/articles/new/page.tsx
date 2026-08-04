@@ -51,7 +51,7 @@ export default function AdminNewArticlePage() {
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const createArticle = useMutation(api.articles?.create as any);
   const publishArticle = useMutation(api.articles?.publish as any);
   // AI Generate temporarily disabled
@@ -76,7 +76,7 @@ export default function AdminNewArticlePage() {
       description: "Run 'npx convex dev' to enable AI features",
     });
     return;
-    
+
     // AI Generate temporarily disabled - enable after running: npx convex dev
     /*
     const title = form.getValues("title");
@@ -96,7 +96,7 @@ export default function AdminNewArticlePage() {
       });
 
       form.setValue("content", generatedContent);
-      
+
       // Generate excerpt from first paragraph
       const excerpt = generatedContent.split("\n")[0]?.substring(0, 200) + "...";
       form.setValue("excerpt", excerpt);

@@ -10,7 +10,7 @@ function ConvexLogSuppressor() {
     // Suppress Convex WebSocket connection logs (they're normal but noisy)
     const originalWarn = console.warn;
     const originalLog = console.log;
-    
+
     console.warn = (...args) => {
       const msg = args[0]?.toString() || "";
       if (msg.includes("forward-logs") || msg.includes("WebSocket reconnected") || msg.includes("Attempting reconnect")) {
@@ -18,7 +18,7 @@ function ConvexLogSuppressor() {
       }
       originalWarn.apply(console, args);
     };
-    
+
     console.log = (...args) => {
       const msg = args[0]?.toString() || "";
       if (msg.includes("forward-logs") || msg.includes("WebSocket reconnected") || msg.includes("Attempting reconnect")) {
@@ -26,14 +26,14 @@ function ConvexLogSuppressor() {
       }
       originalLog.apply(console, args);
     };
-    
+
     // Cleanup on unmount
     return () => {
       console.warn = originalWarn;
       console.log = originalLog;
     };
   }, []);
-  
+
   return null;
 }
 
