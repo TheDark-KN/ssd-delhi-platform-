@@ -15,6 +15,7 @@ import type * as dashboard from "../dashboard.js";
 import type * as events from "../events.js";
 import type * as media from "../media.js";
 import type * as news from "../news.js";
+import type * as nationalOfficers from "../nationalOfficers.js";
 import type * as seed from "../seed.js";
 import type * as storage from "../storage.js";
 import type * as timeline from "../timeline.js";
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   events: typeof events;
   media: typeof media;
   news: typeof news;
+  nationalOfficers: typeof nationalOfficers;
   seed: typeof seed;
   storage: typeof storage;
   timeline: typeof timeline;

@@ -129,6 +129,20 @@ export default defineSchema({
     .index("by_membership_status", ["membershipStatus"])
     .index("by_role", ["role"]),
 
+  // Official national executive / office-bearer directory.
+  // Personal phone numbers are intentionally not collected or stored here.
+  nationalOfficers: defineTable({
+    name: v.string(),
+    designation: v.string(),
+    state: v.string(),
+    photoStorageId: v.optional(v.id("_storage")),
+    displayOrder: v.number(),
+    isActive: v.boolean(),
+  })
+    .index("by_order", ["displayOrder"])
+    .index("by_state", ["state", "displayOrder"])
+    .index("by_active", ["isActive", "displayOrder"]),
+
   // Events - Upcoming and past events
   events: defineTable({
     title: v.string(),

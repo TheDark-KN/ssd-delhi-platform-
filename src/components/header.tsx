@@ -32,6 +32,7 @@ const mainNavItems = [
       { title: "Ideology", href: "/about#ideology" },
       { title: "Structure", href: "/about#structure" },
       { title: "Rank Structure", href: "/rank-structure" },
+      { title: "राष्ट्रीय कार्यकारिणी", href: "/national-executive" },
       { title: "Dr. Ambedkar", href: "/about#ambedkar" },
     ],
   },
