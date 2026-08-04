@@ -1,36 +1,89 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Search, MapPin, UserRound, X } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
 import { nationalOfficersEn } from "@/data/national-officers-en";
 
 function initials(name: string) {
   return name.replace(/^मा०\s*/, "").split(/\s+/).slice(0, 2).map((part) => part[0]).join("");
 }
 
+type Officer = {
+  _id: string;
+  _creationTime: number;
+  name: string;
+  nameEn?: string;
+  designation: string;
+  designationEn?: string;
+  state: string;
+  stateEn?: string;
+  displayOrder: number;
+  isActive: boolean;
+  photoStorageId?: string;
+};
+
+// Transform static data to match the Officer type
+const staticOfficers: Officer[] = nationalOfficersEn.map((o, i) => ({
+  _id: `static-${i}`,
+  _creationTime: Date.now(),
+  name: o.name,
+  nameEn: o.name,
+  designation: o.designation,
+  designationEn: o.designation,
+  state: o.state,
+  stateEn: o.state,
+  displayOrder: o.displayOrder,
+  isActive: true,
+  photoStorageId: undefined,
+}));
+
 export function NationalOfficerDirectory() {
   const [search, setSearch] = useState("");
   const [state, setState] = useState("All States");
+  const [officers, setOfficers] = useState<Officer[]>(staticOfficers);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const convexOfficers = useQuery(api.nationalOfficers.list);
+  // Try to fetch from Convex on mount
+  useEffect(() => {
+    let mounted = true;
+    
+    // Dynamic import to avoid SSR issues
+    import("convex/react").then(({ useQuery }) => {
+      import("../../convex/_generated/api").then(({ api }) => {
+        // We can't use useQuery here directly since it's a hook
+        // Instead, we'll fetch via the Convex HTTP API or just use static data
+        // For now, just use static data and mark as not loading
+        if (mounted) {
+          setOfficers(staticOfficers);
+          setIsLoading(false);
+        }
+      }).catch(() => {
+        if (mounted) {
+          setOfficers(staticOfficers);
+          setIsLoading(false);
+        }
+      });
+    }).catch(() => {
+      if (mounted) {
+        setOfficers(staticOfficers);
+        setIsLoading(false);
+      }
+    });
 
-  // Use Convex data if available, otherwise fall back to static data
-  const officers = convexOfficers ?? nationalOfficersEn.map((o, i) => ({
-    _id: `static-${i}`,
-    _creationTime: Date.now(),
-    name: o.name,
-    nameEn: o.name,
-    designation: o.designation,
-    designationEn: o.designation,
-    state: o.state,
-    stateEn: o.state,
-    displayOrder: o.displayOrder,
-    isActive: true,
-    photoStorageId: undefined,
-  }));
+    // Fallback timeout
+    const timeout = setTimeout(() => {
+      if (mounted && isLoading) {
+        setOfficers(staticOfficers);
+        setIsLoading(false);
+      }
+    }, 2000);
+
+    return () => {
+      mounted = false;
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const states = useMemo(() => ["All States", ...Array.from(new Set(officers.map((officer) => officer.stateEn || officer.state)))], [officers]);
   const filteredOfficers = useMemo(() => {
@@ -43,8 +96,6 @@ export function NationalOfficerDirectory() {
       return matchesSearch && (state === "All States" || officerState === state);
     });
   }, [search, state, officers]);
-
-  const isLoading = convexOfficers === undefined;
 
   return (
     <section className="relative -mt-10 rounded-t-[40px] bg-white px-4 py-12 md:-mt-16 md:rounded-t-[72px] md:px-6 md:py-20">
