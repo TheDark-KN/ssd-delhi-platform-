@@ -9,13 +9,6 @@ function initials(name: string) {
   return name.replace(/^मा०\s*/, "").split(/\s+/).slice(0, 2).map((part) => part[0]).join("");
 }
 
-// Generate dicebear avatar URL based on name
-function getAvatarUrl(name: string): string {
-  const seed = encodeURIComponent(name.trim().toLowerCase());
-  // Using "avataaars" style - clean, professional avatars
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=003285,2A629A,FF7F3E,FFDA78`;
-}
-
 type Officer = {
   _id: string;
   _creationTime: number;
@@ -44,6 +37,8 @@ const staticOfficers: Officer[] = nationalOfficersEn.map((o, i) => ({
   photoStorageId: undefined,
 }));
 
+const DEFAULT_AVATAR = "/officer-avatar.png";
+
 export function NationalOfficerDirectory() {
   const [search, setSearch] = useState("");
   const [state, setState] = useState("All States");
@@ -59,7 +54,6 @@ export function NationalOfficerDirectory() {
       }
     }, 1000);
 
-    // Immediately use static data
     setOfficers(staticOfficers);
     setIsLoading(false);
 
@@ -116,12 +110,12 @@ export function NationalOfficerDirectory() {
                 <div className="h-1.5 bg-gradient-to-r from-[#003285] via-[#2A629A] to-[#FF7F3E]" />
                 <div className="p-5">
                   <div className="mb-5 flex justify-center">
-                    <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white shadow-lg ring-1 ring-slate-200">
+                    <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white shadow-lg ring-1 ring-slate-200 bg-slate-100">
                       {officer.photoStorageId ? (
                         <Image src={`/api/storage/${officer.photoStorageId}`} alt={`${officer.nameEn || officer.name}'s photo`} fill className="object-cover" sizes="112px" />
                       ) : (
                         <Image
-                          src={getAvatarUrl(officer.nameEn || officer.name)}
+                          src={DEFAULT_AVATAR}
                           alt={`${officer.nameEn || officer.name}'s avatar`}
                           fill
                           className="object-cover"
