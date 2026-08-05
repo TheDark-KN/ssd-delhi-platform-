@@ -10,34 +10,39 @@ export const metadata: Metadata = {
 
 const ideologyPoints = [
   {
-    icon: Target,
-    title: "Annihilation of Caste",
-    description: "Complete eradication of the caste system and all social hierarchies that divide humanity",
+    icon: Heart,
+    title: "Samata (Equality) as the founding principle",
+    description: "not merely opposition to untouchability, but rejection of the entire graded caste hierarchy.",
   },
   {
     icon: Users,
-    title: "Equality",
-    description: "Establishment of equality based on race, religion, caste, sex, and class",
+    title: "Liberty, Equality, Fraternity",
+    description: "inseparable from one another; fraternity is what turns legal equality into lived equality.",
   },
   {
     icon: Shield,
-    title: "Non-Violent Resistance",
-    description: "Peaceful protest with self-respect and self-defense against oppression",
+    title: "Constitutional struggle over violence",
+    description: "organisation, public education, and electoral politics as the primary tools of change.",
   },
   {
-    icon: Heart,
-    title: "Service",
-    description: "Dedicated service to workers, laborers, Dalits, exploited, and poor people",
+    icon: Target,
+    title: "Annihilation of caste, not reform of it",
+    description: "the goal is a casteless society, not a kinder caste system.",
   },
   {
     icon: BookOpen,
-    title: "Education",
-    description: "Promoting education and awareness as tools for social transformation",
+    title: "A moral and spiritual foundation",
+    description: "the 1956 embrace of Buddhism as an ethical complement to political and legal rights.",
   },
   {
-    icon: Sword,
-    title: "Social Justice",
-    description: "Fighting for the rights and dignity of marginalized communities",
+    icon: Users,
+    title: "Full participation of women",
+    description: "a tradition dating to the 1927 Mahad women's meeting, carried on in SSD's women's units today.",
+  },
+  {
+    icon: Shield,
+    title: "Discipline and service",
+    description: "volunteers trained to protect satyagrahis, educate communities, and serve as a stabilising presence in the movement.",
   },
 ];
 
@@ -114,9 +119,9 @@ export default function AboutPage() {
       <section id="ideology" className="py-24 bg-slate-50 dark:bg-slate-900">
         <div className="container px-4 md:px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-[#003285] mb-4">Core <span className="text-[#FF7F3E]">Ideology</span></h2>
-            <p className="text-[#2A629A] font-medium max-w-2xl mx-auto text-lg leading-relaxed">
-              Our principles are rooted in the teachings of Dr. B.R. Ambedkar and the Buddhist path of compassion and justice.
+            <h2 className="text-4xl md:text-5xl font-black text-[#003285] mb-4">Our <span className="text-[#FF7F3E]">Ideology</span></h2>
+            <p className="text-[#2A629A] font-medium max-w-3xl mx-auto text-lg leading-relaxed">
+              Samata Sainik Dal&apos;s ideology rests on principles Dr. B.R. Ambedkar articulated across three decades of struggle — as relevant to SSD Delhi&apos;s work today as they were in 1927.
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

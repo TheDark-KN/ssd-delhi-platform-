@@ -130,11 +130,11 @@ export default function HomePage() {
               <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#003285] mb-4">
                 Knowledge for <span className="text-[#FF7F3E]">Liberation</span>
               </h2>
-              <p className="text-lg text-[#2A629A] font-medium">Learn about SSD&apos;s history, ideology, and the fight for social justice.</p>
+              <p className="text-lg text-[#2A629A] font-medium">From the Mahad Satyagraha to the Constitution of India — explore the history, ideology, and ongoing fight for social justice that built Samata Sainik Dal.</p>
             </div>
             <Link href="/articles">
               <Button variant="outline" className="border-[#003285] text-[#003285] hover:bg-[#003285] hover:text-white font-bold rounded-full px-6">
-                {t("common.viewAll")}
+                View Library
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -249,11 +249,12 @@ export default function HomePage() {
               From 1924 to 2024, explore the rich history of Samta Sainik Dal and its role in India&apos;s social justice movement.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { year: "1924", title: "The Beginning", description: "Dr. B.R. Ambedkar established Samta Sainik Dal to protect the rights of the marginalized.", color: "#003285" },
-              { year: "1927", title: "Social Revolution", description: "The Mahad Satyagraha marked a turning point in the struggle for human dignity and equality.", color: "#2A629A" },
-              { year: "2024", title: "Centenary Year", description: "Celebrating 100 years of unwavering service to society and the mission of Babasaheb.", color: "#FF7F3E" },
+              { year: "1924", title: "The Beginning", description: "Dr. B.R. Ambedkar founds the Bahishkrit Hitakarini Sabha, laying the institutional foundation for the movement.", color: "#003285" },
+              { year: "1927", title: "Samata Sainik Dal is Born", description: "Ambedkar forms a volunteer corps to protect satyagrahis at Mahad and leads the historic Chavdar Tale Satyagraha.", color: "#2A629A" },
+              { year: "1956", title: "A Moral and Spiritual Turn", description: "Ambedkar leads a mass conversion to Buddhism at Deekshabhoomi, Nagpur.", color: "#2C7A7B" },
+              { year: "2024", title: "Centenary Year", description: "A century since 1924, SSD carries Babasaheb's mission of equality forward into a new generation.", color: "#FF7F3E" },
             ].map((era) => (
               <div key={era.year} className="relative group p-10 bg-white dark:bg-slate-950 rounded-[40px] shadow-xl shadow-slate-200/50 hover:shadow-2xl transition-all duration-500">
                 <div className="absolute top-0 right-10 -translate-y-1/2 text-6xl font-black opacity-10 group-hover:opacity-20 transition-opacity" style={{ color: era.color }}>

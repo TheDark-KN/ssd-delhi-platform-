@@ -173,7 +173,7 @@ export function HistoryClient() {
                       {/* Year Badge - Mobile (left side) */}
                       <div className="flex sm:hidden items-center gap-3 mb-2 pl-4">
                         <div className="flex-shrink-0 w-14 text-center">
-                          <div className="text-2xl font-bold text-[#003285]">{event.year}</div>
+                          <div className="text-2xl font-bold text-[#003285]">{event.dateDisplay || event.year}</div>
                         </div>
                       </div>
 
@@ -197,7 +197,7 @@ export function HistoryClient() {
                               </Badge>
                               {/* Year - Desktop (in card header) */}
                               <div className="text-2xl md:text-3xl font-black text-[#003285]">
-                                {event.year}
+                                {event.dateDisplay || event.year}
                               </div>
                             </div>
                             <CardTitle className="text-xl md:text-2xl lg:text-3xl font-black text-[#003285] dark:text-white leading-tight mb-3 md:mb-4">

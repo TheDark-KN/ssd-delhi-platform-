@@ -49,6 +49,7 @@ export default defineSchema({
     })),
     relatedArticles: v.array(v.id("articles")),
     era: v.string(),
+    dateDisplay: v.optional(v.string()),
   })
     .index("by_year", ["year"])
     .index("by_era", ["era", "year"]),
