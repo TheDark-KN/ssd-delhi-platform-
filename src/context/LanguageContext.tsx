@@ -421,6 +421,13 @@ const translations: Record<Language, Record<string, string>> = {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// Create a default context for SSR
+const defaultContext: LanguageContextType = {
+  language: "en",
+  setLanguage: () => {},
+  t: (key: string) => translations.en[key] || key,
+};
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
   const [mounted, setMounted] = useState(false);
@@ -433,19 +440,25 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const changeLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem("language", lang);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("language", lang);
+    }
   };
 
   const t = (key: string): string => {
     return translations[language][key] || key;
   };
 
-  if (!mounted) {
-    return <>{children}</>;
-  }
+  const contextValue: LanguageContextType = {
+    language,
+    setLanguage: changeLanguage,
+    t,
+  };
 
+  // Always provide context, even during SSR (with default "en")
+  // This prevents "useLanguage must be used within a LanguageProvider" errors
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: changeLanguage, t }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );
@@ -454,7 +467,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
+    // Fallback for edge cases - should not happen with the fix above
+    return defaultContext;
   }
   return context;
 }
