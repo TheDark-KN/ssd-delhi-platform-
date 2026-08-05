@@ -1,7 +1,4 @@
-"use client";
-
 import type { Metadata } from "next";
-import { useLanguage } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Terms of Service | Samta Sainik Dal Delhi",
@@ -9,9 +6,6 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
-  const { t, language } = useLanguage();
-  const lastUpdated = new Date().toLocaleDateString(language === "hi" ? "hi-IN" : "en-IN", { year: "numeric", month: "long", day: "numeric" });
-
   return (
     <div className="min-h-screen bg-slate-50">
       <section className="relative overflow-hidden bg-[#003285] px-4 py-16 text-white md:px-6 md:py-24">
@@ -19,7 +13,7 @@ export default function TermsPage() {
           <div className="max-w-3xl">
             <p className="mb-3 text-sm font-black uppercase tracking-[0.24em] text-[#FFDA78]">Samta Sainik Dal Delhi</p>
             <h1 className="text-4xl font-black tracking-tight md:text-5xl">Terms of Service</h1>
-            <p className="mt-4 text-lg font-medium leading-relaxed text-blue-100">Last updated: {lastUpdated}</p>
+            <p className="mt-4 text-lg font-medium leading-relaxed text-blue-100">Last updated: {new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })}</p>
           </div>
         </div>
       </section>
