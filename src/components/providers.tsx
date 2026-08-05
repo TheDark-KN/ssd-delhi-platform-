@@ -3,6 +3,7 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
 import { ClerkProvider, SignedIn, SignedOut, SignInButton, UserButton, useAuth } from "@clerk/nextjs";
 import { Fragment, ReactNode, useEffect } from "react";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 // Component to suppress Convex WebSocket connection logs
 function ConvexLogSuppressor() {
@@ -63,7 +64,9 @@ export function Providers({ children }: { children: ReactNode }) {
       <Fragment>
         <ConvexLogSuppressor />
         <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ClerkProvider>
       </Fragment>
     );
@@ -74,7 +77,9 @@ export function Providers({ children }: { children: ReactNode }) {
       <ConvexLogSuppressor />
       <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
         <ConvexProvider client={convex}>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ConvexProvider>
       </ClerkProvider>
     </Fragment>

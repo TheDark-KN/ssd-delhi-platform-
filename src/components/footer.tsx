@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { MaterialIcon } from "@/components/ui/material-icon";
+import { useLanguage } from "@/context/LanguageContext";
 
 const socialLinks = [
   { name: "Facebook", href: "#", icon: Facebook },
@@ -12,33 +15,35 @@ const socialLinks = [
 
 const footerLinks = {
   organization: [
-    { name: "About Us", href: "/about" },
-    { name: "History", href: "/history" },
-    { name: "Ideology", href: "/about#ideology" },
-    { name: "Structure", href: "/about#structure" },
+    { name: "footer.about", href: "/about" },
+    { name: "footer.history", href: "/history" },
+    { name: "footer.ideology", href: "/about#ideology" },
+    { name: "footer.structure", href: "/about#structure" },
   ],
   content: [
-    { name: "Articles", href: "/articles" },
-    { name: "Blogs", href: "/blog" },
-    { name: "News", href: "/news" },
-    { name: "Events", href: "/events" },
-    { name: "Gallery", href: "/gallery" },
+    { name: "footer.articles", href: "/articles" },
+    { name: "footer.blogs", href: "/blog" },
+    { name: "footer.news", href: "/news" },
+    { name: "footer.events", href: "/events" },
+    { name: "footer.gallery", href: "/gallery" },
   ],
   community: [
-    { name: "Join SSD", href: "/join" },
-    { name: "Membership", href: "/dashboard" },
-    { name: "Volunteer", href: "/join" },
-    { name: "Donate", href: "/donate" },
+    { name: "footer.join", href: "/join" },
+    { name: "footer.membership", href: "/dashboard" },
+    { name: "footer.volunteer", href: "/join" },
+    { name: "footer.donate", href: "/donate" },
   ],
   support: [
-    { name: "Contact", href: "/contact" },
-    { name: "FAQ", href: "/faq" },
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Service", href: "/terms" },
+    { name: "footer.contact", href: "/contact" },
+    { name: "footer.faq", href: "/faq" },
+    { name: "footer.privacy", href: "/privacy" },
+    { name: "footer.terms", href: "/terms" },
   ],
 };
 
 export function Footer() {
+  const { t, language } = useLanguage();
+
   return (
     <footer className="border-t bg-[#003285] text-white">
       <div className="container py-12 md:py-16">
@@ -50,15 +55,15 @@ export function Footer() {
                 <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" />
               </div>
               <div>
-                <h3 className="font-bold text-xl tracking-tight text-white">SSD Delhi</h3>
+                <h3 className="font-bold text-xl tracking-tight text-white">{t("footer.brand")}</h3>
                 <p className="text-xs text-blue-200/80 font-medium tracking-widest uppercase">समता सैनिक दल</p>
               </div>
             </div>
             <p className="text-sm text-blue-100/90 leading-relaxed">
-              Soldiers for Equality — Building a Casteless Society
+              {t("footer.tagline")}
             </p>
             <p className="text-xs text-blue-200/70 italic">
-              Founded by Dr. B.R. Ambedkar in 1924
+              {t("footer.founded")}
             </p>
 
             {/* Social Links */}
@@ -78,7 +83,7 @@ export function Footer() {
 
           {/* Organization Links */}
           <div>
-            <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">Organization</h4>
+            <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">{t("footer.organization")}</h4>
             <ul className="space-y-3 text-sm">
               {footerLinks.organization.map((link) => (
                 <li key={link.name}>
@@ -86,7 +91,7 @@ export function Footer() {
                     href={link.href}
                     className="text-blue-100/80 hover:text-[#FFDA78] transition-colors"
                   >
-                    {link.name}
+                    {t(link.name)}
                   </Link>
                 </li>
               ))}
@@ -95,7 +100,7 @@ export function Footer() {
 
           {/* Content Links */}
           <div>
-            <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">Content</h4>
+            <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">{t("footer.content")}</h4>
             <ul className="space-y-3 text-sm">
               {footerLinks.content.map((link) => (
                 <li key={link.name}>
@@ -103,7 +108,7 @@ export function Footer() {
                     href={link.href}
                     className="text-blue-100/80 hover:text-[#FFDA78] transition-colors"
                   >
-                    {link.name}
+                    {t(link.name)}
                   </Link>
                 </li>
               ))}
@@ -112,15 +117,14 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">Contact Us</h4>
+            <h4 className="font-semibold mb-6 text-[#FFDA78] uppercase tracking-wider text-xs">{t("footer.support")}</h4>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
                 <div className="mt-1 h-8 w-8 flex flex-shrink-0 items-center justify-center rounded-lg bg-blue-900/50">
                   <MaterialIcon icon="location_on" variant="rounded" className="text-[20px] text-[#FFDA78]" />
                 </div>
                 <span className="text-blue-100/80 leading-relaxed">
-                  Samta Sainik Dal Delhi<br />
-                  New Delhi, India
+                  {t("footer.address")}
                 </span>
               </li>
               <li className="flex items-center gap-3">
@@ -128,7 +132,7 @@ export function Footer() {
                   <MaterialIcon icon="mail" variant="rounded" className="text-[20px] text-[#FFDA78]" />
                 </div>
                 <a href="mailto:info@ssddelhi.org" className="text-blue-100/80 hover:text-white transition-colors">
-                  info@ssddelhi.org
+                  {t("footer.email")}
                 </a>
               </li>
               <li className="flex items-center gap-3">
@@ -136,7 +140,7 @@ export function Footer() {
                   <MaterialIcon icon="call" variant="rounded" className="text-[20px] text-[#FFDA78]" />
                 </div>
                 <a href="tel:+911112345678" className="text-blue-100/80 hover:text-white transition-colors">
-                  +91 11 1234 5678
+                  {t("footer.phone")}
                 </a>
               </li>
             </ul>
@@ -147,14 +151,14 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-xs text-blue-200/60 text-center md:text-left">
-              © {new Date().getFullYear()} Samta Sainik Dal Delhi. All rights reserved.
+              {t("footer.copyright").replace("{year}", new Date().getFullYear().toString())}
             </p>
             <div className="flex gap-8 text-xs font-medium text-blue-200/60">
               <Link href="/privacy" className="hover:text-[#FFDA78] transition-colors uppercase tracking-widest">
-                Privacy Policy
+                {t("footer.privacy")}
               </Link>
               <Link href="/terms" className="hover:text-[#FFDA78] transition-colors uppercase tracking-widest">
-                Terms of Service
+                {t("footer.terms")}
               </Link>
             </div>
           </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X, Globe, Shield } from "lucide-react";
+import { Menu, X, Shield } from "lucide-react";
 import { MaterialIcon } from "@/components/ui/material-icon";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,49 +18,49 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { SignedIn, SignedOut, UserButton } from "@/components/providers";
+import { useLanguage } from "@/context/LanguageContext";
 
 const mainNavItems = [
   {
-    title: "Home",
+    title: "nav.home",
     href: "/",
   },
   {
-    title: "About",
+    title: "nav.about",
     href: "/about",
     items: [
-      { title: "Organization", href: "/about#organization" },
-      { title: "Ideology", href: "/about#ideology" },
-      { title: "Structure", href: "/about#structure" },
-      { title: "Rank Structure", href: "/rank-structure" },
-      { title: "राष्ट्रीय कार्यकारिणी", href: "/national-executive" },
-      { title: "Dr. Ambedkar", href: "/about#ambedkar" },
+      { title: "nav.organization", href: "/about#organization" },
+      { title: "nav.ideology", href: "/about#ideology" },
+      { title: "nav.structure", href: "/about#structure" },
+      { title: "nav.rankStructure", href: "/rank-structure" },
+      { title: "nav.nationalExecutive", href: "/national-executive" },
+      { title: "nav.ambedkar", href: "/about#ambedkar" },
     ],
   },
   {
-    title: "History",
+    title: "nav.history",
     href: "/history",
   },
   {
-    title: "Content",
+    title: "nav.content",
     items: [
-      { title: "Articles", href: "/articles" },
-      { title: "Blogs", href: "/blog" },
-      { title: "News", href: "/news" },
-      { title: "Events", href: "/events" },
-      { title: "Gallery", href: "/gallery" },
+      { title: "nav.articles", href: "/articles" },
+      { title: "nav.blogs", href: "/blog" },
+      { title: "nav.news", href: "/news" },
+      { title: "nav.events", href: "/events" },
+      { title: "nav.gallery", href: "/gallery" },
     ],
   },
   {
-    title: "Join",
+    title: "nav.join",
     href: "/join",
   },
   {
-    title: "Contact",
+    title: "nav.contact",
     href: "/contact",
   },
 ];
 
-// Special highlighted nav item (separate from main nav to avoid hydration issues)
 const highlightedNavItem = {
   title: "Ambedkar Jayanti 2026",
   href: "/ambedkar-jayanti-2026",
@@ -69,9 +69,9 @@ const highlightedNavItem = {
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [language, setLanguage] = useState<"en" | "hi">("en");
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   // Handle scroll effect and mount
   useEffect(() => {
@@ -82,10 +82,6 @@ export function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleLanguage = () => {
-    setLanguage(language === "en" ? "hi" : "en");
-  };
 
   return (
     <header className={cn(
@@ -118,7 +114,7 @@ export function Header() {
                 {item.items ? (
                   <>
                     <NavigationMenuTrigger className="font-medium text-sm uppercase tracking-wide">
-                      {item.title}
+                      {t(item.title)}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[220px] gap-1 p-3">
@@ -133,7 +129,7 @@ export function Header() {
                                 )}
                               >
                                 <div className="text-sm font-medium leading-none">
-                                  {subItem.title}
+                                  {t(subItem.title)}
                                 </div>
                               </Link>
                             </NavigationMenuLink>
@@ -153,7 +149,7 @@ export function Header() {
                     )}
                   >
                     <Link href={item.href}>
-                      {item.title}
+                      {t(item.title)}
                     </Link>
                   </NavigationMenuLink>
                 )}
@@ -168,11 +164,12 @@ export function Header() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={toggleLanguage}
+            onClick={() => setLanguage(language === "en" ? "hi" : "en")}
             className="hidden md:flex hover:bg-primary/10 hover:text-primary items-center justify-center p-0"
+            aria-label={t("common.language")}
           >
             <MaterialIcon icon="language" variant="rounded" className="text-[22px]" />
-            <span className="sr-only">Toggle language</span>
+            <span className="sr-only">{t("common.language")}</span>
           </Button>
 
           {/* Divider */}
@@ -218,7 +215,7 @@ export function Header() {
               <div key={item.title}>
                 {item.items ? (
                   <div className="space-y-1">
-                    <div className="font-semibold text-primary px-3 py-2">{item.title}</div>
+                    <div className="font-semibold text-primary px-3 py-2">{t(item.title)}</div>
                     <div className="pl-4 space-y-1">
                       {item.items.map((subItem) => (
                         <Link
@@ -227,7 +224,7 @@ export function Header() {
                           className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
                           onClick={() => setMobileMenuOpen(false)}
                         >
-                          {subItem.title}
+                          {t(subItem.title)}
                         </Link>
                       ))}
                     </div>
@@ -238,7 +235,7 @@ export function Header() {
                     className="block px-3 py-2 font-semibold hover:bg-muted rounded-md transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    {item.title}
+                    {t(item.title)}
                   </Link>
                 )}
               </div>

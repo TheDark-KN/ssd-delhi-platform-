@@ -1,4 +1,7 @@
+"use client";
+
 import type { Metadata } from "next";
+import { useLanguage } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Samta Sainik Dal Delhi",
@@ -6,7 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const lastUpdated = new Date().toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" });
+  const { t, language } = useLanguage();
+  const lastUpdated = new Date().toLocaleDateString(language === "hi" ? "hi-IN" : "en-IN", { year: "numeric", month: "long", day: "numeric" });
 
   return (
     <div className="min-h-screen bg-slate-50">

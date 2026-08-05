@@ -10,8 +10,11 @@ import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function HomePage() {
+  const { t, language } = useLanguage();
+  
   // articles.list returns a paginated object — use getFeatured which returns a plain array
   const featuredArticles = useQuery(api.articles.getFeatured, { limit: 3 }) || [];
   const upcomingEvents = useQuery(api.events.list, { status: "upcoming", limit: 3 }) || [];
@@ -33,7 +36,7 @@ export default function HomePage() {
               "@type": "Person",
               "name": "Dr. B.R. Ambedkar"
             },
-            "description": "Official website of Samata Sainik Dal (SSD) Delhi - Soldiers for Equality. Founded by Dr. B.R. Ambedkar in 1924. Building a casteless society based on Liberty, Equality, and Fraternity."
+            "description": t("home.hero.description")
           })
         }}
       />
@@ -49,25 +52,25 @@ export default function HomePage() {
           <div className="flex flex-col items-center text-center space-y-12">
             <div className="space-y-6 max-w-4xl">
               <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full animate-in fade-in slide-in-from-top-4 duration-1000">
-                🎉 Centenary Celebrations 1924-2024
+                🎉 {t("home.stats.years")} 1924-2024
               </Badge>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.1] animate-in fade-in slide-in-from-bottom-8 duration-700">
                 Samta Sainik Dal <span className="text-[#FFDA78]">Delhi</span>
               </h1>
               <p className="text-xl md:text-2xl text-blue-100/80 font-medium tracking-wide animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
-                Soldiers for Equality — Building a Casteless Society based on Liberty, Equality, and Fraternity
+                {t("home.hero.subtitle")}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-5 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
               <Link href="/join">
                 <Button size="lg" className="bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white text-lg font-bold px-10 py-7 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_40px_-10px_rgba(255,127,62,0.5)]">
-                  Join the Movement
+                  {t("home.hero.joinBtn")}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link href="/history">
                 <Button variant="outline" size="lg" className="border-white/30 text-white bg-white/5 hover:bg-white/10 text-lg font-bold px-10 py-7 rounded-full backdrop-blur-sm transition-all duration-300">
-                  Explore 100 Years
+                  {t("home.hero.learnMore")}
                 </Button>
               </Link>
             </div>
@@ -85,7 +88,7 @@ export default function HomePage() {
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">100+</div>
-                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">Years of Legacy</div>
+                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">{t("home.stats.years")}</div>
               </div>
             </div>
             <div className="flex flex-col items-center text-center space-y-4 group">
@@ -94,7 +97,7 @@ export default function HomePage() {
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">10K+</div>
-                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">Active Soldiers</div>
+                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">{t("home.stats.members")}</div>
               </div>
             </div>
             <div className="flex flex-col items-center text-center space-y-4 group">
@@ -103,7 +106,7 @@ export default function HomePage() {
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">500+</div>
-                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">Historical Records</div>
+                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">{t("home.stats.events")}</div>
               </div>
             </div>
             <div className="flex flex-col items-center text-center space-y-4 group">
@@ -112,7 +115,7 @@ export default function HomePage() {
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-black text-[#003285]">Pan India</div>
-                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">Global Impact</div>
+                <div className="text-sm text-[#2A629A] font-bold tracking-widest uppercase mt-1">{t("home.stats.states")}</div>
               </div>
             </div>
           </div>
@@ -131,7 +134,7 @@ export default function HomePage() {
             </div>
             <Link href="/articles">
               <Button variant="outline" className="border-[#003285] text-[#003285] hover:bg-[#003285] hover:text-white font-bold rounded-full px-6">
-                View Library
+                {t("common.viewAll")}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -245,7 +248,7 @@ export default function HomePage() {
                     <CardHeader className="p-8">
                       <div className="flex items-center gap-2 text-sm font-bold text-[#FF7F3E] mb-4 uppercase tracking-widest">
                         <Calendar className="h-4 w-4" />
-                        {new Date(event.startDate).toLocaleDateString("en-IN", {
+                        {new Date(event.startDate).toLocaleDateString(language === "hi" ? "hi-IN" : "en-IN", {
                           month: "short",
                           day: "numeric",
                           year: "numeric",
