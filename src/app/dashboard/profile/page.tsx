@@ -64,6 +64,16 @@ export default function ProfilePage() {
         form.reset(draft as z.infer<typeof profileFormSchema>);
         setDraftRestored(true);
         setTimeout(() => setDraftRestored(false), 5000);
+      } else {
+        form.reset({
+          name: user.name || "",
+          phone: user.phone || "",
+          bio: user.bio || "",
+          address: user.address || "",
+          city: user.city || "",
+          state: user.state || "",
+          preferredLanguage: user.preferredLanguage || "en",
+        });
       }
     };
     if (user) {
