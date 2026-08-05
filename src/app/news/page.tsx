@@ -11,7 +11,8 @@ import Link from "next/link";
 import { format } from "date-fns";
 
 export default function NewsPage() {
-  const news = useQuery(api.news?.list as any, { limit: 50 }) || [];
+  const newsResult = useQuery(api.news?.list as any, { limit: 50 });
+  const news = newsResult ?? [];
 
   const urgentNews = news.filter((n: any) => n.urgent);
   const regularNews = news.filter((n: any) => !n.urgent);
@@ -80,7 +81,7 @@ export default function NewsPage() {
             {/* Regular News */}
             <div className="lg:col-span-3 mt-16">
               <h2 className="text-3xl font-black text-[#003285] mb-8">Latest News</h2>
-              {!news || news.length === 0 ? (
+              {newsResult === undefined ? (
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {Array(6).fill(0).map((_, i) => (
                     <Card key={i}>

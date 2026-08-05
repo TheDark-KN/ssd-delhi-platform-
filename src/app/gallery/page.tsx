@@ -16,11 +16,13 @@ export default function GalleryPage() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const media = useQuery(api.media?.list as any, {
+  const mediaResult = useQuery(api.media?.list as any, {
     type: selectedType as any || undefined,
     category: selectedCategory || undefined,
     limit: 50,
-  }) || [];
+  });
+
+  const media = mediaResult ?? [];
 
   const categories = [...new Set(media.map((m: any) => m.category))] as string[];
   const types = ["image", "video", "document"];
@@ -120,7 +122,7 @@ export default function GalleryPage() {
       {/* Gallery Grid */}
       <section className="py-12 md:py-16">
         <div className="container px-4 md:px-6">
-          {!media || media.length === 0 ? (
+          {mediaResult === undefined ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array(6).fill(0).map((_, i) => (
                 <Card key={i}>

@@ -238,6 +238,7 @@ export function Header() {
 // Separate component for auth buttons to ensure proper Clerk context
 function AuthButtons() {
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
@@ -254,17 +255,29 @@ function AuthButtons() {
   return (
     <>
       <SignedOut>
-        {/* Sign-in buttons removed */}
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" asChild className="font-semibold text-xs uppercase tracking-widest text-[#2A629A] hover:text-[#003285]">
+            <Link href="/sign-in">{t("nav.signIn")}</Link>
+          </Button>
+          <Button variant="default" size="sm" asChild className="bg-[#FF7F3E] hover:bg-[#d95720] font-semibold text-xs uppercase tracking-widest rounded-full px-5 text-white shadow-md shadow-[#FF7F3E]/20 hover:scale-105 transition-all">
+            <Link href="/sign-up">{t("nav.signUp")}</Link>
+          </Button>
+        </div>
       </SignedOut>
       <SignedIn>
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: "h-9 w-9 ring-2 ring-primary/20 hover:ring-primary transition-all",
-            }
-          }}
-        />
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="sm" asChild className="font-semibold text-xs uppercase tracking-widest text-[#2A629A] hover:text-[#003285]">
+            <Link href="/dashboard">{t("nav.dashboard")}</Link>
+          </Button>
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "h-9 w-9 ring-2 ring-primary/20 hover:ring-primary transition-all",
+              }
+            }}
+          />
+        </div>
       </SignedIn>
     </>
   );

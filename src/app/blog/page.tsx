@@ -100,7 +100,7 @@ export default function BlogPage() {
       {/* Blogs Grid */}
       <section className="py-12 md:py-16">
         <div className="container px-4 md:px-6">
-          {!blogs || blogs.length === 0 ? (
+          {blogsResult === undefined ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array(6).fill(0).map((_, i) => (
                 <Card key={i}>

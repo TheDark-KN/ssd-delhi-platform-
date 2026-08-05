@@ -118,13 +118,27 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
                 </div>
               )}
 
-              {/* Comments Section Placeholder */}
+              {/* Comments Section */}
               {blog.allowComments && (
-                <div className="mt-16 pt-12 border-t border-slate-100">
-                  <h2 className="text-2xl font-black text-[#003285] mb-8 uppercase tracking-tight">Voices of the Community</h2>
-                  <div className="text-center py-16 bg-slate-50 dark:bg-slate-800/50 rounded-[32px] border border-dashed border-slate-200 dark:border-slate-700">
-                    <MessageSquare className="h-16 w-16 mx-auto mb-6 text-slate-300" />
-                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Comments will be available soon</p>
+                <div className="mt-16 pt-12 border-t border-slate-100 dark:border-slate-800">
+                  <h2 className="text-2xl font-black text-[#003285] dark:text-white mb-6 uppercase tracking-tight">Voices of the Community</h2>
+                  <div className="flex flex-col md:flex-row items-center justify-between gap-6 p-8 bg-slate-50 dark:bg-slate-900 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm">
+                    <div className="flex items-start gap-4">
+                      <div className="h-12 w-12 rounded-2xl bg-[#003285]/10 flex items-center justify-center flex-shrink-0">
+                        <MessageSquare className="h-6 w-6 text-[#003285]" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-bold text-[#003285] dark:text-white text-lg">Join the Discussion</h4>
+                        <p className="text-slate-500 text-sm font-medium leading-relaxed">
+                          Community discussion is open for verified volunteers. If you have questions or want to participate, sign in or register as a volunteer today.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 w-full md:w-auto">
+                      <Button asChild size="lg" className="rounded-full bg-[#003285] hover:bg-[#002561] text-white font-bold px-6 w-full md:w-auto">
+                        <Link href="/join">Join the Movement</Link>
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}

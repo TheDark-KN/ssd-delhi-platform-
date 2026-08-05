@@ -15,7 +15,10 @@ const translations: Record<Language, Record<string, string>> = {
     // Header/Navigation
     "nav.home": "Home",
     "nav.about": "About Us",
+    "nav.organization": "Overview",
+    "nav.ambedkar": "Dr. Ambedkar",
     "nav.history": "History",
+    "nav.content": "Library",
     "nav.ideology": "Ideology",
     "nav.structure": "Structure",
     "nav.articles": "Articles",
@@ -212,7 +215,10 @@ const translations: Record<Language, Record<string, string>> = {
     // Header/Navigation
     "nav.home": "होम",
     "nav.about": "हमारे बारे में",
+    "nav.organization": "अवलोकन",
+    "nav.ambedkar": "डॉ. अम्बेडकर",
     "nav.history": "इतिहास",
+    "nav.content": "लाइब्रेरी",
     "nav.ideology": "विचारधारा",
     "nav.structure": "संरचना",
     "nav.articles": "लेख",

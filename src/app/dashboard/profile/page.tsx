@@ -72,10 +72,10 @@ export default function ProfilePage() {
   }, [load, form, user]);
 
   useEffect(() => {
-    if (user && Object.keys(watchedValues).length > 0) {
+    if (user && form.formState.isDirty && Object.keys(watchedValues).length > 0) {
       save(watchedValues as Record<string, unknown>);
     }
-  }, [watchedValues, save, user]);
+  }, [watchedValues, save, user, form.formState.isDirty]);
 
   async function onSubmit(values: z.infer<typeof profileFormSchema>) {
     if (!user) return;

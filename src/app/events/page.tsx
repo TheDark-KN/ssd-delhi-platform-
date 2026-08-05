@@ -16,10 +16,12 @@ export default function EventsPage() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const events = useQuery(api.events.list, {
+  const eventsResult = useQuery(api.events.list, {
     status: selectedStatus || undefined,
     category: selectedCategory || undefined,
-  }) || [];
+  });
+
+  const events = eventsResult ?? [];
 
   const statuses = ["upcoming", "ongoing", "completed"];
   const categories = events ? [...new Set(events.map((e: any) => e.category))] as string[] : [];
@@ -112,7 +114,7 @@ export default function EventsPage() {
       {/* Events Grid */}
       <section className="py-12 md:py-16">
         <div className="container px-4 md:px-6">
-          {!events ? (
+          {eventsResult === undefined ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {Array(6).fill(0).map((_, i) => (
                 <Card key={i}>

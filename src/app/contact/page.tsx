@@ -67,10 +67,10 @@ export default function ContactPage() {
   }, [load, form]);
 
   useEffect(() => {
-    if (Object.keys(watchedValues).length > 0) {
+    if (form.formState.isDirty && Object.keys(watchedValues).length > 0) {
       save(watchedValues as Record<string, unknown>);
     }
-  }, [watchedValues, save]);
+  }, [watchedValues, save, form.formState.isDirty]);
 
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     setIsSubmitting(true);

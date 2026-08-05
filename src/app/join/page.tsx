@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -57,7 +57,7 @@ export default function JoinPage() {
     reset,
     setValue,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -83,10 +83,10 @@ export default function JoinPage() {
   }, [load, reset]);
 
   useEffect(() => {
-    if (Object.keys(watchedValues).length > 0) {
+    if (isDirty && Object.keys(watchedValues).length > 0) {
       save(watchedValues as Record<string, unknown>);
     }
-  }, [watchedValues, save]);
+  }, [watchedValues, save, isDirty]);
 
   async function onSubmit(values: FormData) {
     setIsSubmitting(true);
