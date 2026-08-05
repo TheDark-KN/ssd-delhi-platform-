@@ -17,14 +17,41 @@ export default function DashboardPage() {
     user ? { userId: user._id } : "skip"
   );
 
-  if (!user) {
+  if (user === undefined) {
     return (
-      <div className="container py-12">
-        <div className="space-y-4">
-          <Skeleton className="h-12 w-64" />
-          <Skeleton className="h-32 w-full" />
-          <Skeleton className="h-32 w-full" />
-        </div>
+      <div className="container py-12 space-y-6">
+        <Skeleton className="h-12 w-64 rounded-xl" />
+        <Skeleton className="h-40 w-full rounded-2xl" />
+        <Skeleton className="h-40 w-full rounded-2xl" />
+      </div>
+    );
+  }
+
+  if (user === null) {
+    return (
+      <div className="container min-h-[60vh] flex items-center justify-center py-12 px-4">
+        <Card className="w-full max-w-md border-slate-100 shadow-xl rounded-[32px] overflow-hidden text-center">
+          <div className="bg-[#003285] p-8 text-white flex flex-col items-center">
+            <div className="h-16 w-16 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
+              <User className="h-8 w-8 text-[#FFDA78]" />
+            </div>
+            <h2 className="text-2xl font-black uppercase tracking-tight">Access Restricted</h2>
+            <p className="text-blue-100/80 text-sm font-medium mt-1">Please sign in to view your dashboard</p>
+          </div>
+          <CardContent className="p-8 space-y-6">
+            <p className="text-slate-500 text-sm leading-relaxed font-medium">
+              You must be a registered member or volunteer to access the Samta Sainik Dal Delhi member dashboard.
+            </p>
+            <div className="flex flex-col gap-3">
+              <Button asChild size="lg" className="rounded-full bg-[#003285] hover:bg-[#002561] text-white font-bold w-full">
+                <Link href="/sign-in">Sign In to Account</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="rounded-full border-slate-200 text-slate-700 w-full font-bold">
+                <Link href="/join">Register as Volunteer</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }

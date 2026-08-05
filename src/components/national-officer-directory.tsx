@@ -2,12 +2,8 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { MapPin, Search, UserRound, X } from "lucide-react";
+import { MapPin, Search, X } from "lucide-react";
 import { nationalOfficersEn } from "@/data/national-officers-en";
-
-function initials(name: string) {
-  return name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("");
-}
 
 export function NationalOfficerDirectory() {
   const [search, setSearch] = useState("");
@@ -54,8 +50,14 @@ export function NationalOfficerDirectory() {
                 <div className="h-1.5 bg-gradient-to-r from-[#003285] via-[#2A629A] to-[#FF7F3E]" />
                 <div className="p-5">
                   <div className="mb-5 flex justify-center">
-                    <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-gradient-to-br from-[#003285] to-[#2A629A] text-3xl font-black text-[#FFDA78] shadow-lg ring-1 ring-slate-200">
-                      {officer.photoPath ? <Image src={officer.photoPath} alt={`${officer.name} portrait`} fill className="object-cover" sizes="112px" /> : <><UserRound className="absolute h-10 w-10 text-white/20" /><span className="relative">{initials(officer.name)}</span></>}
+                    <div className="relative flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-slate-100 shadow-lg ring-1 ring-slate-200">
+                      <Image
+                        src={officer.photoPath || "/officer-avatar.png"}
+                        alt={`${officer.name} portrait`}
+                        fill
+                        className="object-cover"
+                        sizes="112px"
+                      />
                     </div>
                   </div>
                   <div className="text-center">
