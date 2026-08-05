@@ -1,5 +1,19 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import type { QueryCtx, MutationCtx } from "./_generated/server";
+
+async function requireAdmin(ctx: QueryCtx | MutationCtx) {
+  const identity = await ctx.auth.getUserIdentity();
+  if (!identity) throw new Error("You are not authorized to access the admin area.");
+  const user = await ctx.db
+    .query("users")
+    .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+    .first();
+  if (!user || (user.role !== "admin" && user.role !== "superadmin")) {
+    throw new Error("You are not authorized to access the admin area.");
+  }
+  return user;
+}
 
 // Get or create user based on Clerk authentication
 export const getOrCreateUser = mutation({
@@ -83,6 +97,7 @@ export const updateUserRole = mutation({
     ),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     await ctx.db.patch(args.userId, { role: args.role });
     return args.userId;
   },
@@ -101,6 +116,7 @@ export const updateMembershipStatus = mutation({
     membershipNumber: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     const updates: { membershipStatus: "pending" | "approved" | "suspended" | "inactive"; memberSince?: number; membershipNumber?: string } = {
       membershipStatus: args.status,
     };
@@ -142,6 +158,7 @@ export const listUsers = query({
     )),
   },
   handler: async (ctx, args) => {
+    await requireAdmin(ctx);
     let users = await ctx.db.query("users").collect();
 
     // Apply filters

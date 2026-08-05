@@ -21,6 +21,8 @@ import { Mail, Phone, MapPin, Clock, Send, Save } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useFormPersistence } from "@/hooks/useFormPersistence";
+import { useMutation } from "convex/react";
+import { api } from "@convex/_generated/api";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -35,6 +37,7 @@ const CONTACT_FORM_ID = "contact-form";
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [draftRestored, setDraftRestored] = useState(false);
+  const submitMessage = useMutation(api.contactMessages.submit);
 
   const { save, load, clear, lastSaved } = useFormPersistence(CONTACT_FORM_ID);
 
@@ -72,7 +75,13 @@ export default function ContactPage() {
   async function onSubmit(values: z.infer<typeof contactFormSchema>) {
     setIsSubmitting(true);
     try {
-      console.log(values);
+      await submitMessage({
+        name: values.name,
+        email: values.email,
+        phone: values.phone || undefined,
+        subject: values.subject,
+        message: values.message,
+      });
       toast.success("Message sent!", {
         description: "We'll get back to you soon.",
       });

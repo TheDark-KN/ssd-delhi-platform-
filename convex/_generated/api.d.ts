@@ -10,6 +10,7 @@
 
 import type * as articles from "../articles.js";
 import type * as blogs from "../blogs.js";
+import type * as contactMessages from "../contactMessages.js";
 import type * as dashboard from "../dashboard.js";
 import type * as events from "../events.js";
 import type * as media from "../media.js";
@@ -30,6 +31,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   articles: typeof articles;
   blogs: typeof blogs;
+  contactMessages: typeof contactMessages;
   dashboard: typeof dashboard;
   events: typeof events;
   media: typeof media;

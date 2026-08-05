@@ -14,18 +14,42 @@ import {
   Settings,
   UserCheck,
   MessageSquare,
+  ShieldAlert,
 } from "lucide-react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminDashboardPage() {
-  const users = useQuery(api.users?.listUsers as any, { limit: 100 });
-  const articles = useQuery(api.articles?.list as any, { status: "published", limit: 100 });
-  const events = useQuery(api.events?.list as any, { limit: 100 });
-  const pendingMembers = useQuery(api.users?.listUsers as any, {
+  const currentUser = useQuery(api.users.getCurrentUser);
+  const isLoadingUser = currentUser === undefined;
+  const isAdmin = currentUser?.role === "admin" || currentUser?.role === "superadmin";
+  const users = useQuery(api.users.listUsers as any, isAdmin ? { limit: 100 } : "skip");
+  const articles = useQuery(api.articles.list as any, isAdmin ? { status: "published", limit: 100 } : "skip");
+  const events = useQuery(api.events.list as any, isAdmin ? { limit: 100 } : "skip");
+  const pendingMembers = useQuery(api.users.listUsers as any, isAdmin ? {
     membershipStatus: "pending",
     limit: 50
-  });
+  } : "skip");
+  const contactMessages = useQuery(api.contactMessages.list as any, isAdmin ? { limit: 10 } : "skip");
+
+  if (isLoadingUser) {
+    return <div className="flex min-h-[70vh] items-center justify-center text-muted-foreground">Checking administrator access…</div>;
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-16">
+        <Card className="w-full max-w-xl border-0 text-center shadow-xl">
+          <CardContent className="space-y-5 p-10 md:p-14">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-[#FF7F3E]/10 text-[#FF7F3E]"><ShieldAlert className="h-10 w-10" /></div>
+            <h1 className="text-3xl font-black text-[#003285]">You are not authorized</h1>
+            <p className="text-lg leading-relaxed text-slate-600">This SSD administration area is restricted to authorized administrators. Please sign in with an administrator account.</p>
+            <Link href="/"><Button className="bg-[#003285] text-white hover:bg-[#002561]">Return to website</Button></Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   const stats = {
     totalUsers: users?.length || 0,
@@ -226,6 +250,30 @@ export default function AdminDashboardPage() {
                         <Link href={`/admin/members/${member._id}`}>
                           <Button variant="outline" size="sm">Review</Button>
                         </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Contact Messages</CardTitle>
+                  <Badge variant="outline">{contactMessages?.length || 0} recent</Badge>
+                </div>
+                <CardDescription>Messages submitted through the public contact form</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {!contactMessages?.length ? <p className="text-sm text-muted-foreground">No messages yet</p> : (
+                  <div className="space-y-4">
+                    {contactMessages?.slice(0, 5).map((message: any) => (
+                      <div key={message._id} className="rounded-xl border p-3">
+                        <div className="flex items-start justify-between gap-3"><div className="font-semibold text-sm">{message.subject}</div><Badge variant={message.status === "new" ? "default" : "outline"}>{message.status}</Badge></div>
+                        <div className="mt-1 text-xs text-muted-foreground">{message.name} • {message.email}</div>
+                        <p className="mt-2 line-clamp-2 text-sm text-slate-600">{message.message}</p>
+                        <div className="mt-1 text-xs text-muted-foreground">{new Date(message.submittedAt || 0).toLocaleDateString()}</div>
                       </div>
                     ))}
                   </div>

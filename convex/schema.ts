@@ -240,4 +240,17 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_status", ["status", "createdAt"]),
 
+  // Public contact form submissions for the admin inbox.
+  contactMessages: defineTable({
+    name: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    subject: v.string(),
+    message: v.string(),
+    submittedAt: v.number(),
+    status: v.union(v.literal("new"), v.literal("read"), v.literal("replied")),
+  })
+    .index("by_submitted_at", ["submittedAt"])
+    .index("by_status", ["status", "submittedAt"]),
+
 });

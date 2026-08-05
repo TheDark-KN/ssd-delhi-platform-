@@ -278,39 +278,39 @@ export default function JoinPage() {
                       <input
                         {...register("name")}
                         placeholder="e.g. Rajesh Kumar"
-                        className="w-full px-5 py-4 text-sm bg-slate-50 border-2 border-slate-50 rounded-2xl text-[#003285] placeholder:text-slate-400 focus:outline-none focus:border-[#FF7F3E]/30 focus:bg-white transition-all font-bold"
+                        className="w-full px-5 py-4 text-sm bg-slate-50 border-2 border-slate-50 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#FF7F3E]/30 focus:bg-white transition-all font-bold"
                       />
                       {errors.name && <p className="text-red-500 text-xs mt-2 font-bold">{errors.name.message}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-300 mb-1.5 font-medium">Occupation *</label>
+                      <label className="block text-sm text-slate-700 mb-1.5 font-medium">Occupation *</label>
                       <input
                         {...register("occupation")}
                         placeholder="e.g. Student, Teacher, Worker"
-                        className="w-full px-4 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                        className="w-full px-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                       />
                       {errors.occupation && <p className="text-red-400 text-xs mt-1">{errors.occupation.message}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-300 mb-1.5 font-medium">Email Address *</label>
+                      <label className="block text-sm text-slate-700 mb-1.5 font-medium">Email Address *</label>
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                         <input
                           {...register("email")}
                           placeholder="your@email.com"
-                          className="w-full pl-9 pr-4 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                          className="w-full pl-9 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
                       </div>
                       {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email.message}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm text-slate-300 mb-1.5 font-medium">Phone Number *</label>
+                      <label className="block text-sm text-slate-700 mb-1.5 font-medium">Phone Number *</label>
                       <div className="relative">
                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                         <input
                           {...register("phone")}
                           placeholder="+91 98765 43210"
-                          className="w-full pl-9 pr-4 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                          className="w-full pl-9 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
                       </div>
                       {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
@@ -319,50 +319,50 @@ export default function JoinPage() {
                 </div>
 
                 {/* Divider */}
-                <div className="h-px bg-white/5" />
+                <div className="h-px bg-slate-200" />
 
                 {/* Address */}
                 <div>
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">Address</p>
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm text-slate-300 mb-1.5 font-medium">Street Address *</label>
+                      <label className="block text-sm text-slate-700 mb-1.5 font-medium">Street Address *</label>
                       <div className="relative">
                         <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
                         <input
                           {...register("address")}
                           placeholder="House no., Street, Colony, Area"
-                          className="w-full pl-9 pr-4 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                          className="w-full pl-9 pr-4 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
                       </div>
                       {errors.address && <p className="text-red-400 text-xs mt-1">{errors.address.message}</p>}
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       <div>
-                        <label className="block text-sm text-slate-300 mb-1.5 font-medium">City *</label>
+                        <label className="block text-sm text-slate-700 mb-1.5 font-medium">City *</label>
                         <input
                           {...register("city")}
                           placeholder="Delhi"
-                          className="w-full px-3 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                          className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
                         {errors.city && <p className="text-red-400 text-xs mt-1">{errors.city.message}</p>}
                       </div>
                       <div>
-                        <label className="block text-sm text-slate-300 mb-1.5 font-medium">State *</label>
+                        <label className="block text-sm text-slate-700 mb-1.5 font-medium">State *</label>
                         <input
                           {...register("state")}
                           placeholder="Delhi"
-                          className="w-full px-3 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                          className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
                         {errors.state && <p className="text-red-400 text-xs mt-1">{errors.state.message}</p>}
                       </div>
                       <div>
-                        <label className="block text-sm text-slate-300 mb-1.5 font-medium">PIN Code *</label>
+                        <label className="block text-sm text-slate-700 mb-1.5 font-medium">PIN Code *</label>
                         <input
                           {...register("pincode")}
                           placeholder="110001"
                           maxLength={6}
-                          className="w-full px-3 py-2.5 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                          className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
                         />
                         {errors.pincode && <p className="text-red-400 text-xs mt-1">{errors.pincode.message}</p>}
                       </div>
@@ -371,20 +371,20 @@ export default function JoinPage() {
                 </div>
 
                 {/* Divider */}
-                <div className="h-px bg-white/5" />
+                <div className="h-px bg-slate-200" />
 
                 {/* Motivation */}
                 <div>
                   <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mb-3">Your Commitment</p>
                   <div>
-                    <label className="block text-sm text-slate-300 mb-1.5 font-medium">
+                    <label className="block text-sm text-slate-700 mb-1.5 font-medium">
                       Why do you want to join SSD Delhi? *
                     </label>
                     <textarea
                       {...register("reason")}
                       rows={4}
                       placeholder="Share what brought you to the movement and how you hope to contribute..."
-                      className="w-full px-4 py-3 text-sm bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none"
+                      className="w-full px-4 py-3 text-sm bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all resize-none"
                     />
                     {errors.reason && <p className="text-red-400 text-xs mt-1">{errors.reason.message}</p>}
                   </div>
@@ -398,7 +398,7 @@ export default function JoinPage() {
                       {...register("agreement")}
                       className="mt-0.5 h-4 w-4 cursor-pointer rounded border-white/20 bg-white/5 accent-blue-500"
                     />
-                    <span className="text-sm text-slate-300 leading-relaxed">
+                    <span className="text-sm text-slate-700 leading-relaxed">
                       I have read the Sainik Oath and commit to uphold the principles of Samta Sainik Dal:
                       equality, discipline, non-violence and service to humanity.
                     </span>
