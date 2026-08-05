@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,12 +13,33 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 
+const slides = [
+  {
+    url: "/Dr_%20Bhimrao%20Ambedkar_1.jpg",
+    alt: "Dr. B. R. Ambedkar historical portrait",
+  },
+  {
+    url: "/dc6ba5315753b97c79684781f29e322b.jpg",
+    alt: "Dr. B. R. Ambedkar constitutional portrait",
+  },
+];
+
 export default function HomePage() {
   const { t, language } = useLanguage();
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
   
   // articles.list returns a paginated object — use getFeatured which returns a plain array
-  const featuredArticles = useQuery(api.articles.getFeatured, { limit: 3 }) || [];
-  const upcomingEvents = useQuery(api.events.list, { status: "upcoming", limit: 3 }) || [];
+  const featuredArticlesResult = useQuery(api.articles.getFeatured, { limit: 3 });
+  const featuredArticles = featuredArticlesResult ?? [];
+  const upcomingEventsResult = useQuery(api.events.list, { status: "upcoming", limit: 3 });
+  const upcomingEvents = upcomingEventsResult ?? [];
 
   return (
     <div className="flex flex-col">
@@ -41,36 +63,50 @@ export default function HomePage() {
         }}
       />
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 md:pt-32 md:pb-48 bg-[#003285] overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#2A629A]/30 blur-[120px] rounded-full" />
+      <section className="relative min-h-[80vh] flex items-center pt-24 pb-32 md:pt-32 md:pb-48 bg-[#001D54] overflow-hidden">
+        {/* Background Image Carousel */}
+        <div className="absolute inset-0 z-0">
+          {slides.map((slide, index) => (
+            <div
+              key={index}
+              className={cn(
+                "absolute inset-0 bg-cover bg-center transition-opacity duration-[1500ms] ease-in-out scale-105",
+                index === currentSlide ? "opacity-35 scale-100" : "opacity-0"
+              )}
+              style={{ backgroundImage: `url('${slide.url}')` }}
+              role="img"
+              aria-label={slide.alt}
+            />
+          ))}
+          {/* Brand Gradient Overlay for readable white text */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#001D54]/95 via-[#002B7A]/90 to-[#003285]/95" />
+          {/* Subtle Grid Pattern overlay */}
+          <div className="absolute inset-0 opacity-5 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:32px_32px]" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
-          <div className="flex flex-col items-center text-center space-y-12">
-            <div className="space-y-6 max-w-4xl">
-              <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full animate-in fade-in slide-in-from-top-4 duration-1000">
-                🎉 {t("home.stats.years")} 1924-2024
-              </Badge>
+          <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-10 max-w-4xl">
+            <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full animate-in fade-in duration-1000">
+              🛡️ Samta Sainik Dal Delhi
+            </Badge>
+            <div className="space-y-6">
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-white leading-[1.1] animate-in fade-in slide-in-from-bottom-8 duration-700">
-                Samta Sainik Dal <span className="text-[#FFDA78]">Delhi</span>
+                Knowledge for <span className="text-[#FFDA78]">Liberation</span>
               </h1>
-              <p className="text-xl md:text-2xl text-blue-100/80 font-medium tracking-wide animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
-                {t("home.hero.subtitle")}
+              <p className="text-lg md:text-xl lg:text-2xl text-blue-100/90 font-medium leading-relaxed max-w-3xl animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150">
+                From the Mahad Satyagraha to the Constitution of India — explore the history, ideology, and ongoing fight for social justice that built Samata Sainik Dal.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-5 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-              <Link href="/join">
-                <Button size="lg" className="bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white text-lg font-bold px-10 py-7 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_40px_-10px_rgba(255,127,62,0.5)]">
-                  {t("home.hero.joinBtn")}
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+              <Link href="/history" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto bg-[#FF7F3E] hover:bg-[#ff6a1a] text-white text-lg font-bold px-10 py-7 rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_40px_-10px_rgba(255,127,62,0.5)]">
+                  Explore History
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Link href="/history">
-                <Button variant="outline" size="lg" className="border-white/30 text-white bg-white/5 hover:bg-white/10 text-lg font-bold px-10 py-7 rounded-full backdrop-blur-sm transition-all duration-300">
-                  {t("home.hero.learnMore")}
+              <Link href="/articles" className="w-full sm:w-auto">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto border-white/30 text-white bg-white/5 hover:bg-white/10 text-lg font-bold px-10 py-7 rounded-full backdrop-blur-sm transition-all duration-300 hover:scale-105">
+                  Read Articles
                 </Button>
               </Link>
             </div>
@@ -128,9 +164,9 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-4">
             <div className="max-w-2xl">
               <h2 className="text-4xl md:text-5xl font-black tracking-tight text-[#003285] mb-4">
-                Knowledge for <span className="text-[#FF7F3E]">Liberation</span>
+                Featured <span className="text-[#FF7F3E]">Articles</span>
               </h2>
-              <p className="text-lg text-[#2A629A] font-medium">From the Mahad Satyagraha to the Constitution of India — explore the history, ideology, and ongoing fight for social justice that built Samata Sainik Dal.</p>
+              <p className="text-lg text-[#2A629A] font-medium">Deepen your understanding with our featured publications on constitutional rights, social history, and the path of equality.</p>
             </div>
             <Link href="/articles">
               <Button variant="outline" className="border-[#003285] text-[#003285] hover:bg-[#003285] hover:text-white font-bold rounded-full px-6">
@@ -140,7 +176,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {!featuredArticles || featuredArticles.length === 0 ? (
+            {featuredArticlesResult === undefined ? (
               Array(3).fill(0).map((_, i) => (
                 <Card key={i} className="rounded-3xl border-none shadow-xl shadow-slate-200/50">
                   <CardHeader>
@@ -194,7 +230,7 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {!upcomingEvents || upcomingEvents.length === 0 ? (
+            {upcomingEventsResult === undefined ? (
               Array(3).fill(0).map((_, i) => (
                 <Card key={i} className="rounded-3xl border-slate-100 shadow-lg shadow-slate-100/50">
                   <CardHeader>
