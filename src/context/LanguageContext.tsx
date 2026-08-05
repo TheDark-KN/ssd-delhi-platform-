@@ -196,12 +196,6 @@ const translations: Record<Language, Record<string, string>> = {
     "rank.district": "District Level",
     "rank.local": "Local Unit Level",
     
-    // Ambedkar Jayanti
-    "ambedkarJayanti.title": "Ambedkar Jayanti 2026",
-    "ambedkarJayanti.register": "Register for Ambedkar Jayanti",
-    "ambedkarJayanti.date": "April 14, 2026",
-    "ambedkarJayanti.venue": "Dr. Ambedkar Bhawan, Delhi",
-    
     // Admin
     "admin.dashboard": "Admin Dashboard",
     "admin.articles": "Manage Articles",
@@ -398,12 +392,6 @@ const translations: Record<Language, Record<string, string>> = {
     "rank.state": "राज्य स्तर",
     "rank.district": "जिला स्तर",
     "rank.local": "स्थानीय इकाई स्तर",
-    
-    // Ambedkar Jayanti
-    "ambedkarJayanti.title": "अम्बेडकर जयंती 2026",
-    "ambedkarJayanti.register": "अम्बेडकर जयंती के लिए पंजीकरण",
-    "ambedkarJayanti.date": "14 अप्रैल, 2026",
-    "ambedkarJayanti.venue": "डॉ. अम्बेडकर भवन, दिल्ली",
     
     // Admin
     "admin.dashboard": "एडमिन डैशबोर्ड",

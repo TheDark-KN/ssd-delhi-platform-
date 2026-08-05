@@ -616,22 +616,6 @@ Join the movement shaping Delhi's future.
         // 6. Seed Events
         const events = [
             {
-                title: "Ambedkar Jayanti Celebration 2026",
-                slug: "ambedkar-jayanti-2026",
-                description: "Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary with cultural programs, speeches, and community gatherings.",
-                startDate: new Date("2026-04-14").getTime(),
-                endDate: new Date("2026-04-14").getTime(),
-                venue: "Dr. Ambedkar Bhawan",
-                address: "Rani Jhansi Road, Moti Nagar",
-                city: "Delhi",
-                category: "Celebration",
-                isPublic: true,
-                maxAttendees: 500,
-                registrationDeadline: new Date("2026-04-10").getTime(),
-                organizer: admin._id,
-                status: "upcoming" as const,
-            },
-            {
                 title: "Youth Leadership Training Camp",
                 slug: "youth-leadership-training-camp",
                 description: "A 3-day intensive training program for young volunteers to develop leadership skills, organizational management, and community mobilization techniques.",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NationalOfficerDirectory } from "@/components/national-officer-directory";
 
 export const metadata: Metadata = {
   title: "National Executive | Samta Sainik Dal Delhi",
@@ -35,13 +36,7 @@ export default function NationalExecutivePage() {
           </div>
         </div>
       </section>
-      <NationalOfficerDirectoryClient />
+      <NationalOfficerDirectory />
     </div>
   );
-}
-
-function NationalOfficerDirectoryClient() {
-  "use client";
-  const { NationalOfficerDirectory } = require("@/components/national-officer-directory");
-  return <NationalOfficerDirectory />;
 }

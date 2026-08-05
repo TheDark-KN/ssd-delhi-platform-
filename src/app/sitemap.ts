@@ -14,7 +14,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/blog',
     '/gallery',
     '/contact',
-    '/ambedkar-jayanti-2026'
   ];
 
   return routes.map((route) => ({

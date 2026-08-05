@@ -76,7 +76,7 @@ export default function SSDIDCard({
               </div>
               <div>
                 <h1 className="text-xl font-black tracking-tight">SAMATA SAINIK DAL</h1>
-                <p className="text-sm text-blue-200 font-medium">Delhi Chapter • Ambedkar Jayanti 2026</p>
+                <p className="text-sm text-blue-200 font-medium">Delhi Chapter • Samta Sainik Dal</p>
               </div>
             </div>
             <Badge className="bg-[#FF7F3E] text-white font-bold text-xs px-3 py-1.5 rounded-full">
@@ -173,7 +173,7 @@ export default function SSDIDCard({
                 </div>
                 <div>
                   <p className="text-xs font-bold text-[#003285] uppercase tracking-wider">Scan to Verify</p>
-                  <p className="text-xs text-gray-500">Valid for Ambedkar Jayanti 2026</p>
+                  <p className="text-xs text-gray-500">Valid membership card</p>
                 </div>
               </div>
 

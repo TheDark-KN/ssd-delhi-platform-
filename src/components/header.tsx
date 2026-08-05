@@ -61,11 +61,6 @@ const mainNavItems = [
   },
 ];
 
-const highlightedNavItem = {
-  title: "Ambedkar Jayanti 2026",
-  href: "/ambedkar-jayanti-2026",
-};
-
 export function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -195,16 +190,6 @@ export function Header() {
           </Button>
         </div>
 
-        {/* Highlighted Nav Item - Desktop (Outside NavigationMenu to avoid hydration issues) */}
-        <div className="hidden lg:block ml-4">
-          <Link
-            href={highlightedNavItem.href}
-            className="bg-[#FF7F3E]/10 text-[#FF7F3E] font-bold border-2 border-[#FF7F3E] rounded-full px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#FF7F3E]/20 transition-all duration-300 flex items-center gap-2"
-          >
-            <span>🎉</span>
-            <span>{highlightedNavItem.title}</span>
-          </Link>
-        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -240,16 +225,6 @@ export function Header() {
                 )}
               </div>
             ))}
-            {/* Highlighted Nav Item - Mobile */}
-            <div className="pt-2">
-              <Link
-                href={highlightedNavItem.href}
-                className="block px-3 py-2 font-bold text-[#FF7F3E] bg-[#FF7F3E]/10 rounded-md transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                🎉 {highlightedNavItem.title}
-              </Link>
-            </div>
             <div className="pt-4 mt-4 border-t flex items-center gap-2 px-3">
               {mounted && <AuthButtons />}
             </div>
