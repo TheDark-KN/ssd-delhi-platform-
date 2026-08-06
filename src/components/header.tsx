@@ -195,7 +195,7 @@ export function Header() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden border-t bg-background">
-          <nav className="container py-4 space-y-1">
+          <div className="container py-4 space-y-1">
             {mainNavItems.map((item) => (
               <div key={item.title}>
                 {item.items ? (
@@ -228,7 +228,6 @@ export function Header() {
             <div className="pt-4 mt-4 border-t flex items-center gap-2 px-3">
               {mounted && <AuthButtons />}
             </div>
-          </nav>
         </div>
       )}
     </header>

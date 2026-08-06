@@ -52,7 +52,7 @@ export default function SSDIDCard({
   };
 
   // Generate a simple QR code data URL (in production, use a proper QR library)
-  const qrData = `SSD-ID:${ssdId}|NAME:${fullName}|EVENT:AY2026`;
+  const qrData = `SSD-ID:${ssdId}|NAME:${fullName}|MEMBER`;
 
   return (
     <div className="space-y-6">
@@ -181,7 +181,7 @@ export default function SSDIDCard({
               <div className="flex items-center gap-4 text-xs">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-[#FF7F3E]" />
-                  <span className="font-bold text-[#003285]">14 Apr 2026</span>
+                  <span className="font-bold text-[#003285]">Active Membership</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#FF7F3E]" />
