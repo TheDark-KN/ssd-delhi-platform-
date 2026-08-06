@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalMutation } from "./_generated/server";
 import type { QueryCtx, MutationCtx } from "./_generated/server";
 
 async function requireAdmin(ctx: QueryCtx | MutationCtx) {
@@ -248,5 +248,92 @@ export const submitMembershipApplication = mutation({
     });
 
     return { success: true, userId, isNew: true };
+  },
+});
+
+// Internal mutations for Clerk webhook handlers
+export const handleUserCreated = internalMutation({
+  args: { data: v.any() },
+  handler: async (ctx, args) => {
+    const userData = args.data.data;
+    const clerkId = userData.id;
+    const email = userData.email_addresses?.[0]?.email_address;
+    const name = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || userData.username || "User";
+    const phone = userData.phone_numbers?.[0]?.phone_number;
+
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
+      .first();
+
+    if (!existingUser && email) {
+      await ctx.db.insert("users", {
+        clerkId,
+        email,
+        name,
+        phone,
+        role: "visitor",
+        membershipStatus: "inactive",
+        city: "",
+        state: "",
+        preferredLanguage: "en",
+      });
+    }
+  },
+});
+
+export const handleUserUpdated = internalMutation({
+  args: { data: v.any() },
+  handler: async (ctx, args) => {
+    const userData = args.data.data;
+    const clerkId = userData.id;
+    const email = userData.email_addresses?.[0]?.email_address;
+    const name = `${userData.first_name || ""} ${userData.last_name || ""}`.trim() || userData.username || "User";
+    const phone = userData.phone_numbers?.[0]?.phone_number;
+
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
+      .first();
+
+    if (existingUser) {
+      await ctx.db.patch(existingUser._id, {
+        email: email || existingUser.email,
+        name: name || existingUser.name,
+        phone: phone || existingUser.phone,
+      });
+    } else if (email) {
+      await ctx.db.insert("users", {
+        clerkId,
+        email,
+        name,
+        phone,
+        role: "visitor",
+        membershipStatus: "inactive",
+        city: "",
+        state: "",
+        preferredLanguage: "en",
+      });
+    }
+  },
+});
+
+export const handleUserDeleted = internalMutation({
+  args: { data: v.any() },
+  handler: async (ctx, args) => {
+    const clerkId = args.data.data.id;
+
+    const existingUser = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
+      .first();
+
+    if (existingUser) {
+      await ctx.db.patch(existingUser._id, {
+        clerkId: `deleted-${clerkId}-${Date.now()}`,
+        email: `deleted-${existingUser.email}`,
+        membershipStatus: "inactive",
+      });
+    }
   },
 });
