@@ -58,11 +58,16 @@ export const list = query({
     // Enrich with author data
     const enrichedArticles = await Promise.all(
       articles.map(async (article) => {
-        const author = await ctx.db.get(article.author);
+        let author = null;
+        try {
+          author = await ctx.db.get(article.author);
+        } catch {
+          // Handle invalid author references from legacy data
+        }
         return {
           ...article,
-          authorName: author?.name ?? "Unknown",
-          authorPhoto: author?.profilePhoto,
+          authorName: author?.name ?? "SSD Editorial",
+          authorPhoto: author?.profilePhoto ?? null,
         };
       })
     );
@@ -94,11 +99,16 @@ export const getBySlug = query({
 
     if (!article) return null;
 
-    const author = await ctx.db.get(article.author);
+    let author = null;
+    try {
+      author = await ctx.db.get(article.author);
+    } catch {
+      // Handle invalid author references from legacy data
+    }
     return {
       ...article,
-      authorName: author?.name ?? "Unknown",
-      authorPhoto: author?.profilePhoto,
+      authorName: author?.name ?? "SSD Editorial",
+      authorPhoto: author?.profilePhoto ?? null,
       authorBio: author?.bio,
     };
   },
@@ -114,12 +124,17 @@ export const getById = mutation({
     // Increment view count
     await ctx.db.patch(args.id, { viewCount: article.viewCount + 1 });
 
-    const author = await ctx.db.get(article.author);
+    let author = null;
+    try {
+      author = await ctx.db.get(article.author);
+    } catch {
+      // Handle invalid author references from legacy data
+    }
     return {
       ...article,
       viewCount: article.viewCount + 1,
-      authorName: author?.name ?? "Unknown",
-      authorPhoto: author?.profilePhoto,
+      authorName: author?.name ?? "SSD Editorial",
+      authorPhoto: author?.profilePhoto ?? null,
     };
   },
 });
@@ -152,11 +167,16 @@ export const getFeatured = query({
 
     return await Promise.all(
       featuredArticles.map(async (article) => {
-        const author = await ctx.db.get(article.author);
+        let author = null;
+        try {
+          author = await ctx.db.get(article.author);
+        } catch {
+          // Handle invalid author references from legacy data
+        }
         return {
           ...article,
-          authorName: author?.name ?? "Unknown",
-          authorPhoto: author?.profilePhoto,
+          authorName: author?.name ?? "SSD Editorial",
+          authorPhoto: author?.profilePhoto ?? null,
         };
       })
     );
@@ -186,12 +206,21 @@ export const create = mutation({
       throw new Error("Unauthorized");
     }
 
+    // Look up the Convex user by Clerk ID to get a valid document reference
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+    if (!user) {
+      throw new Error("User not found. Please complete registration first.");
+    }
+
     const slug = generateSlug(args.title);
 
     const articleId = await ctx.db.insert("articles", {
       ...args,
       slug,
-      author: identity.subject as any,
+      author: user._id,
       status: "draft",
       publishedAt: undefined,
       viewCount: 0,
@@ -317,10 +346,15 @@ export const getRelated = query({
 
     return await Promise.all(
       related.map(async (article) => {
-        const author = await ctx.db.get(article.author);
+        let author = null;
+        try {
+          author = await ctx.db.get(article.author);
+        } catch {
+          // Handle invalid author references from legacy data
+        }
         return {
           ...article,
-          authorName: author?.name ?? "Unknown",
+          authorName: author?.name ?? "SSD Editorial",
         };
       })
     );

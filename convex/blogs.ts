@@ -48,10 +48,7 @@ export const list = query({
       blogs = blogs.filter((b) => b.author.toString() === args.author);
     }
 
-    // Only show published blogs for public listing
-    if (!args.status || args.status !== "draft") {
-      blogs = blogs.filter((b) => b.status === "published");
-    }
+
 
     // Sort
     if (sortBy === "newest") {
@@ -65,11 +62,16 @@ export const list = query({
     // Enrich with author data
     const enrichedBlogs = await Promise.all(
       blogs.map(async (blog) => {
-        const author = await ctx.db.get(blog.author);
+        let author = null;
+        try {
+          author = await ctx.db.get(blog.author);
+        } catch {
+          // Handle invalid author references from legacy data
+        }
         return {
           ...blog,
-          authorName: author?.name ?? "Unknown",
-          authorPhoto: author?.profilePhoto,
+          authorName: author?.name ?? "SSD Community",
+          authorPhoto: author?.profilePhoto ?? null,
         };
       })
     );
@@ -101,11 +103,16 @@ export const getBySlug = query({
 
     if (!blog) return null;
 
-    const author = await ctx.db.get(blog.author);
+    let author = null;
+    try {
+      author = await ctx.db.get(blog.author);
+    } catch {
+      // Handle invalid author references from legacy data
+    }
     return {
       ...blog,
-      authorName: author?.name ?? "Unknown",
-      authorPhoto: author?.profilePhoto,
+      authorName: author?.name ?? "SSD Community",
+      authorPhoto: author?.profilePhoto ?? null,
       authorBio: author?.bio,
     };
   },
@@ -138,11 +145,16 @@ export const getFeatured = query({
 
     return await Promise.all(
       publishedBlogs.map(async (blog) => {
-        const author = await ctx.db.get(blog.author);
+        let author = null;
+        try {
+          author = await ctx.db.get(blog.author);
+        } catch {
+          // Handle invalid author references from legacy data
+        }
         return {
           ...blog,
-          authorName: author?.name ?? "Unknown",
-          authorPhoto: author?.profilePhoto,
+          authorName: author?.name ?? "SSD Community",
+          authorPhoto: author?.profilePhoto ?? null,
         };
       })
     );
@@ -166,12 +178,21 @@ export const create = mutation({
       throw new Error("Unauthorized");
     }
 
+    // Look up the Convex user by Clerk ID to get a valid document reference
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+    if (!user) {
+      throw new Error("User not found. Please complete registration first.");
+    }
+
     const slug = generateSlug(args.title);
 
     const blogId = await ctx.db.insert("blogs", {
       ...args,
       slug,
-      author: identity.subject as any,
+      author: user._id,
       status: "draft",
       publishedAt: undefined,
       viewCount: 0,
@@ -268,10 +289,15 @@ export const getRelated = query({
 
     return await Promise.all(
       related.map(async (blog) => {
-        const author = await ctx.db.get(blog.author);
+        let author = null;
+        try {
+          author = await ctx.db.get(blog.author);
+        } catch {
+          // Handle invalid author references from legacy data
+        }
         return {
           ...blog,
-          authorName: author?.name ?? "Unknown",
+          authorName: author?.name ?? "SSD Community",
         };
       })
     );

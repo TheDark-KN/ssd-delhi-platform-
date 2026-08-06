@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Id } from "@convex/_generated/dataModel";
@@ -14,12 +14,21 @@ import { cn } from "@/lib/utils";
 
 export default function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
-  const article = useQuery(api.articles?.getBySlug as any, { slug });
-  const incrementView = useMutation(api.articles?.getById as any);
+  const article = useQuery(api.articles.getBySlug, { slug });
+  const incrementView = useMutation(api.articles.incrementViewCount);
 
   const [hasIncremented, setHasIncremented] = useState(false);
 
-  if (!article) {
+  // Increment view count once per session
+  useEffect(() => {
+    if (article && !hasIncremented && article.status === "published") {
+      incrementView({ id: article._id as Id<"articles"> });
+      setHasIncremented(true);
+    }
+  }, [article, hasIncremented, incrementView]);
+
+  // Loading state
+  if (article === undefined) {
     return (
       <div className="container py-12">
         <div className="max-w-3xl mx-auto space-y-4">
@@ -36,14 +45,9 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
     );
   }
 
-  if (!article) {
+  // Not found
+  if (article === null) {
     notFound();
-  }
-
-  // Increment view count once per session
-  if (!hasIncremented && article.status === "published") {
-    incrementView({ id: article._id as Id<"articles"> });
-    setHasIncremented(true);
   }
 
   return (
@@ -184,7 +188,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
 }
 
 function RelatedArticles({ articleId }: { articleId: any }) {
-  const relatedArticles = useQuery(api.articles?.getRelated as any, {
+  const relatedArticles = useQuery(api.articles.getRelated, {
     articleId,
     limit: 3,
   });

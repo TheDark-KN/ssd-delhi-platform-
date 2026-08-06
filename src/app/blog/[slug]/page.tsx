@@ -1,8 +1,9 @@
 "use client";
 
-import { use } from "react";
-import { useQuery } from "convex/react";
+import { use, useEffect, useState } from "react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
+import { Id } from "@convex/_generated/dataModel";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -13,9 +14,20 @@ import { cn } from "@/lib/utils";
 
 export default function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
-  const blog = useQuery(api.blogs?.getBySlug as any, { slug });
+  const blog = useQuery(api.blogs.getBySlug, { slug });
+  const incrementView = useMutation(api.blogs.incrementViewCount);
+  const [hasIncremented, setHasIncremented] = useState(false);
 
-  if (!blog) {
+  // Increment view count once per session
+  useEffect(() => {
+    if (blog && !hasIncremented && blog.status === "published") {
+      incrementView({ id: blog._id as Id<"blogs"> });
+      setHasIncremented(true);
+    }
+  }, [blog, hasIncremented, incrementView]);
+
+  // Loading state
+  if (blog === undefined) {
     return (
       <div className="container py-12">
         <div className="max-w-3xl mx-auto space-y-4">
@@ -27,7 +39,8 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
     );
   }
 
-  if (!blog) {
+  // Not found
+  if (blog === null) {
     notFound();
   }
 
@@ -154,7 +167,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
 }
 
 function RelatedBlogs({ blogId }: { blogId: any }) {
-  const blogsResult = useQuery(api.blogs?.list as any, {
+  const blogsResult = useQuery(api.blogs.list, {
     status: "published",
     limit: 10, // Fetch more to filter out current
   });

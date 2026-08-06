@@ -16,7 +16,7 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const blogsResult = useQuery(api.blogs?.list as any, {
+  const blogsResult = useQuery(api.blogs.list, {
     status: "published",
     category: selectedCategory || undefined,
     limit: 50,

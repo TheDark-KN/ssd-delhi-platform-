@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@convex/_generated/api";
+import { Id } from "@convex/_generated/dataModel";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,11 @@ import { toast } from "sonner";
 
 export default function AdminArticlesPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const articles = useQuery(api.articles?.list as any, { status: undefined });
-  const publishArticle = useMutation(api.articles?.publish as any);
-  const archiveArticle = useMutation(api.articles?.archive as any);
-  const deleteArticle = useMutation(api.articles?.remove as any);
+  const articlesResult = useQuery(api.articles.list, {});
+  const articles = articlesResult?.articles ?? [];
+  const publishArticle = useMutation(api.articles.publish);
+  const archiveArticle = useMutation(api.articles.archive);
+  const deleteArticle = useMutation(api.articles.remove);
 
   const filteredArticles = articles?.filter((article: any) => {
     if (!searchQuery) return true;
@@ -35,7 +37,7 @@ export default function AdminArticlesPage() {
     );
   });
 
-  const handlePublish = async (id: string) => {
+  const handlePublish = async (id: Id<"articles">) => {
     try {
       await publishArticle({ id });
       toast.success("Article published!");
@@ -44,7 +46,7 @@ export default function AdminArticlesPage() {
     }
   };
 
-  const handleArchive = async (id: string) => {
+  const handleArchive = async (id: Id<"articles">) => {
     try {
       await archiveArticle({ id });
       toast.success("Article archived!");
@@ -53,7 +55,7 @@ export default function AdminArticlesPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: Id<"articles">) => {
     if (!confirm("Are you sure you want to delete this article?")) return;
     try {
       await deleteArticle({ id });
@@ -118,7 +120,7 @@ export default function AdminArticlesPage() {
               </div>
             </CardHeader>
             <CardContent>
-              {!articles ? (
+              {articlesResult === undefined ? (
                 <div className="text-center py-8 text-muted-foreground">
                   Loading...
                 </div>

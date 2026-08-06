@@ -17,7 +17,7 @@ export default function ArticlesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<"en" | "hi" | null>(null);
 
-  const articlesResult = useQuery(api.articles?.list as any, {
+  const articlesResult = useQuery(api.articles.list, {
     status: "published",
     category: selectedCategory || undefined,
     language: selectedLanguage || undefined,
