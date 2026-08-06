@@ -228,6 +228,7 @@ export function Header() {
             <div className="pt-4 mt-4 border-t flex items-center gap-2 px-3">
               {mounted && <AuthButtons />}
             </div>
+          </div>
         </div>
       )}
     </header>
