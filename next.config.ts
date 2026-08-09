@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // Enable React Strict Mode for better development experience
   reactStrictMode: true,
 
+  // Use webpack instead of turbopack to avoid root directory issues
+  turbopack: false,
+
   // Experimental optimizations
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog'],

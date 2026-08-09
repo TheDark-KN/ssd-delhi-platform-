@@ -34,7 +34,7 @@ export default function SignUpPage() {
 
       // Prepare email verification
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-      router.push("/verify"); // Redirect to verification page
+      router.push("/verify?email_verification=true");
       toast.info("Verification code sent to your email.");
 
     } catch (error: any) {
