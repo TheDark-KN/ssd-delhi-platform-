@@ -49,7 +49,7 @@ export default function GalleryPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-forest pb-32 pt-24 text-cream">
+      <section className="relative overflow-hidden bg-forest pb-20 pt-20 text-cream sm:pb-32 sm:pt-24">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
@@ -60,10 +60,10 @@ export default function GalleryPage() {
             <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               Media gallery
             </Badge>
-            <h1 className="font-serif text-5xl leading-tight tracking-tight text-cream md:text-7xl">
+            <h1 className="font-serif text-[2.75rem] leading-tight tracking-tight text-cream sm:text-6xl md:text-7xl">
               A Century in <span className="text-[#FFDA78]">Pictures</span>
             </h1>
-            <p className="max-w-2xl text-xl leading-relaxed text-cream/75">
+            <p className="max-w-2xl text-base leading-7 text-cream/75 sm:text-xl sm:leading-relaxed">
               Photos, videos, and documents from SSD Delhi activities. Explore our legacy and the movement&apos;s journey.
             </p>
           </div>
@@ -71,9 +71,9 @@ export default function GalleryPage() {
       </section>
 
       {/* Filters */}
-      <section className="py-8 bg-white dark:bg-slate-950 border-b relative z-40 -mt-12 rounded-t-[40px] md:rounded-t-[80px]">
+      <section className="relative z-40 -mt-8 rounded-t-[2rem] border-b bg-background py-6 sm:-mt-12 sm:rounded-t-[5rem] sm:py-8">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+          <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center">
             <div className="relative flex-1 w-full lg:max-w-md group">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#003285] transition-colors" />
               <Input
@@ -143,61 +143,49 @@ export default function GalleryPage() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {filteredMedia.map((item: any) => (
-                  <Card key={item._id} className="border-none shadow-xl shadow-slate-100/60 rounded-[40px] overflow-hidden group hover:-translate-y-2 transition-all duration-300">
-                    <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden group">
-                      {item.type === "image" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#003285] to-[#2A629A]">
-                          <Image className="h-16 w-16 text-white/20" />
-                        </div>
-                      )}
-                      {item.type === "video" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#003285] to-[#2A629A]">
-                          <div className="h-20 w-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
-                            <Video className="h-10 w-10 text-white" />
-                          </div>
-                        </div>
-                      )}
-                      {item.type === "document" && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
-                          <FileText className="h-16 w-16 text-[#003285]/20" />
-                        </div>
-                      )}
-                      <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/10 font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
-                        {getTypeIcon(item.type)}
-                        <span className="ml-1 capitalize font-black">{item.type}</span>
-                      </Badge>
-                    </div>
-                    <CardContent className="p-10">
-                      <div className="flex items-center justify-between mb-4">
-                        <Badge className="bg-[#2A629A]/10 text-[#2A629A] border-none font-black uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
-                          {item.category}
-                        </Badge>
-                        {item.year && (
-                          <span className="text-xs font-black text-slate-400">{item.year}</span>
-                        )}
+            <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredMedia.map((item: any) => (
+                <Card key={item._id} className="group overflow-hidden rounded-3xl border-none shadow-xl shadow-slate-100/60 transition-all duration-300 group-hover:-translate-y-1 sm:rounded-[40px] sm:group-hover:-translate-y-2">
+                  <div className="group relative aspect-[4/3] overflow-hidden bg-slate-100">
+                    {item.type === "image" && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#003285] to-[#2A629A]">
+                        <Image className="h-16 w-16 text-white/20" />
                       </div>
-                      <CardTitle className="text-2xl font-black text-[#003285] mb-4 group-hover:text-[#FF7F3E] transition-colors">{item.title}</CardTitle>
-                      {item.description && (
-                        <CardDescription className="text-slate-500 font-medium line-clamp-2 text-base leading-relaxed mb-6">
-                          {item.description}
-                        </CardDescription>
-                      )}
-                      {item.tags && item.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 pt-6 border-t border-slate-50">
-                          {item.tags.slice(0, 3).map((tag: string, i: number) => (
-                            <Badge key={i} className="bg-slate-50 text-slate-400 border-none text-[10px] font-bold uppercase tracking-widest px-2 py-0.5">
-                              #{tag}
-                            </Badge>
-                          ))}
+                    )}
+                    {item.type === "video" && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#003285] to-[#2A629A]">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md">
+                          <Video className="h-10 w-10 text-white" />
                         </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+                      </div>
+                    )}
+                    {item.type === "document" && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
+                        <FileText className="h-16 w-16 text-[#003285]/20" />
+                      </div>
+                    )}
+                    <Badge className="absolute left-6 top-6 rounded-full border-white/10 bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-tighter text-white backdrop-blur-md">
+                      {getTypeIcon(item.type)}
+                      <span className="ml-1 capitalize font-black">{item.type}</span>
+                    </Badge>
+                  </div>
+                  <CardContent className="p-5 sm:p-8 md:p-10">
+                    <div className="mb-4 flex items-center justify-between">
+                      <Badge className="rounded-full border-none bg-[#2A629A]/10 px-3 py-1 text-[10px] font-black uppercase tracking-tighter text-[#2A629A]">
+                        {item.category}
+                      </Badge>
+                      {item.year && <span className="text-xs font-black text-slate-400">{item.year}</span>}
+                    </div>
+                    <CardTitle className="mb-4 text-2xl font-black text-[#003285] transition-colors group-hover:text-[#FF7F3E]">{item.title}</CardTitle>
+                    {item.description && <CardDescription className="mb-6 line-clamp-2 text-base font-medium leading-relaxed text-slate-500">{item.description}</CardDescription>}
+                    {item.tags && item.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 border-t border-slate-50 pt-6">
+                        {item.tags.slice(0, 3).map((tag: string, i: number) => <Badge key={i} className="border-none bg-slate-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">#{tag}</Badge>)}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           )}
         </div>

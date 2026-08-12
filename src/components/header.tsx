@@ -85,14 +85,14 @@ export function Header() {
         ? "bg-background/98 backdrop-blur-md shadow-sm border-forest/10"
         : "bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60"
     )}>
-      <div className="container flex h-20 items-center justify-between">
+      <div className="container flex min-h-16 items-center justify-between gap-3 py-2 sm:min-h-20">
         {/* Logo Section */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white shadow-lg group-hover:shadow-white/40 group-hover:scale-105 transition-all duration-300 overflow-hidden">
-            <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" priority />
+        <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3">
+          <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-white/40 sm:size-12">
+            <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="size-full object-contain" priority />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif text-2xl tracking-tight text-forest">
+            <span className="truncate font-serif text-xl tracking-tight text-forest sm:text-2xl">
               SSD Delhi
             </span>
             <span className="text-[10px] text-saffron font-semibold tracking-[0.2em] uppercase">
@@ -194,14 +194,14 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t bg-background">
-          <div className="container py-4 space-y-1">
+        <div className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t bg-background lg:hidden">
+          <div className="container flex flex-col gap-1 py-4">
             {mainNavItems.map((item) => (
               <div key={item.title}>
                 {item.items ? (
-                  <div className="space-y-1">
+                  <div className="flex flex-col gap-1">
                     <div className="font-semibold text-primary px-3 py-2">{t(item.title)}</div>
-                    <div className="pl-4 space-y-1">
+                    <div className="flex flex-col gap-1 pl-4">
                       {item.items.map((subItem) => (
                         <Link
                           key={subItem.href}

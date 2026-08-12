@@ -46,8 +46,8 @@ export function Footer() {
 
   return (
     <footer className="border-t bg-forest text-cream">
-      <div className="container py-12 md:py-16">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div className="container py-10 sm:py-12 md:py-16">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -55,7 +55,7 @@ export function Footer() {
                 <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" />
               </div>
               <div>
-                <h3 className="font-bold text-xl tracking-tight text-white">{t("footer.brand")}</h3>
+                <h3 className="font-serif text-xl tracking-tight text-cream">{t("footer.brand")}</h3>
                 <p className="text-xs text-blue-200/80 font-medium tracking-widest uppercase">समता सैनिक दल</p>
               </div>
             </div>
@@ -72,7 +72,7 @@ export function Footer() {
                 <a
                   key={social.name}
                   href={social.href}
-                  className="h-10 w-10 flex items-center justify-center rounded-full bg-blue-900/50 text-blue-100 hover:bg-[#FF7F3E] hover:text-white transition-all duration-300"
+                  className="flex size-10 items-center justify-center rounded-full bg-forest/60 text-cream/80 transition-all duration-300 hover:bg-saffron hover:text-forest"
                   aria-label={social.name}
                 >
                   <social.icon className="h-5 w-5" />
@@ -148,12 +148,12 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-10 border-t border-white/10 pt-6 sm:mt-12 sm:pt-8">
+          <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
             <p className="text-xs text-blue-200/60 text-center md:text-left">
               {t("footer.copyright").replace("{year}", new Date().getFullYear().toString())}
             </p>
-            <div className="flex gap-8 text-xs font-medium text-blue-200/60">
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-cream/60 md:justify-end">
               <Link href="/privacy" className="hover:text-[#FFDA78] transition-colors uppercase tracking-widest">
                 {t("footer.privacy")}
               </Link>

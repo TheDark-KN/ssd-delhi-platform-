@@ -39,7 +39,7 @@ export default function ArticlesPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative overflow-hidden bg-forest pb-20 pt-20 text-cream sm:pb-32 sm:pt-24">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#2A629A]/30 blur-[120px] rounded-full" />
@@ -50,10 +50,10 @@ export default function ArticlesPage() {
             <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               📚 Knowledge Repository
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-[2.75rem] leading-tight tracking-tight text-cream sm:text-6xl md:text-7xl">
               Articles & <span className="text-[#FFDA78]">Resources</span>
             </h1>
-            <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="max-w-2xl text-base leading-7 text-cream/75 sm:text-xl sm:leading-relaxed">
               In-depth articles on SSD history, ideology, and social justice. Well-researched pieces with proper source citations and references.
             </p>
           </div>
@@ -61,9 +61,9 @@ export default function ArticlesPage() {
       </section>
 
       {/* Filters and Search */}
-      <section className="py-8 bg-white dark:bg-slate-950 border-b relative z-40 -mt-12 rounded-t-[40px] md:rounded-t-[80px]">
+      <section className="relative z-40 -mt-8 rounded-t-[2rem] border-b bg-background py-6 sm:-mt-12 sm:rounded-t-[5rem] sm:py-8">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+          <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center">
             <div className="relative flex-1 w-full lg:max-w-md group">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400 group-focus-within:text-[#003285] transition-colors" />
               <Input
@@ -139,10 +139,10 @@ export default function ArticlesPage() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
               {filteredArticles.map((article: any) => (
                 <Link key={article._id} href={`/articles/${article.slug}`} className="group">
-                  <Card className="h-full border-none shadow-xl shadow-slate-100/60 rounded-[40px] overflow-hidden group-hover:-translate-y-2 transition-all duration-300">
+                  <Card className="h-full overflow-hidden rounded-3xl border-none shadow-xl shadow-slate-100/60 transition-all duration-300 group-hover:-translate-y-1 sm:rounded-[40px] sm:group-hover:-translate-y-2">
                     <div className="aspect-[4/3] bg-gradient-to-br from-[#003285] to-[#2A629A] relative overflow-hidden">
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
                       <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/10 font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
@@ -152,7 +152,7 @@ export default function ArticlesPage() {
                         {article.language === "en" ? "English" : "हिंदी"}
                       </Badge>
                     </div>
-                    <CardHeader className="p-10">
+                    <CardHeader className="p-5 sm:p-8 md:p-10">
                       <CardTitle className="text-2xl font-black text-[#003285] group-hover:text-[#FF7F3E] transition-colors leading-tight mb-4 line-clamp-2">
                         {article.title}
                       </CardTitle>
