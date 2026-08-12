@@ -49,7 +49,7 @@ export default function GalleryPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative overflow-hidden bg-forest pb-32 pt-24 text-cream">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
@@ -58,12 +58,12 @@ export default function GalleryPage() {
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
             <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
-              📸 Media Gallery
+              Media gallery
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
+            <h1 className="font-serif text-5xl leading-tight tracking-tight text-cream md:text-7xl">
               A Century in <span className="text-[#FFDA78]">Pictures</span>
             </h1>
-            <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+            <p className="max-w-2xl text-xl leading-relaxed text-cream/75">
               Photos, videos, and documents from SSD Delhi activities. Explore our legacy and the movement&apos;s journey.
             </p>
           </div>

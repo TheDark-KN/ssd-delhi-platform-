@@ -45,7 +45,7 @@ export function Footer() {
   const { t, language } = useLanguage();
 
   return (
-    <footer className="border-t bg-[#003285] text-white">
+    <footer className="border-t bg-forest text-cream">
       <div className="container py-12 md:py-16">
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}

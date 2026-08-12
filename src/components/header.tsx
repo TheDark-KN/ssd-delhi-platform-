@@ -82,8 +82,8 @@ export function Header() {
     <header className={cn(
       "sticky top-0 z-50 w-full transition-all duration-300 border-b",
       scrolled
-        ? "bg-background/98 backdrop-blur-md shadow-lg border-primary/20"
-        : "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+        ? "bg-background/98 backdrop-blur-md shadow-sm border-forest/10"
+        : "bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60"
     )}>
       <div className="container flex h-20 items-center justify-between">
         {/* Logo Section */}
@@ -92,10 +92,10 @@ export function Header() {
             <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" priority />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-xl tracking-tight text-[#003285]">
+            <span className="font-serif text-2xl tracking-tight text-forest">
               SSD Delhi
             </span>
-            <span className="text-[10px] text-[#2A629A] font-bold tracking-[0.2em] uppercase">
+            <span className="text-[10px] text-saffron font-semibold tracking-[0.2em] uppercase">
               समता सैनिक दल
             </span>
           </div>
