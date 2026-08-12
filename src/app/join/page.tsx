@@ -48,7 +48,7 @@ export default function JoinPage() {
   const [selectedPath, setSelectedPath] = useState("");
   const [draftRestored, setDraftRestored] = useState(false);
 
-  const submitApplication = useMutation(api.users.submitMembershipApplication);
+  const submitApplication = useMutation(api.joinApplications.submitJoinApplication);
   const { save, load, clear, lastSaved } = useFormPersistence(JOIN_FORM_ID);
 
   const {
@@ -92,7 +92,7 @@ export default function JoinPage() {
     setIsSubmitting(true);
     try {
       await submitApplication({
-        name: values.name,
+        fullName: values.name,
         email: values.email,
         phone: values.phone,
         address: values.address,
@@ -100,7 +100,7 @@ export default function JoinPage() {
         state: values.state,
         pincode: values.pincode,
         occupation: values.occupation,
-        reason: values.reason,
+        motivation: values.reason,
         volunteeringPath: values.volunteeringPath || undefined,
       });
       await clear();
@@ -407,17 +407,18 @@ export default function JoinPage() {
                 </div>
 
                 {/* Submit */}
-                <button
+                <Button
                   type="submit"
+                  size="lg"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-3 px-8 py-5 bg-[#FF7F3E] hover:bg-[#ff6a1a] disabled:opacity-50 disabled:cursor-not-allowed text-white font-black text-sm uppercase tracking-widest rounded-2xl transition-all duration-300 shadow-xl shadow-[#FF7F3E]/20 hover:shadow-[#FF7F3E]/40 active:scale-[0.98]"
+                  className="w-full sm:w-auto rounded-2xl bg-[#FF7F3E] px-8 py-5 text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-[#FF7F3E]/20 transition-all duration-300 hover:bg-[#ff6a1a] hover:shadow-[#FF7F3E]/40 active:scale-[0.98]"
                 >
                   {isSubmitting ? (
                     <><Loader2 className="h-5 w-5 animate-spin" /> Processing Application...</>
                   ) : (
                     <>Submit Application <ArrowRight className="h-5 w-5" /></>
                   )}
-                </button>
+                </Button>
 
                 <p className="text-center text-xs text-slate-600">
                   Your data is stored securely and only used for SSD Delhi membership processing.

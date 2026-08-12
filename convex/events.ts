@@ -43,6 +43,8 @@ export const list = query({
   },
 });
 
+export const listEvents = list;
+
 // Get event by slug
 export const getBySlug = query({
   args: { slug: v.string() },

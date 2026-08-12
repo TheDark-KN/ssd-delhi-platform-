@@ -220,7 +220,7 @@ export default function ContactPage() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full py-7 bg-[#FF7F3E] hover:bg-[#ff6a1a] rounded-2xl text-white font-black uppercase tracking-widest shadow-xl shadow-[#FF7F3E]/20" disabled={isSubmitting}>
+                  <Button type="submit" size="lg" className="w-full sm:w-auto rounded-2xl bg-[#FF7F3E] px-8 py-7 font-black uppercase tracking-widest text-white shadow-xl shadow-[#FF7F3E]/20 hover:bg-[#ff6a1a]" disabled={isSubmitting}>
                     <Send className="h-5 w-5 mr-3" />
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>

@@ -241,6 +241,25 @@ export default defineSchema({
     .index("by_user", ["userId"])
     .index("by_status", ["status", "createdAt"]),
 
+  // Public membership applications, kept separate from member profiles for review.
+  joinApplications: defineTable({
+    fullName: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    address: v.string(),
+    city: v.string(),
+    state: v.string(),
+    pincode: v.string(),
+    occupation: v.string(),
+    motivation: v.string(),
+    volunteeringPath: v.optional(v.string()),
+    submittedAt: v.number(),
+    status: v.union(v.literal("new"), v.literal("reviewing"), v.literal("approved"), v.literal("rejected")),
+  })
+    .index("by_submitted_at", ["submittedAt"])
+    .index("by_status", ["status", "submittedAt"])
+    .index("by_email", ["email"]),
+
   // Public contact form submissions for the admin inbox.
   contactMessages: defineTable({
     name: v.string(),

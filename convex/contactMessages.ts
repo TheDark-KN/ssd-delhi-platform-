@@ -25,6 +25,8 @@ export const submit = mutation({
   },
 });
 
+export const submitContactMessage = submit;
+
 export const list = query({
   args: { limit: v.optional(v.number()) },
   handler: async (ctx, args) => {

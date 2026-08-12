@@ -42,17 +42,17 @@ const footerLinks = {
 };
 
 export function Footer() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <footer className="border-t bg-forest text-cream">
-      <div className="container py-10 sm:py-12 md:py-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container py-12 md:py-16">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-white shadow-lg overflow-hidden">
-                <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="object-contain" />
+              <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-lg sm:size-12">
+                <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="size-full object-contain" />
               </div>
               <div>
                 <h3 className="font-serif text-xl tracking-tight text-cream">{t("footer.brand")}</h3>
@@ -151,7 +151,7 @@ export function Footer() {
         <div className="mt-10 border-t border-white/10 pt-6 sm:mt-12 sm:pt-8">
           <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row md:text-left">
             <p className="text-xs text-blue-200/60 text-center md:text-left">
-              {t("footer.copyright").replace("{year}", new Date().getFullYear().toString())}
+              {t("footer.copyright").replace("{year}", "2026")}
             </p>
             <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs font-medium text-cream/60 md:justify-end">
               <Link href="/privacy" className="hover:text-[#FFDA78] transition-colors uppercase tracking-widest">

@@ -88,6 +88,8 @@ export const list = query({
   },
 });
 
+export const listArticles = list;
+
 // Get article by slug with enrichment
 export const getBySlug = query({
   args: { slug: v.string() },

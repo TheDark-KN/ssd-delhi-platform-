@@ -92,6 +92,8 @@ export const list = query({
   },
 });
 
+export const listBlogPosts = list;
+
 // Get blog by slug with enrichment
 export const getBySlug = query({
   args: { slug: v.string() },

@@ -39,6 +39,8 @@ export const list = query({
   },
 });
 
+export const listNews = list;
+
 // Get news by slug
 export const getBySlug = query({
   args: { slug: v.string() },
