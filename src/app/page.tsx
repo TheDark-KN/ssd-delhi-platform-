@@ -11,8 +11,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/context/LanguageContext";
 
-const gardenImage = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/background_imagef_for_site-RjK9vv20Pe6PgyxfS2tyxvOZUYJ5Ry.jpg";
-const ambedkarImage = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Dr_%20Bhimrao%20Ambedkar_1-CHzrPadmo8j2DnWLBikIVlkTcIbhzw.jpg";
+const gardenImage = "/hero-background.jpg";
+const ambedkarImage = "/dr-ambedkar.jpg";
 
 const milestones = [
   { year: "1924", title: "A movement takes root", body: "The call for organised action, dignity, and education begins to gather force." },
@@ -55,7 +55,7 @@ export default function HomePage() {
       </section>
 
       <section className="container grid gap-10 px-4 py-16 sm:gap-12 sm:px-6 sm:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-muted"><Image src={ambedkarImage} alt="Dr. B. R. Ambedkar portrait" fill className="object-cover object-top grayscale" sizes="(max-width: 1024px) 100vw, 40vw" /><div className="absolute inset-x-5 bottom-5 rounded-2xl bg-forest/90 p-5 text-cream backdrop-blur"><p className="font-serif text-xl">“Cultivation of mind should be the ultimate aim of human existence.”</p><p className="mt-2 text-xs uppercase tracking-[0.2em] text-gold">Dr. B. R. Ambedkar</p></div></div>
+        <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-muted"><Image src={ambedkarImage} alt="Dr. B. R. Ambedkar portrait" fill priority className="object-cover object-top grayscale" sizes="(max-width: 1024px) 100vw, 40vw" /><div className="absolute inset-x-5 bottom-5 rounded-2xl bg-forest/90 p-5 text-cream backdrop-blur"><p className="font-serif text-xl">“Cultivation of mind should be the ultimate aim of human existence.”</p><p className="mt-2 text-xs uppercase tracking-[0.2em] text-gold">Dr. B. R. Ambedkar</p></div></div>
         <div className="max-w-xl"><p className="text-sm font-semibold uppercase tracking-[0.22em] text-saffron">Why SSD Delhi exists</p><h2 className="mt-4 font-serif text-4xl leading-tight text-forest sm:text-5xl md:text-6xl">A history that still asks something of us.</h2><p className="mt-6 text-lg leading-8 text-muted-foreground">Samta Sainik Dal is a people’s movement for social transformation. We preserve the ideas, stories, and practices that help communities challenge caste and build a more equal society.</p><div className="mt-8 flex flex-wrap gap-3"><Badge variant="secondary" className="rounded-full px-4 py-2">Liberty</Badge><Badge variant="secondary" className="rounded-full px-4 py-2">Equality</Badge><Badge variant="secondary" className="rounded-full px-4 py-2">Fraternity</Badge></div><Button asChild variant="link" className="mt-8 px-0 text-forest hover:text-saffron"><Link href="/about">Learn about our organisation <ArrowRight data-icon="inline-end" /></Link></Button></div>
       </section>
 
