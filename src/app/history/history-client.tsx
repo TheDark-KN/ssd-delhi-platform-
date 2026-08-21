@@ -15,8 +15,7 @@ import { DEFAULT_TIMELINE } from "@/lib/articles-data";
 export function HistoryClient() {
   const [selectedEra, setSelectedEra] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [visibleItems, setVisibleItems] = useState<number>(14);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [supabaseEvents, setSupabaseEvents] = useState<any[] | null>(null);
 
   const convexEvents = useQuery(api.timeline?.list as any, {
@@ -37,217 +36,190 @@ export function HistoryClient() {
       });
   }, [selectedEra]);
 
-  const timelineEvents = (supabaseEvents && supabaseEvents.length > 0)
+  const rawEvents = (supabaseEvents && supabaseEvents.length > 0)
     ? supabaseEvents
     : (convexEvents && convexEvents.length > 0)
       ? convexEvents
       : DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra);
 
-  const allEventsForEras = DEFAULT_TIMELINE;
-  const eras = [...new Set(allEventsForEras.map((e: any) => e.era))];
+  const eras = [...new Set(DEFAULT_TIMELINE.map((e: any) => e.era))];
+
+  // Filter by search and year
+  const timelineEvents = rawEvents.filter((event: any) => {
+    if (selectedYear && event.year !== selectedYear) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      return (
+        event.title.toLowerCase().includes(q) ||
+        event.description.toLowerCase().includes(q) ||
+        (event.dateDisplay && event.dateDisplay.toLowerCase().includes(q)) ||
+        (event.significance && event.significance.toLowerCase().includes(q)) ||
+        String(event.year).includes(q)
+      );
+    }
+    return true;
+  });
 
   // Get unique years for filtering
-  const years = timelineEvents 
-    ? ([...new Set(timelineEvents.map((e: any) => e.year))] as number[]).sort((a, b) => a - b) 
-    : [];
-
-  // Lazy load animation on scroll
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setIsLoaded(true);
-    
-    // Intersection Observer for lazy loading timeline items
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in", "fade-in", "slide-in-from-bottom");
-            observerRef.current?.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "50px" }
-    );
-
-    const timeline = timelineRef.current;
-    if (timeline) {
-      const items = timeline.querySelectorAll(".timeline-item");
-      items.forEach((item) => observerRef.current?.observe(item));
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [timelineEvents, selectedEra]);
-
-  // Load more items for infinite scroll effect
-  const loadMore = () => {
-    setVisibleItems((prev) => prev + 5);
-  };
+  const years = [...new Set(DEFAULT_TIMELINE.map((e: any) => e.year))].sort((a, b) => a - b);
 
   return (
     <>
       {/* Filters Section */}
-      <section className="py-6 md:py-8 bg-white dark:bg-slate-950 border-b relative z-40 -mt-8 md:-mt-12 rounded-t-[20px] md:rounded-t-[40px] shadow-lg">
+      <section className="py-6 md:py-8 bg-white dark:bg-slate-950 border-b relative z-30 -mt-8 md:-mt-12 rounded-t-[24px] md:rounded-t-[48px] shadow-sm">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col gap-4">
-            {/* Era Filters */}
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-col gap-5">
+            {/* Era Filter Pills */}
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2 hidden sm:inline">Eras:</span>
               <Button
                 variant={!selectedEra ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedEra(null)}
                 className={cn(
-                  "rounded-full px-4 md:px-5 font-bold uppercase tracking-tight text-xs md:text-sm transition-all",
+                  "rounded-full px-4 py-2 text-xs md:text-sm font-bold transition-all",
                   !selectedEra 
-                    ? "bg-[#003285] hover:bg-[#002561] shadow-md" 
-                    : "border-slate-200 text-slate-600 hover:bg-slate-100"
+                    ? "bg-[#003285] text-white hover:bg-[#002561] shadow-md" 
+                    : "border-slate-200 text-slate-700 hover:bg-slate-100 dark:border-slate-800 dark:text-slate-300"
                 )}
               >
-                All Eras
+                All Eras ({DEFAULT_TIMELINE.length})
               </Button>
-              {eras?.map((era: any) => (
+              {eras.map((era: string) => {
+                const count = DEFAULT_TIMELINE.filter((e) => e.era === era).length;
+                return (
+                  <Button
+                    key={era}
+                    variant={selectedEra === era ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedEra(era)}
+                    className={cn(
+                      "rounded-full px-4 py-2 text-xs md:text-sm font-bold transition-all",
+                      selectedEra === era 
+                        ? "bg-[#003285] text-white hover:bg-[#002561] shadow-md" 
+                        : "border-slate-200 text-slate-700 hover:bg-slate-100 dark:border-slate-800 dark:text-slate-300"
+                    )}
+                  >
+                    {era} ({count})
+                  </Button>
+                );
+              })}
+            </div>
+
+            {/* Quick Year Jump */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide pt-1">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400 mr-2 flex-shrink-0">Jump to Year:</span>
+              <Button
+                variant={selectedYear === null ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedYear(null)}
+                className="rounded-full px-3 py-1 font-bold text-xs flex-shrink-0 h-8"
+              >
+                All
+              </Button>
+              {years.map((year: number) => (
                 <Button
-                  key={era}
-                  variant={selectedEra === era ? "default" : "outline"}
+                  key={year}
+                  variant={selectedYear === year ? "secondary" : "ghost"}
                   size="sm"
-                  onClick={() => setSelectedEra(era)}
+                  onClick={() => setSelectedYear(selectedYear === year ? null : year)}
                   className={cn(
-                    "rounded-full px-4 md:px-5 font-bold uppercase tracking-tight text-xs md:text-sm transition-all",
-                    selectedEra === era 
-                      ? "bg-[#003285] hover:bg-[#002561] shadow-md" 
-                      : "border-slate-200 text-slate-600 hover:bg-slate-100"
+                    "rounded-full px-3 py-1 font-bold text-xs flex-shrink-0 h-8",
+                    selectedYear === year && "bg-[#FF7F3E]/15 text-[#d95720] border border-[#FF7F3E]/30"
                   )}
                 >
-                  {era}
+                  {year}
                 </Button>
               ))}
             </div>
-
-            {/* Year Filters - Scrollable on mobile */}
-            {years.length > 0 && (
-              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 md:overflow-visible">
-                <Button
-                  variant={selectedYear === null ? "secondary" : "ghost"}
-                  size="sm"
-                  onClick={() => setSelectedYear(null)}
-                  className="rounded-full px-4 font-bold text-xs md:text-sm flex-shrink-0"
-                >
-                  All Years
-                </Button>
-                {years.map((year: number) => (
-                  <Button
-                    key={year}
-                    variant={selectedYear === year ? "secondary" : "ghost"}
-                    size="sm"
-                    onClick={() => setSelectedYear(year)}
-                    className="rounded-full px-4 font-bold text-xs md:text-sm flex-shrink-0"
-                  >
-                    {year}
-                  </Button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </section>
 
       {/* Timeline Section */}
-      <section className="py-12 md:py-16" ref={timelineRef}>
-        <div className="container px-4 md:px-6">
-          {!timelineEvents ? (
-            <div className="space-y-8">
-              {Array(5).fill(0).map((_, i) => (
-                <div key={i} className="flex gap-4">
-                  <Skeleton className="h-12 w-24 md:w-32 flex-shrink-0" />
-                  <Skeleton className="flex-1 h-32 md:h-40" />
-                </div>
-              ))}
-            </div>
-          ) : timelineEvents.length === 0 ? (
-            <div className="text-center py-12 md:py-16">
-              <Calendar className="h-12 w-12 md:h-16 md:w-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg md:text-xl font-semibold mb-2">No events found</h3>
-              <p className="text-muted-foreground text-sm md:text-base">
-                Try selecting a different era or check back later
+      <section className="py-12 md:py-20 bg-slate-50/50 dark:bg-slate-900/30">
+        <div className="container px-4 md:px-6 max-w-5xl">
+          {timelineEvents.length === 0 ? (
+            <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-3xl p-8 border">
+              <Calendar className="h-12 w-12 text-[#FF7F3E] mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-[#003285] dark:text-white mb-2">No timeline events found</h3>
+              <p className="text-slate-500 text-sm max-w-md mx-auto mb-6">
+                Try selecting &apos;All Eras&apos; or clear the search filter to view all 14 milestones.
               </p>
+              <Button 
+                onClick={() => { setSelectedEra(null); setSelectedYear(null); setSearchQuery(""); }} 
+                className="bg-[#003285] text-white rounded-full px-6"
+              >
+                Reset Filters
+              </Button>
             </div>
           ) : (
             <div className="relative">
-              {/* Timeline Line - Hidden on mobile, visible on md+ */}
-              <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 md:w-px bg-border hidden sm:block" />
+              {/* Central vertical spine */}
+              <div className="absolute left-4 md:left-1/2 top-4 bottom-4 w-1 -translate-x-1/2 bg-gradient-to-b from-[#003285] via-[#2A629A] to-[#FF7F3E] rounded-full hidden sm:block opacity-30" />
 
-              <div className="space-y-6 md:space-y-8">
-                {timelineEvents
-                  .filter((event: any) => !selectedYear || event.year === selectedYear)
-                  .slice(0, visibleItems)
-                  .map((event: any, index: number) => (
+              <div className="space-y-8 md:space-y-12">
+                {timelineEvents.map((event: any, index: number) => {
+                  const isEven = index % 2 === 0;
+                  return (
                     <div
-                      key={event._id}
+                      key={event._id || event.id || `${event.year}-${index}`}
                       className={cn(
-                        "timeline-item relative flex flex-col sm:flex-row gap-6 md:gap-8 opacity-0",
-                        "transition-all duration-500 ease-out",
-                        index % 2 === 0 ? "sm:flex-row" : "sm:flex-row-reverse"
+                        "relative flex flex-col sm:flex-row gap-6 md:gap-10 items-start",
+                        isEven ? "sm:flex-row" : "sm:flex-row-reverse"
                       )}
                     >
-                      {/* Year Badge - Mobile (left side) */}
-                      <div className="flex sm:hidden items-center gap-3 mb-2 pl-4">
-                        <div className="flex-shrink-0 w-14 text-center">
-                          <div className="text-2xl font-bold text-[#003285]">{event.dateDisplay || event.year}</div>
+                      {/* Timeline Node Marker */}
+                      <div className="absolute left-4 md:left-1/2 top-7 -translate-x-1/2 hidden sm:flex items-center justify-center z-20">
+                        <div className="size-6 rounded-full bg-[#FF7F3E] border-4 border-white dark:border-slate-900 shadow-md shadow-[#FF7F3E]/50 flex items-center justify-center">
+                          <div className="size-1.5 rounded-full bg-white" />
                         </div>
                       </div>
 
                       {/* Content Card */}
                       <div className={cn(
-                        "flex-1 px-4 sm:px-0",
-                        index % 2 === 0 ? "sm:pr-8 md:pr-12 lg:pr-16" : "sm:pl-8 md:pl-12 lg:pl-16"
+                        "w-full sm:w-[calc(50%-2rem)] flex-1",
+                        isEven ? "sm:text-right" : "sm:text-left"
                       )}>
-                        <Card className={cn(
-                          "hover:shadow-xl transition-all duration-300 border-none shadow-lg shadow-slate-100/50 dark:shadow-slate-900/50",
-                          "rounded-[20px] md:rounded-[30px] lg:rounded-[40px] overflow-hidden",
-                          "transform hover:scale-[1.02] active:scale-[0.98]"
-                        )}>
-                          <CardHeader className="p-6 md:p-8 lg:p-10">
+                        <Card className="overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-md hover:shadow-xl transition-all duration-300 rounded-[24px] md:rounded-[32px] p-6 md:p-8">
+                          <CardHeader className="p-0 mb-4">
+                            {/* Date Badge & Era */}
                             <div className={cn(
-                              "flex items-center gap-3 md:gap-4 mb-4 flex-wrap",
-                              index % 2 === 0 ? "sm:flex-row-reverse" : "sm:flex-row"
+                              "flex items-center gap-2 mb-3 flex-wrap",
+                              isEven ? "sm:justify-end" : "sm:justify-start"
                             )}>
-                              <Badge className="bg-[#FF7F3E]/10 text-[#FF7F3E] border-[#FF7F3E]/20 font-black uppercase tracking-tighter text-[9px] md:text-[10px] px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                              <Badge className="bg-[#FF7F3E]/10 text-[#d95720] dark:text-[#FFDA78] border-[#FF7F3E]/20 text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full">
                                 {event.era}
                               </Badge>
-                              {/* Year - Desktop (in card header) */}
-                              <div className="text-2xl md:text-3xl font-black text-[#003285]">
-                                {event.dateDisplay || event.year}
+                              <div className="inline-flex items-center gap-1.5 bg-[#003285]/10 text-[#003285] dark:text-[#FFDA78] px-3 py-1 rounded-full text-xs font-black">
+                                <Calendar className="size-3.5 text-[#003285] dark:text-[#FFDA78]" />
+                                {event.dateDisplay || event.date_display || event.year}
                               </div>
                             </div>
-                            <CardTitle className="text-xl md:text-2xl lg:text-3xl font-black text-[#003285] dark:text-white leading-tight mb-3 md:mb-4">
+
+                            {/* Milestone Title */}
+                            <CardTitle className="text-xl md:text-2xl font-black text-[#003285] dark:text-white leading-snug">
                               {event.title}
                             </CardTitle>
                           </CardHeader>
-                          <CardContent className="px-6 md:px-8 lg:px-10 pb-6 md:pb-8 lg:pb-10 space-y-4 md:space-y-6">
-                            <CardDescription className="text-base md:text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+
+                          <CardContent className="p-0 space-y-4">
+                            {/* Description */}
+                            <CardDescription className="text-base text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
                               {event.description}
                             </CardDescription>
 
+                            {/* Significance Callout */}
                             {event.significance && (
                               <div className={cn(
-                                "p-4 md:p-6 bg-slate-50 dark:bg-slate-800/50 rounded-[20px] md:rounded-[24px] lg:rounded-[32px] border-l-4 border-[#FF7F3E]",
-                                index % 2 === 0 ? "sm:text-right" : "sm:text-left"
+                                "p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border-l-4 border-[#FF7F3E] text-left",
+                                isEven && "sm:border-l-0 sm:border-r-4"
                               )}>
-                                <div className={cn(
-                                  "flex items-center gap-2 mb-3 flex-wrap",
-                                  index % 2 === 0 ? "sm:flex-row-reverse" : "sm:flex-row"
-                                )}>
-                                  <BookOpen className="h-3 w-3 md:h-4 md:w-4 text-[#FF7F3E] flex-shrink-0" />
-                                  <span className="font-black text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-[#2A629A] dark:text-[#FFDA78]">
-                                    Significance
-                                  </span>
+                                <div className="flex items-center gap-2 mb-1.5 text-[#003285] dark:text-[#FFDA78]">
+                                  <BookOpen className="size-4 text-[#FF7F3E]" />
+                                  <span className="font-bold text-xs uppercase tracking-wider">Significance</span>
                                 </div>
-                                <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 font-bold leading-relaxed">
+                                <p className="text-xs md:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
                                   {event.significance}
                                 </p>
                               </div>
@@ -256,39 +228,23 @@ export function HistoryClient() {
                         </Card>
                       </div>
 
-                      {/* Timeline Dot - Center aligned */}
-                      <div className="absolute left-8 sm:left-1/2 transform sm:-translate-x-1/2 flex items-center justify-center top-6 md:top-8">
-                        <div className="w-4 h-4 md:w-5 md:h-5 bg-[#FF7F3E] rounded-full border-4 border-white dark:border-slate-950 shadow-lg shadow-[#FF7F3E]/40" />
-                      </div>
-
-                      {/* Spacer for alternating layout */}
-                      <div className="hidden sm:block flex-1" />
+                      {/* Spacer to balance the grid on desktop */}
+                      <div className="hidden sm:block sm:w-[calc(50%-2rem)] flex-1" />
                     </div>
-                  ))}
+                  );
+                })}
               </div>
-
-              {/* Load More Button */}
-              {visibleItems < timelineEvents.filter((e: any) => !selectedYear || e.year === selectedYear).length && (
-                <div className="text-center mt-12 md:mt-16">
-                  <Button
-                    onClick={loadMore}
-                    className="bg-[#003285] hover:bg-[#002561] text-white font-bold px-8 md:px-12 py-6 md:py-7 rounded-full text-sm md:text-base shadow-lg hover:shadow-xl transition-all"
-                  >
-                    Load More Events
-                  </Button>
-                </div>
-              )}
             </div>
           )}
         </div>
       </section>
 
       {/* Historical Note */}
-      <section className="py-12 md:py-16 bg-muted/40 dark:bg-slate-900/40">
+      <section className="py-12 md:py-16 bg-white dark:bg-slate-950 border-t">
         <div className="container px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center space-y-4">
+          <div className="max-w-3xl mx-auto text-center space-y-4 bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border">
             <h2 className="text-xl md:text-2xl font-bold text-[#003285] dark:text-white">Historical Note on Centenary & Dates</h2>
-            <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
               Samata Sainik Dal as a named organisation was formally constituted on 13 March 1927 ahead of the historic Mahad Satyagraha. The movement&apos;s 1924–2024 centenary framing honours July 1924, when Dr. B.R. Ambedkar founded the Bahishkrit Hitakarini Sabha — his first organised effort against untouchability and the foundational institutional root of the soldiers for equality.
             </p>
           </div>

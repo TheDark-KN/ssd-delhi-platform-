@@ -1,4 +1,4 @@
-﻿-- =========================================================
+-- =========================================================
 -- SSD Delhi Platform - Supabase Schema & Seed Script
 -- Tables: history, articles
 -- =========================================================
@@ -127,10 +127,108 @@ VALUES
     '2024-04-14T00:00:00Z',
     1890,
     true
-)
-ON CONFLICT (slug) DO UPDATE SET
-    title = EXCLUDED.title,
-    content = EXCLUDED.content,
-    excerpt = EXCLUDED.excerpt,
-    category = EXCLUDED.category,
-    tags = EXCLUDED.tags;
+);
+
+-- 3. BLOGS TABLE
+CREATE TABLE IF NOT EXISTS public.blogs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    slug TEXT NOT NULL UNIQUE,
+    content TEXT NOT NULL,
+    featured_image_url TEXT,
+    category TEXT NOT NULL DEFAULT 'Community',
+    tags TEXT[] NOT NULL DEFAULT '{}',
+    language TEXT NOT NULL DEFAULT 'en',
+    status TEXT NOT NULL DEFAULT 'published',
+    published_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    view_count INTEGER NOT NULL DEFAULT 0,
+    allow_comments BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read access on blogs"
+    ON public.blogs FOR SELECT
+    USING (status = 'published');
+
+-- 4. EVENTS TABLE
+CREATE TABLE IF NOT EXISTS public.events (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    slug TEXT NOT NULL UNIQUE,
+    description TEXT NOT NULL,
+    start_date TIMESTAMPTZ NOT NULL,
+    end_date TIMESTAMPTZ NOT NULL,
+    venue TEXT NOT NULL,
+    address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    max_attendees INTEGER,
+    registration_deadline TIMESTAMPTZ,
+    featured_image_url TEXT,
+    category TEXT NOT NULL DEFAULT 'Program',
+    status TEXT NOT NULL DEFAULT 'upcoming',
+    is_public BOOLEAN NOT NULL DEFAULT true,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read access on events"
+    ON public.events FOR SELECT
+    USING (is_public = true);
+
+-- Insert Sample Event (Foundation Day)
+INSERT INTO public.events (title, slug, description, start_date, end_date, venue, address, city, category, status, is_public)
+VALUES (
+    'SSD Delhi Foundation Day Gathering',
+    'ssd-delhi-foundation-day-gathering',
+    'Two days of remembrance and service. SSD Delhi Foundation Day is a time to honour the movement''s legacy, gather in fraternity, and renew our promise of service.',
+    '2026-09-23 10:00:00+00',
+    '2026-09-24 17:00:00+00',
+    'Ambedkar Bhawan',
+    'Rani Jhansi Road',
+    'New Delhi',
+    'Community Gathering',
+    'upcoming',
+    true
+) ON CONFLICT (slug) DO NOTHING;
+
+-- 5. JOIN APPLICATIONS TABLE
+CREATE TABLE IF NOT EXISTS public.join_applications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    full_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    address TEXT NOT NULL,
+    city TEXT NOT NULL,
+    state TEXT NOT NULL,
+    pincode TEXT NOT NULL,
+    occupation TEXT NOT NULL,
+    motivation TEXT NOT NULL,
+    volunteering_path TEXT,
+    status TEXT NOT NULL DEFAULT 'new',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.join_applications ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public submission on join_applications"
+    ON public.join_applications FOR INSERT
+    WITH CHECK (true);
+
+-- 6. DASHBOARD SNAPSHOTS TABLE
+CREATE TABLE IF NOT EXISTS public.dashboard_snapshots (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    snapshot_key TEXT NOT NULL UNIQUE,
+    data JSONB NOT NULL DEFAULT '{}'::jsonb,
+    captured_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+ALTER TABLE public.dashboard_snapshots ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public read on dashboard_snapshots"
+    ON public.dashboard_snapshots FOR SELECT
+    USING (true);
+
