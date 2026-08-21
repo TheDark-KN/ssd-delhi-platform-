@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useMutation } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { submitJoinApplication } from "@/lib/supabase-rest";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -48,7 +47,7 @@ export default function JoinPage() {
   const [selectedPath, setSelectedPath] = useState("");
   const [draftRestored, setDraftRestored] = useState(false);
 
-  const submitApplication = useMutation(api.joinApplications.submitJoinApplication);
+  const submitApplication = submitJoinApplication;
   const { save, load, clear, lastSaved } = useFormPersistence(JOIN_FORM_ID);
 
   const {

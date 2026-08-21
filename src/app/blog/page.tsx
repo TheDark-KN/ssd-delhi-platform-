@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useEffect, useState } from "react";
+import { listBlogs } from "@/lib/supabase-rest";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,17 +15,16 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const blogsResult = useQuery(api.blogs.list, {
-    status: "published",
-    category: selectedCategory || undefined,
-    limit: 50,
-  });
+  const [blogs, setBlogs] = useState<any[] | undefined>(undefined);
 
-  const blogs = blogsResult?.blogs ?? [];
+  useEffect(() => {
+    listBlogs(selectedCategory || undefined).then(setBlogs).catch(() => setBlogs([]));
+  }, [selectedCategory]);
 
-  const categories = [...new Set(blogs.map((b: any) => b.category))] as string[];
+  const blogsResult = blogs;
+  const categories = [...new Set((blogs ?? []).map((b: any) => b.category))] as string[];
 
-  const filteredBlogs = blogs.filter((blog: any) => {
+  const filteredBlogs = (blogs ?? []).filter((blog: any) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
