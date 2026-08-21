@@ -11,20 +11,23 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/context/LanguageContext";
 
+import { DEFAULT_ARTICLES } from "@/lib/articles-data";
+
 const gardenImage = "/hero-background.jpg";
 const ambedkarImage = "/dr-ambedkar.jpg";
 
 const milestones = [
-  { year: "1924", title: "A movement takes root", body: "The call for organised action, dignity, and education begins to gather force." },
-  { year: "1927", title: "Courage at Mahad", body: "Volunteers stand with Dr. Ambedkar in the historic struggle for equal access." },
-  { year: "1956", title: "A new moral horizon", body: "The Dhamma offers a language of fraternity, reason, and human liberation." },
-  { year: "Today", title: "The work continues", body: "SSD Delhi carries this legacy into communities, classrooms, and public life." },
+  { year: "1924", title: "The Beginning", body: "Dr. B.R. Ambedkar founds the Bahishkrit Hitakarini Sabha, laying the institutional foundation for the movement." },
+  { year: "1927", title: "Samata Sainik Dal is Born", body: "Ambedkar forms a volunteer corps to protect satyagrahis at Mahad and leads the historic Chavdar Tale Satyagraha." },
+  { year: "1956", title: "A Moral and Spiritual Turn", body: "Ambedkar leads a mass conversion to Buddhism at Deekshabhoomi, Nagpur." },
+  { year: "2024", title: "Centenary Year", body: "A century since 1924, SSD carries Babasaheb's mission of equality forward into a new generation." },
 ];
 
 export default function HomePage() {
   const { t, language } = useLanguage();
-  const articles = useQuery(api.articles.getFeatured, { limit: 3 });
-  const events = useQuery(api.events.list, { status: "upcoming", limit: 3 });
+  const articlesQuery = useQuery(api.articles?.getFeatured as any, { limit: 3 });
+  const events = useQuery(api.events?.list as any, { status: "upcoming", limit: 3 });
+  const articles = articlesQuery && articlesQuery.length > 0 ? articlesQuery : DEFAULT_ARTICLES.slice(0, 3);
 
   return (
     <div className="bg-background">
@@ -36,7 +39,7 @@ export default function HomePage() {
           <div className="max-w-3xl">
             <p className="mb-5 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-gold sm:mb-6 sm:gap-3 sm:text-sm sm:tracking-[0.25em]"><Leaf className="size-4" /> Samta Sainik Dal Delhi</p>
             <h1 className="max-w-3xl font-serif text-[2.75rem] leading-[0.98] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">Knowledge is the first step toward liberation.</h1>
-            <p className="mt-6 max-w-2xl text-base leading-7 text-cream/80 sm:mt-8 sm:text-lg sm:leading-8 md:text-xl">A living archive of the movement for liberty, equality, and fraternity — rooted in the vision of Dr. B. R. Ambedkar.</p>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-cream/80 sm:mt-8 sm:text-lg sm:leading-8 md:text-xl">From the Mahad Satyagraha to the Constitution of India — explore the history, ideology, and ongoing fight for social justice that built Samata Sainik Dal.</p>
             <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:gap-4">
               <Button asChild size="lg" className="w-full rounded-full bg-gold px-7 text-forest hover:bg-gold/90 sm:w-auto"><Link href="/history">Explore our history <ArrowRight data-icon="inline-end" /></Link></Button>
               <Button asChild size="lg" variant="outline" className="w-full rounded-full border-cream/40 bg-transparent px-7 text-cream hover:bg-cream/10 hover:text-cream sm:w-auto"><Link href="/join">Join the movement</Link></Button>
@@ -59,7 +62,7 @@ export default function HomePage() {
         <div className="max-w-xl"><p className="text-sm font-semibold uppercase tracking-[0.22em] text-saffron">Why SSD Delhi exists</p><h2 className="mt-4 font-serif text-4xl leading-tight text-forest sm:text-5xl md:text-6xl">A history that still asks something of us.</h2><p className="mt-6 text-lg leading-8 text-muted-foreground">Samta Sainik Dal is a people’s movement for social transformation. We preserve the ideas, stories, and practices that help communities challenge caste and build a more equal society.</p><div className="mt-8 flex flex-wrap gap-3"><Badge variant="secondary" className="rounded-full px-4 py-2">Liberty</Badge><Badge variant="secondary" className="rounded-full px-4 py-2">Equality</Badge><Badge variant="secondary" className="rounded-full px-4 py-2">Fraternity</Badge></div><Button asChild variant="link" className="mt-8 px-0 text-forest hover:text-saffron"><Link href="/about">Learn about our organisation <ArrowRight data-icon="inline-end" /></Link></Button></div>
       </section>
 
-      <section className="bg-sage/30 py-16 sm:py-24"><div className="container px-4 sm:px-6"><div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-sm font-semibold uppercase tracking-[0.22em] text-saffron">From the archive</p><h2 className="mt-3 font-serif text-4xl text-forest md:text-5xl">Ideas worth carrying forward</h2></div><Button asChild variant="outline" className="w-fit rounded-full border-forest/30 text-forest hover:bg-forest hover:text-cream"><Link href="/articles">View all articles <ArrowRight data-icon="inline-end" /></Link></Button></div><div className="grid gap-6 md:grid-cols-3">{articles === undefined ? [1,2,3].map((item) => <Skeleton key={item} className="h-72 rounded-3xl" />) : articles.map((article: any) => <Link key={article._id} href={`/articles/${article.slug}`} className="group"><Card className="h-full rounded-3xl border-forest/10 bg-background/80 shadow-none transition-transform group-hover:-translate-y-1"><CardHeader><Badge variant="outline" className="w-fit rounded-full border-saffron/40 text-saffron">{article.category}</Badge><CardTitle className="font-serif text-2xl text-forest group-hover:text-saffron">{article.title}</CardTitle><CardDescription className="leading-6">{article.excerpt}</CardDescription></CardHeader><CardContent><span className="text-sm font-semibold text-forest">Read story <ArrowRight className="ml-1 inline size-4" /></span></CardContent></Card></Link>)}</div></div></section>
+      <section className="bg-sage/30 py-16 sm:py-24"><div className="container px-4 sm:px-6"><div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-sm font-semibold uppercase tracking-[0.22em] text-saffron">From the archive</p><h2 className="mt-3 font-serif text-4xl text-forest md:text-5xl">Ideas worth carrying forward</h2></div><Button asChild variant="outline" className="w-fit rounded-full border-forest/30 text-forest hover:bg-forest hover:text-cream"><Link href="/articles">View all articles <ArrowRight data-icon="inline-end" /></Link></Button></div><div className="grid gap-6 md:grid-cols-3">{!articles ? [1,2,3].map((item) => <Skeleton key={item} className="h-72 rounded-3xl" />) : articles.map((article: any) => <Link key={article.slug || article._id} href={`/articles/${article.slug}`} className="group"><Card className="h-full rounded-3xl border-forest/10 bg-background/80 shadow-none transition-transform group-hover:-translate-y-1"><CardHeader><Badge variant="outline" className="w-fit rounded-full border-saffron/40 text-saffron">{article.category}</Badge><CardTitle className="font-serif text-2xl text-forest group-hover:text-saffron">{article.title}</CardTitle><CardDescription className="leading-6 line-clamp-3">{article.excerpt}</CardDescription></CardHeader><CardContent><span className="text-sm font-semibold text-forest">Read story <ArrowRight className="ml-1 inline size-4" /></span></CardContent></Card></Link>)}</div></div></section>
 
       <section className="container px-4 py-16 sm:px-6 sm:py-24"><div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end"><div><p className="text-sm font-semibold uppercase tracking-[0.22em] text-saffron">Be part of the work</p><h2 className="mt-3 font-serif text-4xl text-forest md:text-5xl">Gather, learn, act.</h2></div><Button asChild variant="link" className="w-fit px-0 text-forest"><Link href="/events">See the full calendar <ArrowRight data-icon="inline-end" /></Link></Button></div><div className="grid gap-6 md:grid-cols-3">{events === undefined ? [1,2,3].map((item) => <Skeleton key={item} className="h-64 rounded-3xl" />) : events.map((event: any) => <Link key={event._id} href={`/events/${event.slug}`} className="group"><Card className="h-full rounded-3xl border-border shadow-none transition-colors group-hover:border-saffron/50"><CardHeader><p className="flex items-center gap-2 text-sm font-medium text-saffron"><CalendarDays className="size-4" />{new Date(event.startDate).toLocaleDateString(language === "hi" ? "hi-IN" : "en-IN", { month: "short", day: "numeric", year: "numeric" })}</p><CardTitle className="font-serif text-2xl text-forest group-hover:text-saffron">{event.title}</CardTitle><CardDescription className="flex items-center gap-2"><MapPin className="size-4" />{event.venue}, {event.city}</CardDescription></CardHeader><CardContent><span className="text-sm text-muted-foreground"><Clock3 className="mr-1 inline size-4" /> Community gathering</span></CardContent></Card></Link>)}</div></section>
 

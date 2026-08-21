@@ -9,18 +9,42 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { listHistory } from "@/lib/supabase-rest";
+import { DEFAULT_TIMELINE } from "@/lib/articles-data";
 
 export function HistoryClient() {
   const [selectedEra, setSelectedEra] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [visibleItems, setVisibleItems] = useState<number>(5);
+  const [visibleItems, setVisibleItems] = useState<number>(14);
   const [isLoaded, setIsLoaded] = useState(false);
-  
-  const timelineEvents = useQuery(api.timeline?.list as any, {
-    era: selectedEra || undefined,
-  }) || [];
+  const [supabaseEvents, setSupabaseEvents] = useState<any[] | null>(null);
 
-  const eras = useQuery(api.timeline?.getEras as any) || [];
+  const convexEvents = useQuery(api.timeline?.list as any, {
+    era: selectedEra || undefined,
+  });
+
+  useEffect(() => {
+    listHistory(selectedEra || undefined)
+      .then((data) => {
+        if (data && data.length > 0) {
+          setSupabaseEvents(data);
+        } else {
+          setSupabaseEvents(DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra));
+        }
+      })
+      .catch(() => {
+        setSupabaseEvents(DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra));
+      });
+  }, [selectedEra]);
+
+  const timelineEvents = (supabaseEvents && supabaseEvents.length > 0)
+    ? supabaseEvents
+    : (convexEvents && convexEvents.length > 0)
+      ? convexEvents
+      : DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra);
+
+  const allEventsForEras = DEFAULT_TIMELINE;
+  const eras = [...new Set(allEventsForEras.map((e: any) => e.era))];
 
   // Get unique years for filtering
   const years = timelineEvents 
@@ -263,13 +287,9 @@ export function HistoryClient() {
       <section className="py-12 md:py-16 bg-muted/40 dark:bg-slate-900/40">
         <div className="container px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center space-y-4">
-            <h2 className="text-xl md:text-2xl font-bold text-[#003285] dark:text-white">Historical Note</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-[#003285] dark:text-white">Historical Note on Centenary & Dates</h2>
             <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-              The roots of Samta Sainik Dal trace back to the Mahad movement. While some sources record
-              September 24, 1924, as the formation date during a Mahad conference, others highlight March 1927
-              when Dr. Ambedkar formally announced the &quot;Social Equality Army&quot; during the Chavdar Lake struggle.
-              SSD has since evolved from protective bodies like Bhim Sevak Dal and Dr. Ambedkar Seva Dal
-              into a national volunteer force.
+              Samata Sainik Dal as a named organisation was formally constituted on 13 March 1927 ahead of the historic Mahad Satyagraha. The movement&apos;s 1924–2024 centenary framing honours July 1924, when Dr. B.R. Ambedkar founded the Bahishkrit Hitakarini Sabha — his first organised effort against untouchability and the foundational institutional root of the soldiers for equality.
             </p>
           </div>
         </div>

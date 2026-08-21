@@ -43,6 +43,11 @@ export type SupabaseArticle = {
   status: string; published_at: string | null; view_count: number; featured: boolean
 }
 
+export type SupabaseHistoryItem = {
+  id: string; year: number; date_display: string; title: string; description: string
+  significance: string | null; era: string; created_at: string
+}
+
 export type SupabaseBlog = {
   id: string; title: string; slug: string; content: string; featured_image_url: string | null
   category: string; tags: string[]; language: "en" | "hi"; status: string
@@ -56,9 +61,20 @@ export type SupabaseEvent = {
   status: string; is_public: boolean
 }
 
-export const getArticleBySlug = (slug: string) => query<SupabaseArticle[]>("articles", {
-  slug: `eq.${encodeURIComponent(slug)}`, status: "eq.published", limit: "1",
-})
+import { DEFAULT_ARTICLES, DEFAULT_TIMELINE } from "./articles-data"
+
+export const getArticleBySlug = async (slug: string): Promise<any[]> => {
+  try {
+    const rows = await query<SupabaseArticle[]>("articles", {
+      slug: `eq.${encodeURIComponent(slug)}`, status: "eq.published", limit: "1",
+    })
+    if (rows && rows.length > 0) return rows
+  } catch (err) {
+    console.warn("Supabase getArticleBySlug fallback to local default articles", err)
+  }
+  const fallback = DEFAULT_ARTICLES.filter((a) => a.slug === slug)
+  return fallback
+}
 
 export const getBlogBySlug = (slug: string) => query<SupabaseBlog[]>("blogs", {
   slug: `eq.${encodeURIComponent(slug)}`, status: "eq.published", limit: "1",
@@ -68,9 +84,39 @@ export const getEventBySlug = (slug: string) => query<SupabaseEvent[]>("events",
   slug: `eq.${encodeURIComponent(slug)}`, is_public: "eq.true", limit: "1",
 })
 
-export const listArticles = (category?: string, language?: string) => query<SupabaseArticle[]>("articles", {
-  status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), ...(language ? { language: `eq.${language}` } : {}), order: "published_at.desc",
-})
+export const listArticles = async (category?: string, language?: string): Promise<any[]> => {
+  try {
+    const rows = await query<SupabaseArticle[]>("articles", {
+      status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), ...(language ? { language: `eq.${language}` } : {}), order: "published_at.desc",
+    })
+    if (rows && rows.length > 0) return rows
+  } catch (err) {
+    console.warn("Supabase listArticles fallback to local default articles", err)
+  }
+  return DEFAULT_ARTICLES.filter((a) => {
+    if (category && a.category !== category) return false
+    if (language && a.language !== language) return false
+    return true
+  })
+}
+
+export const listHistory = async (era?: string): Promise<any[]> => {
+  try {
+    const rows = await query<SupabaseHistoryItem[]>("history", {
+      ...(era ? { era: `eq.${era}` } : {}), order: "year.asc",
+    })
+    if (rows && rows.length > 0) {
+      return rows.map((r: any) => ({
+        ...r,
+        _id: r.id,
+        dateDisplay: r.date_display || r.dateDisplay || String(r.year),
+      }))
+    }
+  } catch (err) {
+    console.warn("Supabase listHistory fallback to local default timeline", err)
+  }
+  return DEFAULT_TIMELINE.filter((item) => (!era ? true : item.era === era))
+}
 
 export const listBlogs = (category?: string) => query<SupabaseBlog[]>("blogs", {
   status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), order: "published_at.desc", limit: "50",
