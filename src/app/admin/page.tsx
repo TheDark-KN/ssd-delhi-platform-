@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
+import { listArticles, listEvents } from "@/lib/supabase-rest";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -24,8 +26,19 @@ export default function AdminDashboardPage() {
   const isLoadingUser = currentUser === undefined;
   const isAdmin = currentUser?.role === "admin" || currentUser?.role === "superadmin";
   const users = useQuery(api.users.listUsers as any, isAdmin ? { limit: 100 } : "skip");
-  const articles = useQuery(api.articles.list as any, isAdmin ? { status: "published", limit: 100 } : "skip");
-  const events = useQuery(api.events.list as any, isAdmin ? { limit: 100 } : "skip");
+  const [articles, setArticles] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!isAdmin) return;
+    Promise.all([listArticles(), listEvents()]).then(([nextArticles, nextEvents]) => {
+      setArticles(nextArticles);
+      setEvents(nextEvents);
+    }).catch(() => {
+      setArticles([]);
+      setEvents([]);
+    });
+  }, [isAdmin]);
   const pendingMembers = useQuery(api.users.listUsers as any, isAdmin ? {
     membershipStatus: "pending",
     limit: 50

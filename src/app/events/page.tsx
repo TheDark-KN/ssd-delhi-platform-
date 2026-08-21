@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useEffect, useState } from "react";
+import { listEvents } from "@/lib/supabase-rest";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,12 +15,13 @@ export default function EventsPage() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const eventsResult = useQuery(api.events.list, {
-    status: selectedStatus || undefined,
-    category: selectedCategory || undefined,
-  });
+  const [events, setEvents] = useState<any[] | undefined>(undefined);
 
-  const events = eventsResult ?? [];
+  useEffect(() => {
+    listEvents(selectedStatus || undefined, selectedCategory || undefined).then(setEvents).catch(() => setEvents([]));
+  }, [selectedStatus, selectedCategory]);
+
+  const eventsResult = events;
 
   const statuses = ["upcoming", "ongoing", "completed"];
   const categories = events ? [...new Set(events.map((e: any) => e.category))] as string[] : [];
@@ -36,9 +36,9 @@ export default function EventsPage() {
     return variants[status] || "outline";
   };
 
-  const formatDateRange = (start: number, end: number) => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
+  const formatDateRange = (start: number | string, end: number | string) => {
+    const startDate = new Date(typeof start === "number" ? start : String(start));
+    const endDate = new Date(typeof end === "number" ? end : String(end));
 
     if (startDate.toDateString() === endDate.toDateString()) {
       return format(startDate, "MMMM dd, yyyy");
@@ -126,7 +126,7 @@ export default function EventsPage() {
                 </Card>
               ))}
             </div>
-          ) : events.length === 0 ? (
+          ) : (events ?? []).length === 0 ? (
             <div className="text-center py-12">
               <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">No events found</h3>
@@ -136,7 +136,7 @@ export default function EventsPage() {
             </div>
           ) : (
             <div className="grid gap-5 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {events.map((event: any) => (
+              {(events ?? []).map((event: any) => (
                 <Link key={event._id} href={`/events/${event.slug}`} className="group">
                   <Card className="h-full overflow-hidden rounded-3xl border-none shadow-xl shadow-slate-100/60 transition-all duration-300 group-hover:-translate-y-1 sm:rounded-[40px] sm:group-hover:-translate-y-2">
                     <div className="aspect-video bg-gradient-to-br from-[#003285] to-[#2A629A] relative overflow-hidden">
@@ -179,7 +179,7 @@ export default function EventsPage() {
                       <CardContent className="px-5 pb-5 pt-0 sm:px-8 sm:pb-8">
                         <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#FFDA78]/10 text-[#FF7F3E] text-xs font-black uppercase tracking-widest">
                           <Clock className="h-4 w-4" />
-                          Deadline: {format(event.registrationDeadline, "MMM dd")}
+                          Deadline: {format(new Date(typeof event.registrationDeadline === "number" ? event.registrationDeadline : String(event.registrationDeadline)), "MMM dd")}
                         </div>
                       </CardContent>
                     )}

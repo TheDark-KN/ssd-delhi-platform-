@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useEffect, useState } from "react";
+import { listArticles } from "@/lib/supabase-rest";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -17,16 +16,16 @@ export default function ArticlesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<"en" | "hi" | null>(null);
 
-  const articlesResult = useQuery(api.articles.list, {
-    status: "published",
-    category: selectedCategory || undefined,
-    language: selectedLanguage || undefined,
-  });
+  const [articles, setArticles] = useState<any[] | undefined>(undefined);
 
-  const articles = articlesResult?.articles ?? [];
-  const categories = [...new Set(articles.map((a: any) => a.category))] as string[];
+  useEffect(() => {
+    listArticles(selectedCategory || undefined, selectedLanguage || undefined).then(setArticles).catch(() => setArticles([]));
+  }, [selectedCategory, selectedLanguage]);
 
-  const filteredArticles = articles?.filter((article: any) => {
+  const articlesResult = articles;
+  const categories = [...new Set((articles ?? []).map((a: any) => a.category))] as string[];
+
+  const filteredArticles = (articles ?? []).filter((article: any) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
@@ -162,7 +161,7 @@ export default function ArticlesPage() {
                       <div className="flex items-center justify-between text-xs font-black text-slate-400 border-t border-slate-50 pt-6">
                         <div className="flex items-center gap-2">
                           <Eye className="h-4 w-4 text-[#2A629A]" />
-                          {article.viewCount.toLocaleString()} VIEWS
+                          {Number(article.viewCount ?? article.view_count ?? 0).toLocaleString()} VIEWS
                         </div>
                         <div className="uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-full">
                           {article.publishedAt && new Date(article.publishedAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
