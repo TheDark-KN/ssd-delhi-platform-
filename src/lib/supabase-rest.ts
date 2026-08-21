@@ -56,6 +56,18 @@ export type SupabaseEvent = {
   status: string; is_public: boolean
 }
 
+export const getArticleBySlug = (slug: string) => query<SupabaseArticle[]>("articles", {
+  slug: `eq.${encodeURIComponent(slug)}`, status: "eq.published", limit: "1",
+})
+
+export const getBlogBySlug = (slug: string) => query<SupabaseBlog[]>("blogs", {
+  slug: `eq.${encodeURIComponent(slug)}`, status: "eq.published", limit: "1",
+})
+
+export const getEventBySlug = (slug: string) => query<SupabaseEvent[]>("events", {
+  slug: `eq.${encodeURIComponent(slug)}`, is_public: "eq.true", limit: "1",
+})
+
 export const listArticles = (category?: string, language?: string) => query<SupabaseArticle[]>("articles", {
   status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), ...(language ? { language: `eq.${language}` } : {}), order: "published_at.desc",
 })
