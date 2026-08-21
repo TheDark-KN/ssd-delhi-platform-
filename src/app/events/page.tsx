@@ -36,9 +36,9 @@ export default function EventsPage() {
     return variants[status] || "outline";
   };
 
-  const formatDateRange = (start: number, end: number) => {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
+  const formatDateRange = (start: number | string, end: number | string) => {
+    const startDate = new Date(typeof start === "number" ? start : String(start));
+    const endDate = new Date(typeof end === "number" ? end : String(end));
 
     if (startDate.toDateString() === endDate.toDateString()) {
       return format(startDate, "MMMM dd, yyyy");
@@ -179,7 +179,7 @@ export default function EventsPage() {
                       <CardContent className="px-5 pb-5 pt-0 sm:px-8 sm:pb-8">
                         <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#FFDA78]/10 text-[#FF7F3E] text-xs font-black uppercase tracking-widest">
                           <Clock className="h-4 w-4" />
-                          Deadline: {format(event.registrationDeadline, "MMM dd")}
+                          Deadline: {format(new Date(typeof event.registrationDeadline === "number" ? event.registrationDeadline : String(event.registrationDeadline)), "MMM dd")}
                         </div>
                       </CardContent>
                     )}

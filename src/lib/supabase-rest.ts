@@ -6,6 +6,24 @@ function getConfig() {
   return { supabaseUrl, supabaseKey }
 }
 
+function toClientRecord(row: Record<string, unknown>) {
+  return {
+    ...row,
+    _id: row.id,
+    viewCount: row.view_count ?? 0,
+    publishedAt: row.published_at,
+    featuredImageUrl: row.featured_image_url,
+    authorClerkId: row.author_clerk_id,
+    startDate: row.start_date ? new Date(String(row.start_date)).getTime() : undefined,
+    endDate: row.end_date ? new Date(String(row.end_date)).getTime() : undefined,
+    registrationDeadline: row.registration_deadline ? new Date(String(row.registration_deadline)).getTime() : undefined,
+    isPublic: row.is_public,
+    maxAttendees: row.max_attendees,
+    allowComments: row.allow_comments,
+    submittedAt: row.submitted_at,
+  }
+}
+
 async function query<T>(table: string, params: Record<string, string> = {}) {
   const { supabaseUrl, supabaseKey } = getConfig()
   const url = new URL(`${supabaseUrl}/rest/v1/${table}`)
@@ -15,7 +33,8 @@ async function query<T>(table: string, params: Record<string, string> = {}) {
     cache: "no-store",
   })
   if (!response.ok) throw new Error(`Supabase request failed: ${response.status}`)
-  return response.json() as Promise<T>
+  const rows = await response.json() as Record<string, unknown>[]
+  return rows.map(toClientRecord) as T
 }
 
 export type SupabaseArticle = {
@@ -67,7 +86,19 @@ export async function submitJoinApplication(values: Record<string, unknown>) {
   const response = await fetch(`${supabaseUrl}/rest/v1/join_applications`, {
     method: "POST",
     headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}`, "Content-Type": "application/json", Prefer: "return=minimal" },
-    body: JSON.stringify(values),
+    body: JSON.stringify({
+      full_name: values.fullName,
+      email: values.email,
+      phone: values.phone,
+      address: values.address,
+      city: values.city,
+      state: values.state,
+      pincode: values.pincode,
+      occupation: values.occupation,
+      motivation: values.motivation,
+      volunteering_path: values.volunteeringPath ?? null,
+      status: "new",
+    }),
   })
   if (!response.ok) throw new Error("Supabase submission failed")
 }

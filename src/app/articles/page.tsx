@@ -161,7 +161,7 @@ export default function ArticlesPage() {
                       <div className="flex items-center justify-between text-xs font-black text-slate-400 border-t border-slate-50 pt-6">
                         <div className="flex items-center gap-2">
                           <Eye className="h-4 w-4 text-[#2A629A]" />
-                          {article.viewCount.toLocaleString()} VIEWS
+                          {Number(article.viewCount ?? article.view_count ?? 0).toLocaleString()} VIEWS
                         </div>
                         <div className="uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-full">
                           {article.publishedAt && new Date(article.publishedAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
