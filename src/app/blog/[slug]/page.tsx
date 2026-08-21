@@ -23,7 +23,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <article className="rounded-3xl border bg-card p-6 shadow-sm md:p-12">
         <div className="mb-8 flex items-center gap-3 text-[#003285]"><MessageCircle className="size-5" /><span className="font-semibold">A story from the SSD Delhi community</span></div>
         <div className="prose prose-lg max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: blog.content }} />
-        {blog.tags?.length ? <div className="mt-12 flex flex-wrap gap-2 border-t pt-8">{blog.tags.map((tag) => <Badge key={tag} variant="secondary">#{tag}</Badge>)}</div> : null}
+        {blog.tags?.length ? <div className="mt-12 flex flex-wrap gap-2 border-t pt-8">{blog.tags.map((tag: string) => <Badge key={tag} variant="secondary">#{tag}</Badge>)}</div> : null}
       </article>
     </section>
   </main>

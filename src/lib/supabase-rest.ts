@@ -63,7 +63,7 @@ export type SupabaseEvent = {
 
 import { DEFAULT_ARTICLES, DEFAULT_TIMELINE } from "./articles-data"
 
-export const getArticleBySlug = async (slug: string): Promise<any[]> => {
+export const getArticleBySlug = async (slug: string): Promise<SupabaseArticle[]> => {
   try {
     const rows = await query<SupabaseArticle[]>("articles", {
       slug: `eq.${encodeURIComponent(slug)}`, status: "eq.published", limit: "1",
@@ -72,7 +72,7 @@ export const getArticleBySlug = async (slug: string): Promise<any[]> => {
   } catch (err) {
     console.warn("Supabase getArticleBySlug fallback to local default articles", err)
   }
-  const fallback = DEFAULT_ARTICLES.filter((a) => a.slug === slug)
+  const fallback = DEFAULT_ARTICLES.filter((a) => a.slug === slug) as unknown as SupabaseArticle[]
   return fallback
 }
 
@@ -84,7 +84,7 @@ export const getEventBySlug = (slug: string) => query<SupabaseEvent[]>("events",
   slug: `eq.${encodeURIComponent(slug)}`, is_public: "eq.true", limit: "1",
 })
 
-export const listArticles = async (category?: string, language?: string): Promise<any[]> => {
+export const listArticles = async (category?: string, language?: string): Promise<SupabaseArticle[]> => {
   try {
     const rows = await query<SupabaseArticle[]>("articles", {
       status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), ...(language ? { language: `eq.${language}` } : {}), order: "published_at.desc",
@@ -97,7 +97,7 @@ export const listArticles = async (category?: string, language?: string): Promis
     if (category && a.category !== category) return false
     if (language && a.language !== language) return false
     return true
-  })
+  }) as unknown as SupabaseArticle[]
 }
 
 export const listHistory = async (era?: string): Promise<any[]> => {
