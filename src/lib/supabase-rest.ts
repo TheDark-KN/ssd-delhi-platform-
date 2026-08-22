@@ -54,11 +54,18 @@ export type SupabaseBlog = {
   published_at: string | null; view_count: number; allow_comments: boolean
 }
 
+export type SupabaseOfficer = {
+  id: string; name: string; designation: string; state: string; slug: string; email: string | null; social_links: Record<string, string> | null; zone: string | null; total_sainik_count: number; content_details: string | null; bio: string | null; rank_state: string | null; photo_url: string | null
+}
+
+export const listOfficers = () => query<SupabaseOfficer[]>("national_officers", { order: "display_order.asc" })
+export async function getOfficerBySlug(slug: string) { const rows = await query<SupabaseOfficer[]>("national_officers", { or: `(slug.eq.${encodeURIComponent(slug)},id.eq.${encodeURIComponent(slug)})`, limit: "1" }); return rows[0] ?? null }
+
 export type SupabaseEvent = {
   id: string; title: string; slug: string; description: string; start_date: string; end_date: string
   venue: string; address: string; city: string; max_attendees: number | null
   registration_deadline: string | null; featured_image_url: string | null; category: string
-  status: string; is_public: boolean
+  status: string; is_public: boolean; popup_enabled?: boolean; popup_image_url?: string | null
 }
 
 import { DEFAULT_ARTICLES, DEFAULT_TIMELINE } from "./articles-data"

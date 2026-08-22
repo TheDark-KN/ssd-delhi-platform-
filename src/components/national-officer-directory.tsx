@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { MapPin, Search, X } from "lucide-react";
+import Link from "next/link";
 import { nationalOfficersEn } from "@/data/national-officers-en";
 
 export function NationalOfficerDirectory() {
@@ -46,7 +47,7 @@ export function NationalOfficerDirectory() {
         {filteredOfficers.length ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {filteredOfficers.map((officer) => (
-              <article key={officer.id} className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#2A629A]/40 hover:shadow-xl">
+              <Link key={officer.id} href={`/national-executive/${officer.id}`} className="group relative block overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#2A629A]/40 hover:shadow-xl">
                 <div className="h-1.5 bg-gradient-to-r from-[#003285] via-[#2A629A] to-[#FF7F3E]" />
                 <div className="p-5">
                   <div className="mb-5 flex justify-center">
@@ -67,7 +68,7 @@ export function NationalOfficerDirectory() {
                   </div>
                 </div>
                 <div className="border-t border-slate-100 px-5 py-3 text-center text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Samta Sainik Dal • National Executive</div>
-              </article>
+              </Link>
             ))}
           </div>
         ) : <div className="rounded-3xl bg-slate-50 py-20 text-center text-slate-500">No office bearers found.</div>}
