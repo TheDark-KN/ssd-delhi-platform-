@@ -306,7 +306,7 @@ export const search = query({
     status: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    let searchBuilder = ctx.db
+    const searchBuilder = ctx.db
       .query("articles")
       .withSearchIndex("search_body", (q) => {
         let searchQ = q.search("content", args.query);
