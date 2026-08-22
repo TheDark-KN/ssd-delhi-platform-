@@ -1,51 +1,48 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { listHistory } from "@/lib/supabase-rest";
-import { DEFAULT_TIMELINE } from "@/lib/articles-data";
+import { DEFAULT_TIMELINE, type TimelineMilestone } from "@/lib/articles-data";
 
 export function HistoryClient() {
   const [selectedEra, setSelectedEra] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [supabaseEvents, setSupabaseEvents] = useState<any[] | null>(null);
-
-  const convexEvents = useQuery(api.timeline?.list as any, {
-    era: selectedEra || undefined,
-  });
+  const [supabaseEvents, setSupabaseEvents] = useState<TimelineMilestone[] | null>(null);
 
   useEffect(() => {
+    let active = true;
     listHistory(selectedEra || undefined)
       .then((data) => {
-        if (data && data.length > 0) {
-          setSupabaseEvents(data);
-        } else {
-          setSupabaseEvents(DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra));
-        }
+        if (!active) return;
+        setSupabaseEvents(data && data.length > 0
+          ? data
+          : DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra));
       })
       .catch(() => {
-        setSupabaseEvents(DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra));
+        if (active) {
+          setSupabaseEvents(DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra));
+        }
       });
+
+    return () => {
+      active = false;
+    };
   }, [selectedEra]);
 
-  const rawEvents = (supabaseEvents && supabaseEvents.length > 0)
-    ? supabaseEvents
-    : (convexEvents && convexEvents.length > 0)
-      ? convexEvents
-      : DEFAULT_TIMELINE.filter((item) => !selectedEra || item.era === selectedEra);
+  const rawEvents = supabaseEvents ?? DEFAULT_TIMELINE.filter(
+    (item) => !selectedEra || item.era === selectedEra,
+  );
 
-  const eras = [...new Set(DEFAULT_TIMELINE.map((e: any) => e.era))];
+  const eras = [...new Set(DEFAULT_TIMELINE.map((e: TimelineMilestone) => e.era))];
 
   // Filter by search and year
-  const timelineEvents = rawEvents.filter((event: any) => {
+  const timelineEvents = rawEvents.filter((event: TimelineMilestone) => {
     if (selectedYear && event.year !== selectedYear) return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
@@ -61,7 +58,7 @@ export function HistoryClient() {
   });
 
   // Get unique years for filtering
-  const years = [...new Set(DEFAULT_TIMELINE.map((e: any) => e.year))].sort((a, b) => a - b);
+  const years = [...new Set(DEFAULT_TIMELINE.map((e: TimelineMilestone) => e.year))].sort((a, b) => a - b);
 
   return (
     <>
@@ -159,7 +156,7 @@ export function HistoryClient() {
               <div className="absolute left-4 md:left-1/2 top-4 bottom-4 w-1 -translate-x-1/2 bg-gradient-to-b from-[#003285] via-[#2A629A] to-[#FF7F3E] rounded-full hidden sm:block opacity-30" />
 
               <div className="space-y-8 md:space-y-12">
-                {timelineEvents.map((event: any, index: number) => {
+                {timelineEvents.map((event: TimelineMilestone, index: number) => {
                   const isEven = index % 2 === 0;
                   return (
                     <div
