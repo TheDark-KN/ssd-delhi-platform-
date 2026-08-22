@@ -13,10 +13,10 @@ export function EventAnnouncementPopup() {
   useEffect(() => {
     try {
       if (!window.localStorage.getItem(NOTICE_DISMISSED_KEY)) {
-        queueMicrotask(() => setOpen(true));
+        setOpen(true);
       }
     } catch {
-      queueMicrotask(() => setOpen(true));
+      setOpen(true);
     }
   }, []);
 
