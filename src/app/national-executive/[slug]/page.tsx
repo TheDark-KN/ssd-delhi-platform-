@@ -1,0 +1,13 @@
+import { notFound } from "next/navigation";
+import { Mail, MapPin, Users } from "lucide-react";
+import { getOfficerBySlug } from "@/lib/supabase-rest";
+import { OfficerAvatar, SocialLinks } from "@/components/officer-profile-card";
+
+export default async function OfficerPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const officer = await getOfficerBySlug(slug);
+  if (!officer) notFound();
+  return <main className="container max-w-5xl px-4 py-12 md:py-20"><div className="overflow-hidden rounded-[2rem] border border-border bg-card shadow-xl"><div className="bg-primary px-6 py-12 text-primary-foreground md:px-12"><p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-accent">Samta Sainik Dal · Officer Profile</p><h1 className="text-4xl font-black md:text-6xl">{officer.name}</h1><p className="mt-3 text-xl text-primary-foreground/80">{officer.designation}</p></div><div className="grid gap-10 p-6 md:grid-cols-[220px_1fr] md:p-12"><div className="space-y-4"><div className="h-48 w-48 overflow-hidden rounded-full border-8 border-secondary shadow-lg"><OfficerAvatar name={officer.name} imageUrl={officer.photo_url} /></div><p className="text-sm text-muted-foreground">Official portrait will be added here.</p></div><div className="space-y-8"><div className="grid gap-4 sm:grid-cols-2"><div className="rounded-2xl bg-secondary/50 p-4"><MapPin className="mb-2 h-5 w-5 text-ring" /><p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">State / Zone</p><p className="mt-1 font-bold">{officer.state}{officer.zone ? ` · ${officer.zone}` : ""}</p></div><div className="rounded-2xl bg-secondary/50 p-4"><Users className="mb-2 h-5 w-5 text-ring" /><p className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Sainik under leadership</p><p className="mt-1 font-bold">{officer.total_sainik_count ?? 0}</p></div></div>{officer.email && <p className="flex items-center gap-3 font-semibold"><Mail className="h-5 w-5 text-ring" />{officer.email}</p>}{officer.bio && <section><h2 className="mb-2 text-2xl font-black text-primary">About</h2><p className="leading-7 text-muted-foreground">{officer.bio}</p></section>}{officer.content_details && <section><h2 className="mb-2 text-2xl font-black text-primary">Responsibilities and work</h2><p className="whitespace-pre-line leading-7 text-muted-foreground">{officer.content_details}</p></section>}<SocialLinks links={officer.social_links} /></div></div></div></main>;
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) { const officer = await getOfficerBySlug((await params).slug); return { title: officer ? `${officer.name} | SSD Delhi` : "Officer Profile" }; }

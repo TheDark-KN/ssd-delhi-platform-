@@ -6,6 +6,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
+import { EventAnnouncementPopup } from "@/components/event-announcement-popup";
 // AI Chatbot temporarily disabled - enable after running: npx convex dev
 // import { AIChatbot } from "@/components/ai-chatbot";
 
@@ -74,6 +75,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
+          <EventAnnouncementPopup />
           <Analytics />
           {/* AI Chatbot temporarily disabled - enable after running: npx convex dev */}
           {/* <AIChatbot /> */}

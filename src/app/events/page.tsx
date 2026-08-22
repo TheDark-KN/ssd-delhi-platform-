@@ -139,7 +139,7 @@ export default function EventsPage() {
               {(events ?? []).map((event: any) => (
                 <Link key={event._id} href={`/events/${event.slug}`} className="group">
                   <Card className="h-full overflow-hidden rounded-3xl border-none shadow-xl shadow-slate-100/60 transition-all duration-300 group-hover:-translate-y-1 sm:rounded-[40px] sm:group-hover:-translate-y-2">
-                    <div className="aspect-video bg-gradient-to-br from-[#003285] to-[#2A629A] relative overflow-hidden">
+                    <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-[#003285] to-[#2A629A]">{event.popup_image_url ? <img src={event.popup_image_url} alt="" className="absolute inset-0 h-full w-full object-cover" /> : null}
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
                       <Badge className="absolute top-6 left-6 bg-[#FF7F3E] text-white border-none font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
                         {event.status}
