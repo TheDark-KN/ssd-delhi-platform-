@@ -47,7 +47,35 @@ export const getEventBySlug = (slug: string) => query<SupabaseEvent>("events", {
 export const listArticles = async (category?: string, language?: string): Promise<SupabaseArticle[]> => { try { const rows = await query<SupabaseArticle>("articles", { status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), ...(language ? { language: `eq.${language}` } : {}), order: "published_at.desc" }); if (rows.length) return rows } catch (err) { console.warn("Supabase listArticles fallback", err) } return DEFAULT_ARTICLES.filter((a) => (!category || a.category === category) && (!language || a.language === language)) as unknown as SupabaseArticle[] }
 export const listHistory = async (era?: string): Promise<any[]> => { try { const rows = await query<SupabaseHistoryItem>("history", { ...(era ? { era: `eq.${era}` } : {}), order: "year.asc" }); if (rows.length) return rows.map((r) => ({ ...r, _id: r.id, dateDisplay: r.date_display || String(r.year) })) } catch (err) { console.warn("Supabase listHistory fallback", err) } return DEFAULT_TIMELINE.filter((item) => !era || item.era === era) }
 export const listBlogs = (category?: string) => query<SupabaseBlog>("blogs", { status: "eq.published", ...(category ? { category: `eq.${category}` } : {}), order: "published_at.desc", limit: "50" })
-export const listEvents = (status?: string, category?: string) => query<SupabaseEvent>("events", { is_public: "eq.true", ...(status ? { status: `eq.${status}` } : {}), ...(category ? { category: `eq.${category}` } : {}), order: "start_date.asc" })
+export type EventCard = SupabaseEvent & {
+  _id: string
+  startDate: string
+  endDate: string
+  maxAttendees: number | null
+  registrationDeadline: string | null
+  popupImageUrl: string | null
+  isPublic: boolean
+}
+
+export const listEvents = async (status?: string, category?: string): Promise<EventCard[]> => {
+  const rows = await query<SupabaseEvent>("events", {
+    is_public: "eq.true",
+    ...(status ? { status: `eq.${status}` } : {}),
+    ...(category ? { category: `eq.${category}` } : {}),
+    order: "start_date.asc",
+  })
+
+  return rows.map((event) => ({
+    ...event,
+    _id: event.id,
+    startDate: event.start_date,
+    endDate: event.end_date,
+    maxAttendees: event.max_attendees,
+    registrationDeadline: event.registration_deadline,
+    popupImageUrl: event.popup_image_url ?? null,
+    isPublic: event.is_public,
+  }))
+}
 export type DashboardSnapshot = { id: string; snapshot_key: string; data: Record<string, unknown>; captured_at: string; updated_at: string }
 export const getDashboardSnapshot = (snapshotKey: string) => query<DashboardSnapshot>("dashboard_snapshots", { snapshot_key: `eq.${encodeURIComponent(snapshotKey)}`, limit: "1" })
 
