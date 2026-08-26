@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Users, Clock, Filter } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
-import { format } from "date-fns";
+
 import { cn } from "@/lib/utils";
 
 export default function EventsPage() {
@@ -36,15 +36,20 @@ export default function EventsPage() {
     return variants[status] || "outline";
   };
 
-  const formatDateRange = (start: number | string, end: number | string) => {
-    const startDate = new Date(typeof start === "number" ? start : String(start));
-    const endDate = new Date(typeof end === "number" ? end : String(end));
+  const parseEventDate = (value: number | string | null | undefined) => {
+    if (value === null || value === undefined || value === "") return null;
+    const date = new Date(typeof value === "number" ? value : String(value));
+    return Number.isNaN(date.getTime()) ? null : date;
+  };
 
-    if (startDate.toDateString() === endDate.toDateString()) {
-      return format(startDate, "MMMM dd, yyyy");
+  const formatDateRange = (start: number | string | null | undefined, end: number | string | null | undefined) => {
+    const startDate = parseEventDate(start);
+    const endDate = parseEventDate(end);
+    if (!startDate) return "Date to be announced";
+    if (!endDate || startDate.toDateString() === endDate.toDateString()) {
+      return startDate.toLocaleDateString("en-US", { month: "long", day: "2-digit", year: "numeric" });
     }
-
-    return `${format(startDate, "MMM dd")} - ${format(endDate, "dd, yyyy")}`;
+    return `${startDate.toLocaleDateString("en-US", { month: "short", day: "2-digit" })} - ${endDate!.toLocaleDateString("en-US", { day: "2-digit", year: "numeric" })}`;
   };
 
   return (
@@ -177,10 +182,10 @@ export default function EventsPage() {
                     </CardHeader>
                     {event.registrationDeadline && (
                       <CardContent className="px-5 pb-5 pt-0 sm:px-8 sm:pb-8">
-                        <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#FFDA78]/10 text-[#FF7F3E] text-xs font-black uppercase tracking-widest">
-                          <Clock className="h-4 w-4" />
-                          Deadline: {format(new Date(typeof event.registrationDeadline === "number" ? event.registrationDeadline : String(event.registrationDeadline)), "MMM dd")}
-                        </div>
+  <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#FFDA78]/10 text-[#FF7F3E] text-xs font-black uppercase tracking-widest">
+  <Clock className="h-4 w-4" />
+  Deadline: {parseEventDate(event.registrationDeadline)?.toLocaleDateString("en-US", { month: "short", day: "2-digit" }) ?? "To be announced"}
+  </div>
                       </CardContent>
                     )}
                   </Card>
