@@ -95,7 +95,7 @@ const nameMap: Record<string, string> = {
   "देव कुमार बौध": "Dev Kumar Baudh",
   "सी.पी. सिंह": "C.P. Singh",
   "प्यारेलाल भारती": "Pyarelal Bharti",
-  "रमबीर सिंह गौतम": "Ramveer Singh Gautam",
+  "रमबीर सिंह गौतम": "Rambeer Singh Gautam",
   "डी.पी. सिंह": "D.P. Singh",
   "प्रेम सिंह वरुण": "Prem Singh Varun",
   "सुरजीत सिंह गौतम": "Surjeet Singh Gautam",

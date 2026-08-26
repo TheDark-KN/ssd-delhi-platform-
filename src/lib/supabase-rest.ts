@@ -20,9 +20,9 @@ export type SupabaseHistoryItem = { id: string; year: number; date_display: stri
 export type SupabaseBlog = { id: string; title: string; slug: string; content: string; featured_image_url: string | null; category: string; tags: string[]; language: "en" | "hi"; status: string; published_at: string | null; view_count: number; allow_comments: boolean }
 export type SupabaseOfficer = { id: string; name: string; designation: string; state: string; slug: string; display_order?: number; email: string | null; social_links: Record<string, string> | null; zone: string | null; total_sainik_count: number; content_details: string | null; bio: string | null; rank_state: string | null; photo_url: string | null }
 
-import { nationalOfficers } from "@/data/national-officers"
+import { nationalOfficersEn } from "@/data/national-officers-en"
 
-const officerFallback = nationalOfficers.map((officer) => ({ id: officer.id, name: officer.name, designation: officer.designation, state: officer.state, slug: officer.id, display_order: officer.displayOrder, email: null, social_links: null, zone: null, total_sainik_count: 0, content_details: null, bio: null, rank_state: null, photo_url: officer.photoPath ?? null })) satisfies SupabaseOfficer[]
+const officerFallback = nationalOfficersEn.map((officer) => ({ id: officer.id, name: officer.name, designation: officer.designation, state: officer.state, slug: officer.id, display_order: officer.displayOrder, email: null, social_links: null, zone: null, total_sainik_count: 0, content_details: null, bio: null, rank_state: null, photo_url: officer.photoPath ?? null })) satisfies SupabaseOfficer[]
 
 export async function listOfficers(): Promise<SupabaseOfficer[]> {
   try {
