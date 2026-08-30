@@ -5,65 +5,45 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--paper);
+  --color-foreground: var(--ink);
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-cormorant);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-forest: #18382b;
-  --color-sage: #dfe9dc;
-  --color-cream: #f7f4ec;
-  --color-gold: #d9ad45;
-  --color-saffron: #b85d35;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius-2xl: 2rem;
+  --font-serif: var(--font-fraunces);
+  --color-card: var(--paper);
+  --color-card-foreground: var(--ink);
+  --color-popover: var(--paper);
+  --color-popover-foreground: var(--ink);
+  --color-primary: var(--blue);
+  --color-primary-foreground: var(--paper);
+  --color-secondary: var(--paper-dim);
+  --color-secondary-foreground: var(--blue-deep);
+  --color-muted: var(--paper-dim);
+  --color-muted-foreground: var(--ink-faint);
+  --color-accent: var(--saffron);
+  --color-accent-foreground: var(--paper);
+  --color-border: var(--hairline);
+  --color-input: var(--hairline);
+  --color-ring: var(--saffron);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-dim: var(--paper-dim);
+  --color-blue: var(--blue);
+  --color-blue-deep: var(--blue-deep);
+  --color-saffron: var(--saffron);
 }
 
-:root {
-  --radius: 1rem;
-  --background: #f7f4ec;
-  --foreground: #26352d;
-  --card: #fcfaf5;
-  --card-foreground: #26352d;
-  --popover: #fcfaf5;
-  --popover-foreground: #26352d;
-  --primary: #18382b;
-  --primary-foreground: #f7f4ec;
-  --secondary: #dfe9dc;
-  --secondary-foreground: #18382b;
-  --muted: #e9eee6;
-  --muted-foreground: #647168;
-  --accent: #d9ad45;
-  --accent-foreground: #18382b;
-  --border: #d8dfd4;
-  --input: #d8dfd4;
-  --ring: #b85d35;
-}
-
+:root { --ink:#10151f; --ink-soft:rgba(16,21,31,.72); --ink-faint:rgba(16,21,31,.55); --paper:#faf7f0; --paper-dim:#f1ecdf; --blue:#0d3b8c; --blue-deep:#081f4a; --saffron:#d97b2c; --hairline:rgba(16,21,31,.13); --radius:.65rem; }
 * { @apply border-border outline-ring/50; }
-html { background: var(--background); scroll-behavior: smooth; }
-body { @apply bg-background text-foreground antialiased; }
+html { background:var(--paper); scroll-behavior:smooth; }
+body { @apply bg-background text-foreground antialiased; font-size:16px; line-height:1.6; }
+h1,h2,h3,h4 { text-wrap:balance; }
+p { text-wrap:pretty; }
+::selection { background:var(--saffron); color:var(--paper); }
+@keyframes rise { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.animate-rise { animation:rise .8s cubic-bezier(.22,1,.36,1) both; }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+.container { width:100%; max-width:1240px; margin-inline:auto; padding-inline:clamp(1rem,3.4vw,2.5rem); }
+.font-serif { font-family:var(--font-fraunces), Georgia, serif; }
+.font-sans { font-family:var(--font-inter), Arial, sans-serif; }
 
-@layer base {
-  h1, h2, h3, h4 { text-wrap: balance; }
-  p { text-wrap: pretty; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-}
+@layer base { button,a { transition:color .2s ease, background-color .2s ease, border-color .2s ease, transform .2s ease; } }

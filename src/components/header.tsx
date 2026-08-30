@@ -3,282 +3,31 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { Menu, X, Shield } from "lucide-react";
-import { MaterialIcon } from "@/components/ui/material-icon";
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { SignedIn, SignedOut, UserButton } from "@/components/providers";
 import { useLanguage } from "@/context/LanguageContext";
 
-const mainNavItems = [
-  {
-    title: "nav.home",
-    href: "/",
-  },
-  {
-    title: "nav.about",
-    href: "/about",
-    items: [
-      { title: "nav.organization", href: "/about#organization" },
-      { title: "nav.ideology", href: "/about#ideology" },
-      { title: "nav.structure", href: "/about#structure" },
-      { title: "nav.rankStructure", href: "/rank-structure" },
-      { title: "nav.nationalExecutive", href: "/national-executive" },
-      { title: "nav.ambedkar", href: "/about#ambedkar" },
-    ],
-  },
-  {
-    title: "nav.history",
-    href: "/history",
-  },
-  {
-    title: "nav.content",
-    items: [
-      { title: "nav.articles", href: "/articles" },
-      { title: "nav.blogs", href: "/blog" },
-      { title: "nav.news", href: "/news" },
-      { title: "nav.events", href: "/events" },
-      { title: "nav.gallery", href: "/gallery" },
-    ],
-  },
-  {
-    title: "nav.join",
-    href: "/join",
-  },
-  {
-    title: "nav.contact",
-    href: "/contact",
-  },
+const nav = [
+  { label:"Home", href:"/" }, { label:"About", href:"/about" }, { label:"History", href:"/history" },
+  { label:"Articles", href:"/articles" }, { label:"Events", href:"/events" }, { label:"Gallery", href:"/gallery" },
 ];
 
 export function Header() {
-  const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const { language, setLanguage, t } = useLanguage();
-
-  // Handle scroll effect and mount
-  useEffect(() => {
-    setMounted(true);
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <header className={cn(
-      "sticky top-0 z-50 w-full transition-all duration-300 border-b",
-      scrolled
-        ? "bg-background/98 backdrop-blur-md shadow-sm border-forest/10"
-        : "bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-    )}>
-      <div className="container flex min-h-16 items-center justify-between gap-3 py-2 sm:min-h-20">
-        {/* Logo Section */}
-        <Link href="/" className="group flex min-w-0 items-center gap-2 sm:gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:shadow-white/40 sm:size-12">
-            <Image src="/logo.png" alt="SSD Logo" width={48} height={48} className="size-full object-contain" priority />
-          </div>
-          <div className="flex flex-col">
-            <span className="truncate font-serif text-xl tracking-tight text-forest sm:text-2xl">
-              SSD Delhi
-            </span>
-            <span className="text-[10px] text-saffron font-semibold tracking-[0.2em] uppercase">
-              समता सैनिक दल
-            </span>
-          </div>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <NavigationMenu className="hidden lg:flex">
-          <NavigationMenuList>
-            {mainNavItems.map((item) => (
-              <NavigationMenuItem key={item.title}>
-                {item.items ? (
-                  <>
-                    <NavigationMenuTrigger className="font-medium text-sm uppercase tracking-wide">
-                      {t(item.title)}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[220px] gap-1 p-3">
-                        {item.items.map((subItem) => (
-                          <li key={subItem.title}>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href={subItem.href}
-                                className={cn(
-                                  "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200 hover:bg-primary/10 hover:text-primary focus:bg-primary/10 focus:text-primary",
-                                  pathname === subItem.href && "bg-primary/10 text-primary font-semibold"
-                                )}
-                              >
-                                <div className="text-sm font-medium leading-none">
-                                  {t(subItem.title)}
-                                </div>
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </>
-                ) : (
-                  <NavigationMenuLink
-                    asChild
-                    href={item.href}
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      "font-semibold text-xs uppercase tracking-widest text-[#2A629A] hover:text-[#003285] transition-colors",
-                      pathname === item.href && "text-[#003285] font-bold"
-                    )}
-                  >
-                    <Link href={item.href}>
-                      {t(item.title)}
-                    </Link>
-                  </NavigationMenuLink>
-                )}
-              </NavigationMenuItem>
-            ))}
-          </NavigationMenuList>
-        </NavigationMenu>
-
-        {/* Right Side Actions */}
-        <div className="flex items-center gap-3">
-          {/* Language Toggle */}
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setLanguage(language === "en" ? "hi" : "en")}
-            className="hidden md:flex hover:bg-primary/10 hover:text-primary items-center justify-center p-0"
-            aria-label={t("common.language")}
-          >
-            <MaterialIcon icon="language" variant="rounded" className="text-[22px]" />
-            <span className="sr-only">{t("common.language")}</span>
-          </Button>
-
-          {/* Divider */}
-          <div className="hidden md:block h-6 w-px bg-border" />
-
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center gap-2">
-            {mounted && <AuthButtons />}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </Button>
-        </div>
-
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="max-h-[calc(100dvh-4rem)] overflow-y-auto border-t bg-background lg:hidden">
-          <div className="container flex flex-col gap-1 py-4">
-            {mainNavItems.map((item) => (
-              <div key={item.title}>
-                {item.items ? (
-                  <div className="flex flex-col gap-1">
-                    <div className="font-semibold text-primary px-3 py-2">{t(item.title)}</div>
-                    <div className="flex flex-col gap-1 pl-4">
-                      {item.items.map((subItem) => (
-                        <Link
-                          key={subItem.href}
-                          href={subItem.href}
-                          className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {t(subItem.title)}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className="block px-3 py-2 font-semibold hover:bg-muted rounded-md transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {t(item.title)}
-                  </Link>
-                )}
-              </div>
-            ))}
-            <div className="pt-4 mt-4 border-t flex items-center gap-2 px-3">
-              {mounted && <AuthButtons />}
-            </div>
-          </div>
-        </div>
-      )}
-    </header>
-  );
-}
-
-// Separate component for auth buttons to ensure proper Clerk context
-function AuthButtons() {
-  const [mounted, setMounted] = useState(false);
-  const { t } = useLanguage();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div className="flex items-center gap-2">
-        <Button variant="outline" size="sm" className="font-medium">Sign In</Button>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <SignedOut>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" asChild className="font-semibold text-xs uppercase tracking-widest text-[#2A629A] hover:text-[#003285]">
-            <Link href="/sign-in">{t("nav.signIn")}</Link>
-          </Button>
-          <Button variant="default" size="sm" asChild className="bg-[#FF7F3E] hover:bg-[#d95720] font-semibold text-xs uppercase tracking-widest rounded-full px-5 text-white shadow-md shadow-[#FF7F3E]/20 hover:scale-105 transition-all">
-            <Link href="/sign-up">{t("nav.signUp")}</Link>
-          </Button>
-        </div>
-      </SignedOut>
-      <SignedIn>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" asChild className="font-semibold text-xs uppercase tracking-widest text-[#2A629A] hover:text-[#003285]">
-            <Link href="/dashboard">{t("nav.dashboard")}</Link>
-          </Button>
-          <UserButton
-            afterSignOutUrl="/"
-            appearance={{
-              elements: {
-                avatarBox: "h-9 w-9 ring-2 ring-primary/20 hover:ring-primary transition-all",
-              }
-            }}
-          />
-        </div>
-      </SignedIn>
-    </>
-  );
+  const pathname = usePathname(); const { t } = useLanguage();
+  const [open,setOpen] = useState(false); const [scrolled,setScrolled] = useState(false);
+  useEffect(() => { const onScroll=()=>setScrolled(window.scrollY>8); onScroll(); window.addEventListener("scroll",onScroll); return()=>window.removeEventListener("scroll",onScroll); },[]);
+  useEffect(() => { setOpen(false); }, [pathname]);
+  const solid = scrolled || pathname !== "/";
+  return <header className={cn("fixed inset-x-0 top-0 z-50 border-b transition-all duration-300", solid ? "border-border bg-background/95 backdrop-blur" : "border-transparent bg-blue-deep/20 text-paper")}>
+    <div className="container flex min-h-20 items-center justify-between gap-4">
+      <Link href="/" className="flex items-center gap-3" aria-label="SSD Delhi home"><span className={cn("flex size-10 items-center justify-center rounded-full border text-lg font-serif", solid ? "border-blue text-blue" : "border-paper/60 text-paper")}>ॐ</span><span><span className="block font-serif text-xl leading-none">SSD Delhi</span><span className={cn("mt-1 block text-[10px] font-semibold uppercase tracking-[.18em]", solid ? "text-saffron" : "text-paper/70")}>समता सैनिक दल</span></span></Link>
+      <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">{nav.map(item=><Link key={item.href} href={item.href} className={cn("rounded-full px-4 py-2 text-sm font-medium", solid ? "text-foreground/75 hover:bg-secondary hover:text-blue" : "text-paper/85 hover:bg-paper/10 hover:text-paper", pathname===item.href && (solid ? "bg-secondary text-blue" : "bg-paper/10 text-paper"))}>{item.label}</Link>)}</nav>
+      <div className="hidden items-center gap-3 lg:flex"><Link href="/contact" className={cn("text-sm font-medium", solid ? "text-foreground/70 hover:text-blue" : "text-paper/80 hover:text-paper")}>Contact</Link><Button asChild className="rounded-full bg-saffron px-5 text-paper hover:bg-saffron/90"><Link href="/join">Become a Member</Link></Button><SignedOut><Link href="/sign-in" className="text-sm">{t("nav.signIn")}</Link></SignedOut><SignedIn><UserButton afterSignOutUrl="/" /></SignedIn></div>
+      <Button variant="ghost" size="icon" className={cn("lg:hidden", solid ? "text-foreground" : "text-paper")} onClick={()=>setOpen(!open)} aria-expanded={open} aria-label={open ? "Close menu" : "Open menu"}>{open?<X />:<Menu />}</Button>
+    </div>
+    {open && <div className="border-t border-border bg-background lg:hidden"><nav className="container flex flex-col gap-1 py-4" aria-label="Mobile navigation">{nav.map(item=><Link key={item.href} href={item.href} className={cn("rounded-md px-3 py-3 text-base text-foreground", pathname===item.href ? "bg-secondary font-semibold text-blue" : "hover:bg-secondary")}>{item.label}</Link>)}<div className="mt-3 flex gap-3 border-t border-border pt-4"><Button asChild className="rounded-full bg-saffron text-paper"><Link href="/join">Become a Member</Link></Button><Link href="/contact" className="rounded-full border border-border px-4 py-2 text-sm">Contact</Link></div></nav></div>}
+  </header>;
 }
