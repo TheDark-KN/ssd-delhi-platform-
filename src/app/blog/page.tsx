@@ -36,18 +36,18 @@ export default function BlogPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 bg-[#003285] overflow-hidden">
+      <section className="relative pt-24 pb-32 bg-blue-deep overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#FF7F3E]/20 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-saffron/20 blur-[120px] rounded-full" />
         </div>
 
         <div className="container relative z-10 px-4 md:px-6">
           <div className="max-w-4xl space-y-6">
-            <Badge variant="outline" className="border-[#FF7F3E] text-[#FFDA78] bg-[#FF7F3E]/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
+            <Badge variant="outline" className="border-saffron text-saffron bg-saffron/10 px-4 py-1 text-xs font-bold tracking-widest uppercase rounded-full">
               📝 Community Blog
             </Badge>
-            <h1 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight">
+            <h1 className="text-5xl md:text-7xl font-black text-paper tracking-tight leading-tight">
               Voices of the <span className="text-[#FFDA78]">Movement</span>
             </h1>
             <p className="text-xl text-blue-100/90 font-medium leading-relaxed max-w-2xl">
@@ -58,7 +58,7 @@ export default function BlogPage() {
       </section>
 
       {/* Filters and Search */}
-      <section className="py-8 bg-white dark:bg-slate-950 border-b relative z-40 -mt-12 rounded-t-[40px] md:rounded-t-[80px]">
+      <section className="py-8 bg-background border-b relative z-40 -mt-12 rounded-t-[40px] md:rounded-t-[80px]">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
             <div className="relative flex-1 w-full lg:max-w-md group">
@@ -75,7 +75,7 @@ export default function BlogPage() {
                 variant={!selectedCategory ? "default" : "outline"}
                 size="sm"
                 onClick={() => setSelectedCategory(null)}
-                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedCategory ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                className={cn("rounded-full px-5 font-bold uppercase tracking-tight", !selectedCategory ? "bg-blue-deep hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
               >
                 All Stories
               </Button>
@@ -85,7 +85,7 @@ export default function BlogPage() {
                   variant={selectedCategory === category ? "default" : "outline"}
                   size="sm"
                   onClick={() => setSelectedCategory(category)}
-                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedCategory === category ? "bg-[#003285] hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
+                  className={cn("rounded-full px-5 font-bold uppercase tracking-tight", selectedCategory === category ? "bg-blue-deep hover:bg-[#002561]" : "border-slate-200 text-slate-600")}
                 >
                   {category}
                 </Button>
@@ -125,15 +125,15 @@ export default function BlogPage() {
                   <Card className="h-full border-none shadow-xl shadow-slate-100/60 rounded-[40px] overflow-hidden group-hover:-translate-y-2 transition-all duration-300">
                     <div className="aspect-[4/3] bg-gradient-to-br from-[#003285] to-[#2A629A] relative overflow-hidden">
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
-                      <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-white border-white/10 font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
+                      <Badge className="absolute top-6 left-6 bg-white/20 backdrop-blur-md text-paper border-white/10 font-bold uppercase tracking-tighter text-[10px] px-3 py-1 rounded-full">
                         {blog.category}
                       </Badge>
-                      <Badge className="absolute bottom-6 left-6 bg-black/40 backdrop-blur-sm text-white border-white/5 font-bold text-[10px] px-3 py-1 rounded-full">
+                      <Badge className="absolute bottom-6 left-6 bg-black/40 backdrop-blur-sm text-paper border-white/5 font-bold text-[10px] px-3 py-1 rounded-full">
                         {blog.language === "en" ? "English" : "हिंदी"}
                       </Badge>
                     </div>
                     <CardHeader className="p-10">
-                      <CardTitle className="text-2xl font-black text-[#003285] group-hover:text-[#FF7F3E] transition-colors leading-tight mb-4 line-clamp-2">
+                      <CardTitle className="text-2xl font-black text-[#003285] group-hover:text-saffron transition-colors leading-tight mb-4 line-clamp-2">
                         {blog.title}
                       </CardTitle>
                       <CardDescription className="text-slate-500 line-clamp-3 text-base font-medium leading-relaxed mb-8">
