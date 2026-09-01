@@ -146,7 +146,7 @@ export default function BlogPage() {
                         </div>
                         <div className="flex items-center gap-2">
                           <Eye className="h-4 w-4 text-[#2A629A]" />
-                          {blog.viewCount.toLocaleString()}
+                          {Number(blog.viewCount ?? blog.view_count ?? 0).toLocaleString()}
                         </div>
                       </div>
                     </CardHeader>
