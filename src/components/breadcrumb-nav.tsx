@@ -29,7 +29,7 @@ const SEGMENT_TRANSLATION_KEYS: Record<string, string> = {
   contact: "nav.contact",
   dashboard: "nav.dashboard",
   "rank-structure": "nav.rankStructure",
-  "national-executive": "nav.nationalExecutive",
+  "national-executive": "nav.nationalOffice",
   "sign-in": "nav.signIn",
   "sign-up": "nav.signUp",
   donate: "footer.donate",

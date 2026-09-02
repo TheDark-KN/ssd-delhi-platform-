@@ -45,8 +45,8 @@ const mainNavItems = [
       { title: "nav.organization", href: "/about#organization" },
       { title: "nav.ideology", href: "/about#ideology" },
       { title: "nav.structure", href: "/about#structure" },
+      { title: "nav.nationalOffice", href: "/national-executive" },
       { title: "nav.rankStructure", href: "/rank-structure" },
-      { title: "nav.nationalExecutive", href: "/national-executive" },
       { title: "nav.ambedkar", href: "/about#ambedkar" },
     ],
   },
@@ -481,6 +481,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent
               side="left"
+              hideCloseButton
               className="w-80 sm:w-[320px] p-0"
               {...swipeHandlers}
             >

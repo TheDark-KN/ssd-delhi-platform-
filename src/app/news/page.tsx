@@ -2,13 +2,13 @@
 
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Megaphone, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { ViewCounter } from "@/components/ui/view-counter";
 
 export default function NewsPage() {
   const newsResult = useQuery(api.news?.list as any, { limit: 50 });
@@ -66,9 +66,17 @@ export default function NewsPage() {
                           <CardDescription className="text-slate-500 font-medium line-clamp-3 text-base mb-8">
                             {item.content.substring(0, 150)}...
                           </CardDescription>
-                          <div className="flex items-center gap-2 text-xs font-black text-slate-400 uppercase tracking-widest pt-6 border-t border-slate-50">
-                            <Calendar className="h-4 w-4 text-[#FF7F3E]" />
-                            {format(item.publishedAt, "MMM dd, yyyy")}
+                          <div className="flex items-center justify-between text-xs font-black text-slate-400 uppercase tracking-widest pt-6 border-t border-slate-50">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="h-4 w-4 text-[#FF7F3E]" />
+                              {format(item.publishedAt, "MMM dd, yyyy")}
+                            </div>
+                            <ViewCounter
+                              type="news"
+                              idOrSlug={item.slug || item._id}
+                              initialCount={item.views || 60}
+                              variant="inline"
+                            />
                           </div>
                         </div>
                       </Card>
@@ -119,6 +127,12 @@ export default function NewsPage() {
                               <Calendar className="h-4 w-4 text-[#2A629A]" />
                               {format(item.publishedAt, "MMM dd")}
                             </div>
+                            <ViewCounter
+                              type="news"
+                              idOrSlug={item.slug || item._id}
+                              initialCount={item.views || 45}
+                              variant="inline"
+                            />
                             {item.expiresAt && (
                               <div className="flex items-center gap-2 text-[#FF7F3E]">
                                 <Clock className="h-4 w-4" />

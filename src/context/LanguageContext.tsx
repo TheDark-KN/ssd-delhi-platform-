@@ -28,6 +28,8 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.gallery": "Gallery",
     "nav.join": "Join SSD",
     "nav.nationalExecutive": "National Executive",
+    "nav.nationalOffice": "National Office",
+    "nav.nationalOfficers": "National Officers",
     "nav.rankStructure": "Rank Structure",
     "nav.contact": "Contact",
     "nav.dashboard": "Dashboard",
@@ -37,6 +39,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.profile": "Profile",
     "nav.membershipCard": "Membership Card",
     "nav.logout": "Logout",
+    "common.views": "views",
     
     // National Executive
     "nationalExecutive.title": "National Executive",
@@ -189,6 +192,12 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.hasAccount": "Already have an account?",
     "auth.name": "Full Name",
     "auth.confirmPassword": "Confirm Password",
+    "auth.loginToRead": "Sign in to read full content",
+    "auth.membersOnly": "Members-Only Content",
+    "auth.restrictedContent": "Member Access Restricted",
+    "auth.joinToAccess": "Join Samta Sainik Dal to get complete access to member archives, official records, and special publications.",
+    "auth.signInToViewContact": "Sign in to view official contact details",
+    "auth.joinSSD": "Join SSD Today",
     
     // Membership
     "membership.title": "Membership",
@@ -238,6 +247,8 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.gallery": "गैलरी",
     "nav.join": "एसएसडी में शामिल हों",
     "nav.nationalExecutive": "राष्ट्रीय कार्यकारिणी",
+    "nav.nationalOffice": "राष्ट्रीय कार्यालय",
+    "nav.nationalOfficers": "राष्ट्रीय पदाधिकारी",
     "nav.rankStructure": "पद संरचना",
     "nav.contact": "संपर्क",
     "nav.dashboard": "डैशबोर्ड",
@@ -247,6 +258,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.profile": "प्रोफाइल",
     "nav.membershipCard": "सदस्यता कार्ड",
     "nav.logout": "लॉगआउट",
+    "common.views": "बार देखा गया",
     
     // National Executive
     "nationalExecutive.title": "राष्ट्रीय कार्यकारिणी",
@@ -399,6 +411,12 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.hasAccount": "पहले से खाता है?",
     "auth.name": "पूरा नाम",
     "auth.confirmPassword": "पासवर्ड की पुष्टि करें",
+    "auth.loginToRead": "पूरा लेख पढ़ने के लिए साइन इन करें",
+    "auth.membersOnly": "केवल सदस्यों के लिए सामग्री",
+    "auth.restrictedContent": "सदस्य पहुंच प्रतिबंधित",
+    "auth.joinToAccess": "सदस्य अभिलेखागार, आधिकारिक रिकॉर्ड और विशेष प्रकाशनों तक पूरी पहुंच प्राप्त करने के लिए समता सैनिक दल में शामिल हों।",
+    "auth.signInToViewContact": "आधिकारिक संपर्क विवरण देखने के लिए साइन इन करें",
+    "auth.joinSSD": "आज ही एसएसडी से जुड़ें",
     
     // Membership
     "membership.title": "सदस्यता",

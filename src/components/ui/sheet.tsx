@@ -48,9 +48,11 @@ function SheetContent({
   className,
   children,
   side = "left",
+  hideCloseButton = false,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "left" | "right" | "top" | "bottom"
+  hideCloseButton?: boolean
 }) {
   const sideStyles = {
     left: "motion-safe:data-[state=open]:animate-in motion-safe:data-[state=closed]:animate-out motion-safe:data-[state=closed]:slide-out-to-left motion-safe:data-[state=open]:slide-in-from-left",
@@ -77,13 +79,15 @@ function SheetContent({
         )}
         {...props}
       >
-        <SheetPrimitive.Close
-          data-slot="sheet-close"
-          className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background motion-safe:transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
-        >
-          <XIcon className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </SheetPrimitive.Close>
+        {!hideCloseButton && (
+          <SheetPrimitive.Close
+            data-slot="sheet-close"
+            className="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background motion-safe:transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+          >
+            <XIcon className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </SheetPrimitive.Close>
+        )}
         {children}
       </SheetPrimitive.Content>
     </SheetPortal>

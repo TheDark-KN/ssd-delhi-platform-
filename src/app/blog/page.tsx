@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { listBlogs } from "@/lib/supabase-rest";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Filter, User, Calendar, Eye } from "lucide-react";
+import { Search, User } from "lucide-react";
 import Link from "next/link";
+import { ViewCounter } from "@/components/ui/view-counter";
 import { cn } from "@/lib/utils";
 
 export default function BlogPage() {
@@ -142,12 +143,14 @@ export default function BlogPage() {
                       <div className="flex items-center justify-between text-xs font-black text-slate-400 border-t border-slate-50 pt-6">
                         <div className="flex items-center gap-2">
                           <User className="h-4 w-4 text-[#2A629A]" />
-                          SSD COMMUNITY AUTHOR
+                          SSD COMMUNITY
                         </div>
-                        <div className="flex items-center gap-2">
-                          <Eye className="h-4 w-4 text-[#2A629A]" />
-                          {blog.viewCount.toLocaleString()}
-                        </div>
+                        <ViewCounter
+                          type="blog"
+                          idOrSlug={blog.slug || blog._id || blog.id}
+                          initialCount={blog.viewCount ?? blog.view_count ?? 85}
+                          variant="inline"
+                        />
                       </div>
                     </CardHeader>
                   </Card>

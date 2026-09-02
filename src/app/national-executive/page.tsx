@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { NationalOfficerDirectory } from "@/components/national-officer-directory";
 
 export const metadata: Metadata = {
-  title: "National Executive | Samta Sainik Dal Delhi",
-  description: "National Executive and Office Bearers List of Samta Sainik Dal Delhi.",
+  title: "National Office & Executive Officers | Samta Sainik Dal Delhi",
+  description: "National Executive, National Office, and Office Bearers Directory of Samta Sainik Dal.",
 };
 
 export default function NationalExecutivePage() {
