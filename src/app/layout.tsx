@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { EventAnnouncementPopup } from "@/components/event-announcement-popup";
+import { MobileEnhancements, PageBreadcrumbs } from "@/components/mobile-enhancements";
 // AI Chatbot temporarily disabled - enable after running: npx convex dev
 // import { AIChatbot } from "@/components/ai-chatbot";
 
@@ -71,8 +72,10 @@ export default function RootLayout({
         <Providers>
           <div className="relative flex min-h-screen flex-col">
             <Header />
-            <main className="flex-1">{children}</main>
+            <PageBreadcrumbs />
+            <main className="flex-1 pb-16 lg:pb-0">{children}</main>
             <Footer />
+            <MobileEnhancements />
           </div>
           <Toaster />
           <EventAnnouncementPopup />

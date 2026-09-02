@@ -123,6 +123,16 @@ const translations: Record<Language, Record<string, string>> = {
     "common.language": "Language",
     "common.english": "English",
     "common.hindi": "हिंदी",
+    "common.navigation": "Navigation",
+    "common.exploreAllPages": "Explore all pages",
+    "common.close": "Close",
+    "common.menu": "Menu",
+    "common.quickActions": "Quick Actions",
+    "common.share": "Share",
+    "common.bookmark": "Bookmark",
+    "common.bookmarked": "Bookmarked",
+    "common.copiedToClipboard": "Link copied to clipboard!",
+    "common.sharePage": "Check out this page on SSD Delhi",
     
     // Contact page
     "contact.title": "Contact Us",
@@ -323,6 +333,16 @@ const translations: Record<Language, Record<string, string>> = {
     "common.language": "भाषा",
     "common.english": "English",
     "common.hindi": "हिंदी",
+    "common.navigation": "नेविगेशन",
+    "common.exploreAllPages": "सभी पेज देखें",
+    "common.close": "बंद करें",
+    "common.menu": "मेनू",
+    "common.quickActions": "त्वरित कार्य",
+    "common.share": "साझा करें",
+    "common.bookmark": "बुकमार्क",
+    "common.bookmarked": "बुकमार्क किया गया",
+    "common.copiedToClipboard": "लिंक क्लिपबोर्ड पर कॉपी किया गया!",
+    "common.sharePage": "SSD दिल्ली पर यह पेज देखें",
     
     // Contact page
     "contact.title": "संपर्क करें",
