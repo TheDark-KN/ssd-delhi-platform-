@@ -31,6 +31,7 @@ import { toast } from "sonner";
 import { Sparkles, Save, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { AuthGuard } from "@/components/auth-guard";
 
 const articleFormSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -48,6 +49,18 @@ const articleFormSchema = z.object({
 });
 
 export default function AdminNewArticlePage() {
+  return (
+    <AuthGuard
+      requiredRole="admin"
+      title="Create New Article"
+      description="Administrator sign-in required to draft and publish articles."
+    >
+      <NewArticleContent />
+    </AuthGuard>
+  );
+}
+
+function NewArticleContent() {
   const router = useRouter();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

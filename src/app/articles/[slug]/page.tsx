@@ -81,7 +81,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           </div>
 
           <AccessGate
-            restriction={article.featured ? "public" : "registered"}
+            restriction="registered"
+            title="Sign In to Read Full Article"
+            description="Join Samta Sainik Dal or sign in with your member account to access our complete archives, historical analysis, and research publications."
             preview={
               <div
                 className="prose prose-lg max-w-none dark:prose-invert"

@@ -19,9 +19,21 @@ import {
   ShieldAlert,
 } from "lucide-react";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
+import { AuthGuard } from "@/components/auth-guard";
 
 export default function AdminDashboardPage() {
+  return (
+    <AuthGuard
+      requiredRole="admin"
+      title="SSD Admin Portal"
+      description="Administrator credentials required to access system settings, member approvals, and publications."
+    >
+      <AdminContent />
+    </AuthGuard>
+  );
+}
+
+function AdminContent() {
   const currentUser = useQuery(api.users.getCurrentUser);
   const isLoadingUser = currentUser === undefined;
   const isAdmin = currentUser?.role === "admin" || currentUser?.role === "superadmin";
@@ -46,18 +58,21 @@ export default function AdminDashboardPage() {
   const contactMessages = useQuery(api.contactMessages.list as any, isAdmin ? { limit: 10 } : "skip");
 
   if (isLoadingUser) {
-    return <div className="flex min-h-[70vh] items-center justify-center text-muted-foreground">Checking administrator access…</div>;
+    return <div className="flex min-h-[70vh] items-center justify-center text-muted-foreground font-bold">Checking administrator access…</div>;
   }
 
   if (!isAdmin) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center bg-slate-50 px-4 py-16">
-        <Card className="w-full max-w-xl border-0 text-center shadow-xl">
-          <CardContent className="space-y-5 p-10 md:p-14">
+        <Card className="w-full max-w-xl border-0 text-center shadow-xl rounded-3xl p-6">
+          <CardContent className="space-y-5 p-6 md:p-10">
             <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-[#FF7F3E]/10 text-[#FF7F3E]"><ShieldAlert className="h-10 w-10" /></div>
-            <h1 className="text-3xl font-black text-[#003285]">You are not authorized</h1>
-            <p className="text-lg leading-relaxed text-slate-600">This SSD administration area is restricted to authorized administrators. Please sign in with an administrator account.</p>
-            <Link href="/"><Button className="bg-[#003285] text-white hover:bg-[#002561]">Return to website</Button></Link>
+            <h1 className="text-3xl font-black text-[#003285]">Administrator Access Only</h1>
+            <p className="text-base leading-relaxed text-slate-600">This SSD administration portal is restricted to authorized officers and administrators.</p>
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
+              <Link href="/sign-in?redirect_url=%2Fadmin"><Button className="bg-[#003285] text-white hover:bg-[#002561] rounded-full px-6">Sign In with Admin Account</Button></Link>
+              <Link href="/"><Button variant="outline" className="rounded-full px-6">Return to Website</Button></Link>
+            </div>
           </CardContent>
         </Card>
       </div>

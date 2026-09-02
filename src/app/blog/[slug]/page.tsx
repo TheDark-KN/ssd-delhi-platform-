@@ -79,7 +79,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
 
           <AccessGate
-            restriction="public"
+            restriction="registered"
+            title="Sign In to Read Community Story"
+            description="Sign in or join SSD Delhi to read full community reflections, field reports, and member stories."
             preview={
               <div
                 className="prose prose-lg max-w-none dark:prose-invert"

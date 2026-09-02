@@ -15,8 +15,21 @@ import {
 } from "@/components/ui/table";
 import { CheckCircle, XCircle, User, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
+import { AuthGuard } from "@/components/auth-guard";
 
 export default function AdminMembersPage() {
+  return (
+    <AuthGuard
+      requiredRole="admin"
+      title="Admin Member Management"
+      description="Administrator sign-in required to review, verify, and approve Samta Sainik Dal membership enrollments."
+    >
+      <AdminMembersContent />
+    </AuthGuard>
+  );
+}
+
+function AdminMembersContent() {
   const pendingMembers = useQuery(api.users?.listUsers as any, {
     membershipStatus: "pending",
     limit: 100

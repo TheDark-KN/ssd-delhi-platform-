@@ -7,8 +7,20 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Download, QrCode, Share2, Shield, User } from "lucide-react";
 import { toast } from "sonner";
+import { AuthGuard } from "@/components/auth-guard";
 
 export default function MembershipCardPage() {
+  return (
+    <AuthGuard
+      title="Digital Membership Card"
+      description="Sign in to view, download, or verify your official Samta Sainik Dal digital membership card."
+    >
+      <MembershipCardContent />
+    </AuthGuard>
+  );
+}
+
+function MembershipCardContent() {
   const user = useQuery(api.users?.getCurrentUser as any);
 
   const handleDownload = () => {

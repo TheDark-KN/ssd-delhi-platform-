@@ -21,6 +21,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { User, Save, SaveIcon } from "lucide-react";
 import { useFormPersistence } from "@/hooks/useFormPersistence";
+import { AuthGuard } from "@/components/auth-guard";
 
 const profileFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -35,6 +36,17 @@ const profileFormSchema = z.object({
 const PROFILE_FORM_ID = "dashboard-profile";
 
 export default function ProfilePage() {
+  return (
+    <AuthGuard
+      title="Member Profile"
+      description="Sign in to view or update your Samta Sainik Dal member profile and contact preferences."
+    >
+      <ProfileContent />
+    </AuthGuard>
+  );
+}
+
+function ProfileContent() {
   const user = useQuery(api.users?.getCurrentUser as any);
   const updateUser = useMutation(api.users?.updateUser as any);
   const [isSaving, setIsSaving] = useState(false);
