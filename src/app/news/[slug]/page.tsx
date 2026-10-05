@@ -4,11 +4,11 @@ import { use } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@convex/_generated/api";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Calendar, Eye, User, Share2, Bookmark, Megaphone, ExternalLink } from "lucide-react";
+import { Calendar, Megaphone, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ViewCounter } from "@/components/ui/view-counter";
 import { cn } from "@/lib/utils";
 
 export default function NewsDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -69,6 +69,13 @@ export default function NewsDetailPage({ params }: { params: Promise<{ slug: str
                 </div>
                 <span>SSD Newsroom</span>
               </div>
+              <ViewCounter
+                type="news"
+                idOrSlug={news.slug || slug}
+                initialCount={news.views || 65}
+                autoTrack={true}
+                variant="header"
+              />
               {news.expiresAt && (
                 <div className="flex items-center gap-2 text-red-400">
                   <Calendar className="h-5 w-5" />

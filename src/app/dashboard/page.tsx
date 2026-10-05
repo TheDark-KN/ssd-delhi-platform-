@@ -9,8 +9,20 @@ import { Calendar, User, CreditCard, Clock, CheckCircle, TrendingUp } from "luci
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DashboardErrorBoundary } from "@/components/dashboard-error-boundary";
+import { AuthGuard } from "@/components/auth-guard";
 
 export default function DashboardPage() {
+  return (
+    <AuthGuard
+      title="Sign In to Access Dashboard"
+      description="View your digital membership status, event registrations, and member profile by signing in."
+    >
+      <DashboardContent />
+    </AuthGuard>
+  );
+}
+
+function DashboardContent() {
   const user = useQuery(api.users?.getCurrentUser as any);
   const myEvents = useQuery(
     api.events?.getUserRegistrations as any,
@@ -23,20 +35,6 @@ export default function DashboardPage() {
         <Skeleton className="h-12 w-64 rounded-xl" />
         <Skeleton className="h-40 w-full rounded-2xl" />
         <Skeleton className="h-40 w-full rounded-2xl" />
-      </div>
-    );
-  }
-
-  if (user === null) {
-    return (
-      <div className="container min-h-[60vh] flex items-center justify-center py-12 px-4">
-        <div className="text-center">
-          <div className="h-16 w-16 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
-            <User className="h-8 w-8 text-slate-400" />
-          </div>
-          <h2 className="text-2xl font-bold text-slate-900">Welcome to Your Dashboard</h2>
-          <p className="text-slate-500 text-sm mt-1">Sign in to access your personalized dashboard</p>
-        </div>
       </div>
     );
   }

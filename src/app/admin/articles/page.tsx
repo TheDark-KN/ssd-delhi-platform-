@@ -19,8 +19,21 @@ import {
 import { Plus, Search, Edit, Trash2, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { AuthGuard } from "@/components/auth-guard";
 
 export default function AdminArticlesPage() {
+  return (
+    <AuthGuard
+      requiredRole="admin"
+      title="Admin Articles Management"
+      description="Administrator sign-in required to create, publish, and manage knowledge repository articles."
+    >
+      <AdminArticlesContent />
+    </AuthGuard>
+  );
+}
+
+function AdminArticlesContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const articlesResult = useQuery(api.articles.list, {});
   const articles = articlesResult?.articles ?? [];

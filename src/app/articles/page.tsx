@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { listArticles } from "@/lib/supabase-rest";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, Filter, BookOpen, Eye } from "lucide-react";
+import { Search, BookOpen } from "lucide-react";
 import Link from "next/link";
+import { ViewCounter } from "@/components/ui/view-counter";
 import { cn } from "@/lib/utils";
 
 export default function ArticlesPage() {
@@ -159,10 +160,12 @@ export default function ArticlesPage() {
                         {article.excerpt}
                       </CardDescription>
                       <div className="flex items-center justify-between text-xs font-black text-slate-400 border-t border-slate-50 pt-6">
-                        <div className="flex items-center gap-2">
-                          <Eye className="h-4 w-4 text-[#2A629A]" />
-                          {Number(article.viewCount ?? article.view_count ?? 0).toLocaleString()} VIEWS
-                        </div>
+                        <ViewCounter
+                          type="article"
+                          idOrSlug={article.slug || article._id || article.id}
+                          initialCount={article.viewCount ?? article.view_count ?? 120}
+                          variant="inline"
+                        />
                         <div className="uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-full">
                           {article.publishedAt && new Date(article.publishedAt).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
                         </div>
