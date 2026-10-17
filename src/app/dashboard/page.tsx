@@ -64,7 +64,7 @@ function DashboardContent() {
       <section className="py-12 md:py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-b">
         <div className="container px-4 md:px-6 flex flex-wrap items-center justify-between gap-6">
           <div><h1 className="text-4xl font-bold">Welcome, {name}!</h1><p className="text-muted-foreground mt-2">Manage your SSD Delhi membership</p></div>
-          <div className="flex gap-2"><Link href="/dashboard/membership-card"><Button><CreditCard className="h-4 w-4 mr-2" />Membership Card</Button></Link><Link href="/dashboard/profile"><Button variant="outline"><User className="h-4 w-4 mr-2" />Edit Profile</Button></Link></div>
+          <div className="flex gap-2"><Link href="/dashboard/membership-card"><Button><CreditCard className="h-4 w-4 mr-2" />SSD ID Card</Button></Link><Link href="/dashboard/profile"><Button variant="outline"><User className="h-4 w-4 mr-2" />Edit Profile</Button></Link></div>
         </div>
       </section>
       <section className="py-12 md:py-16"><div className="container px-4 md:px-6">

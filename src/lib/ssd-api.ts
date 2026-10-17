@@ -72,6 +72,33 @@ export function getMyMembershipStatus(token: string) {
   return ssdApi<SsdApiEnvelope<unknown>>("/me/membership-status", { token, cache: "no-store" })
 }
 
+export type SsdIdApplication = {
+  id?: string
+  status?: "pending" | "approved" | "rejected" | "revoked" | string
+  ssd_id?: string | null
+  membership_number?: string | null
+  card_id?: string | null
+  qr_token?: string | null
+  created_at?: string
+  updated_at?: string
+}
+
+export function applyForSsdId(token: string, values: Record<string, unknown> = {}) {
+  return ssdApi<SsdApiEnvelope<SsdIdApplication>>("/id/apply", {
+    method: "POST",
+    token,
+    body: JSON.stringify(values),
+  })
+}
+
+export function getMySsdIdApplications(token: string) {
+  return ssdApi<SsdApiEnvelope<SsdIdApplication[]>>("/id/me", { token, cache: "no-store" })
+}
+
+export function getSsdIdDownloadUrl(token: string, id: string) {
+  return ssdApi<SsdApiEnvelope<{ url?: string; download_url?: string }>>(`/id/${encodeURIComponent(id)}/download`, { token, cache: "no-store" })
+}
+
 export function getApiHealth() {
   return ssdApi<{ status?: string }>("/health", { cache: "no-store" })
 }
