@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useAuth } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { submitJoinApplication } from "@/lib/supabase-rest";
+import { submitMembershipApplication } from "@/lib/ssd-api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -46,8 +47,9 @@ export default function JoinPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedPath, setSelectedPath] = useState("");
   const [draftRestored, setDraftRestored] = useState(false);
+  const { getToken } = useAuth();
 
-  const submitApplication = submitJoinApplication;
+  const submitApplication = submitMembershipApplication;
   const { save, load, clear, lastSaved } = useFormPersistence(JOIN_FORM_ID);
 
   const {
@@ -90,18 +92,16 @@ export default function JoinPage() {
   async function onSubmit(values: FormData) {
     setIsSubmitting(true);
     try {
+      const token = await getToken();
       await submitApplication({
-        fullName: values.name,
+        full_name: values.name,
         email: values.email,
         phone: values.phone,
-        address: values.address,
         city: values.city,
         state: values.state,
-        pincode: values.pincode,
-        occupation: values.occupation,
-        motivation: values.reason,
-        volunteeringPath: values.volunteeringPath || undefined,
-      });
+        message: values.reason,
+        consent: values.agreement,
+      }, token);
       await clear();
       setSubmitted(true);
     } catch (err) {

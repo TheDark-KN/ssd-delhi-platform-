@@ -1,200 +1,90 @@
 "use client";
 
-import { useQuery } from "convex/react";
-import { api } from "@convex/_generated/api";
+import { useCallback, useEffect, useState } from "react";
+import { useAuth } from "@clerk/nextjs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, QrCode, Share2, Shield, User } from "lucide-react";
+import { CreditCard, Download, Loader2, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { AuthGuard } from "@/components/auth-guard";
+import { applyForSsdId, getMySsdIdApplications, getSsdIdDownloadUrl, type SsdIdApplication } from "@/lib/ssd-api";
 
 export default function MembershipCardPage() {
   return (
-    <AuthGuard
-      title="Digital Membership Card"
-      description="Sign in to view, download, or verify your official Samta Sainik Dal digital membership card."
-    >
+    <AuthGuard title="SSD ID Card" description="Sign in to request and access your official Samta Sainik Dal ID card.">
       <MembershipCardContent />
     </AuthGuard>
   );
 }
 
 function MembershipCardContent() {
-  const user = useQuery(api.users?.getCurrentUser as any);
+  const { getToken, isLoaded } = useAuth();
+  const [application, setApplication] = useState<SsdIdApplication | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [applying, setApplying] = useState(false);
 
-  const handleDownload = () => {
-    toast.success("Membership card downloaded!", {
-      description: "Check your downloads folder",
-    });
+  const loadApplication = useCallback(async () => {
+    const token = await getToken();
+    if (!token) throw new Error("Your Clerk session has expired. Please sign in again.");
+    const response = await getMySsdIdApplications(token);
+    const applications = Array.isArray(response.data) ? response.data : [];
+    setApplication(applications[0] ?? null);
+  }, [getToken]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    loadApplication().catch((error) => toast.error(error instanceof Error ? error.message : "Unable to load your SSD ID status")).finally(() => setLoading(false));
+  }, [isLoaded, loadApplication]);
+
+  const requestId = async () => {
+    setApplying(true);
+    try {
+      const token = await getToken();
+      if (!token) throw new Error("Your Clerk session has expired. Please sign in again.");
+      const response = await applyForSsdId(token);
+      setApplication(response.data);
+      toast.success("SSD ID request submitted", { description: "Your request is now waiting for review." });
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to submit your SSD ID request");
+    } finally {
+      setApplying(false);
+    }
   };
 
-  const handleShare = () => {
-    toast.success("Card shared!", {
-      description: "You can share this card with others",
-    });
+  const downloadCard = async () => {
+    if (!application?.id && !application?.ssd_id && !application?.card_id) return;
+    try {
+      const token = await getToken();
+      if (!token) throw new Error("Your Clerk session has expired. Please sign in again.");
+      const response = await getSsdIdDownloadUrl(token, application.id ?? application.ssd_id ?? application.card_id ?? "");
+      const url = response.data.url ?? response.data.download_url;
+      if (!url) throw new Error("The card download is not available yet.");
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to download your card");
+    }
   };
 
-  if (!user) {
-    return (
-      <div className="container py-12">
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-muted-foreground">Loading...</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  if (loading) return <div className="container flex min-h-[50vh] items-center justify-center gap-3"><Loader2 className="h-5 w-5 animate-spin" /> Loading your SSD ID status...</div>;
 
-  const isApproved = user.membershipStatus === "approved";
+  const status = application?.status ?? "not_requested";
+  const ssdId = application?.ssd_id ?? application?.membership_number;
 
   return (
-    <div className="flex flex-col">
-      {/* Hero Section */}
-      <section className="py-12 md:py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-b">
-        <div className="container px-4 md:px-6">
-          <div className="max-w-2xl space-y-2">
-            <h1 className="text-4xl font-bold">Membership Card</h1>
-            <p className="text-muted-foreground">
-              Your digital SSD Delhi membership card
-            </p>
-          </div>
-        </div>
+    <main className="flex flex-col">
+      <section className="border-b bg-gradient-to-br from-primary/10 via-background to-secondary/10 py-12 md:py-20">
+        <div className="container px-4 md:px-6"><h1 className="text-4xl font-bold">SSD ID Card</h1><p className="mt-2 text-muted-foreground">Your official Samta Sainik Dal digital identity</p></div>
       </section>
-
-      {/* Membership Card */}
-      <section className="py-12 md:py-16">
-        <div className="container px-4 md:px-6">
-          <div className="max-w-md mx-auto">
-            {!isApproved ? (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Membership Pending</CardTitle>
-                  <CardDescription>
-                    Your membership application is being reviewed
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <div className="py-8">
-                    <Shield className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                    <p className="text-muted-foreground">
-                      Your membership status: <span className="font-semibold capitalize">{user.membershipStatus}</span>
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      You will receive your membership card once your application is approved
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ) : (
-              <>
-                {/* Card Actions */}
-                <div className="flex gap-2 mb-6">
-                  <Button onClick={handleDownload} className="flex-1">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </Button>
-                  <Button variant="outline" onClick={handleShare} className="flex-1">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share
-                  </Button>
-                </div>
-
-                {/* Membership Card Design */}
-                <Card className="overflow-hidden border-2 border-primary">
-                  {/* Card Header */}
-                  <div className="bg-primary text-primary-foreground p-6 text-center">
-                    <div className="flex items-center justify-center gap-2 mb-2">
-                      <Shield className="h-8 w-8" />
-                      <div>
-                        <h2 className="text-xl font-bold">SSD Delhi</h2>
-                        <p className="text-sm opacity-90">समता सैनिक दल</p>
-                      </div>
-                    </div>
-                    <p className="text-sm opacity-90">Soldiers for Equality</p>
-                  </div>
-
-                  {/* Card Body */}
-                  <CardContent className="p-6 space-y-6">
-                    {/* Member Info */}
-                    <div className="flex items-center gap-4">
-                      <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-                        <User className="h-8 w-8 text-primary" />
-                      </div>
-                      <div>
-                        <div className="text-2xl font-bold">{user.name}</div>
-                        <div className="text-sm text-muted-foreground capitalize">
-                          {user.role}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Membership Details */}
-                    <div className="grid gap-3">
-                      <div className="flex justify-between items-center py-2 border-b">
-                        <span className="text-sm text-muted-foreground">Membership No.</span>
-                        <span className="font-mono font-semibold">{user.membershipNumber}</span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b">
-                        <span className="text-sm text-muted-foreground">Member Since</span>
-                        <span className="font-semibold">
-                          {user.memberSince
-                            ? new Date(user.memberSince).toLocaleDateString("en-IN", {
-                                month: "short",
-                                year: "numeric",
-                              })
-                            : "-"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b">
-                        <span className="text-sm text-muted-foreground">Status</span>
-                        <Badge variant="default">Active</Badge>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-sm text-muted-foreground">Location</span>
-                        <span className="font-semibold">
-                          {user.city}, {user.state}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* QR Code */}
-                    <div className="pt-4 text-center">
-                      <div className="inline-flex items-center justify-center p-4 bg-muted rounded-lg">
-                        <QrCode className="h-24 w-24" />
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-2">
-                        Scan to verify membership
-                      </p>
-                    </div>
-
-                    {/* Card Footer */}
-                    <div className="pt-4 text-center text-xs text-muted-foreground">
-                      <p>Samta Sainik Dal Delhi</p>
-                      <p>Building a Casteless Society</p>
-                      <p className="mt-1">Liberty • Equality • Fraternity</p>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Verification Info */}
-                <Card className="mt-6">
-                  <CardHeader>
-                    <CardTitle className="text-lg">How to Use This Card</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-2 text-sm">
-                    <p>• Show this card at SSD Delhi events for verification</p>
-                    <p>• The QR code can be scanned to verify your membership</p>
-                    <p>• Keep this card accessible on your mobile device</p>
-                    <p>• Contact us if you need a physical card</p>
-                  </CardContent>
-                </Card>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-    </div>
+      <section className="py-12 md:py-16"><div className="container max-w-xl px-4 md:px-6">
+        {!application || status === "not_requested" ? (
+          <Card><CardHeader><CardTitle>Request your SSD ID</CardTitle><CardDescription>Every signed-in member can submit an ID card request for review.</CardDescription></CardHeader><CardContent><Button onClick={requestId} disabled={applying} className="w-full">{applying ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <CreditCard className="mr-2 h-4 w-4" />}Request SSD ID</Button></CardContent></Card>
+        ) : status !== "approved" ? (
+          <Card><CardHeader><CardTitle>SSD ID request {status}</CardTitle><CardDescription>Your request is being handled by the SSD team.</CardDescription></CardHeader><CardContent className="text-center"><Shield className="mx-auto mb-4 h-16 w-16 text-muted-foreground opacity-50" /><Badge variant="secondary" className="capitalize">{status}</Badge><p className="mt-4 text-sm text-muted-foreground">Your card will appear here after approval.</p></CardContent></Card>
+        ) : (
+          <Card className="overflow-hidden border-2 border-primary"><div className="bg-primary p-6 text-center text-primary-foreground"><Shield className="mx-auto mb-2 h-10 w-10" /><h2 className="text-2xl font-bold">Samta Sainik Dal Delhi</h2><p className="text-sm opacity-90">Official Member Identity</p></div><CardContent className="space-y-6 p-6 text-center"><div><p className="text-sm text-muted-foreground">SSD Member ID</p><p className="text-3xl font-black tracking-tight text-primary">{ssdId ?? "Pending"}</p></div><Badge>Approved</Badge><Button onClick={downloadCard} className="w-full"><Download className="mr-2 h-4 w-4" />Download ID Card</Button></CardContent></Card>
+        )}
+      </div></section>
+    </main>
   );
 }
